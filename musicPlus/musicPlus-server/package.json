@@ -2,17 +2,21 @@
   "name": "musicplus-server",
   "version": "1.0.0",
   "description": "music app server",
-  "main": "server.js",
+  "main": "./src/server.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server",
-    "start": "nodemon --exec babel-node index.js"
+    "server": "node --experimental-specifier-resolution=node ./src/server.js",
+    "start": "nodemon --exec babel-node index.js",
+    "init-db": "node --experimental-specifier-resolution=node ./src/articles-data/init-db.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",

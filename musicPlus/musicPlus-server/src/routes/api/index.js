@@ -6,6 +6,6 @@ import User from './user';
 router.use('/user', User);
 
 import music from './music';
-router.use('/music', Music);
+router.use('/music', music);
 
 export default router;
