@@ -6,7 +6,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 //import * as url from 'url';
 import cors from 'cors';
-import {User1, Playlist} from "./Database/Schema.js";
+//import {User1, Playlist} from "./Database/Schema.js";
 
 // Setup Express
 const app = express();

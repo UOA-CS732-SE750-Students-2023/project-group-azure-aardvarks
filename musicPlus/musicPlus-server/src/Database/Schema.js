@@ -16,6 +16,7 @@ const userSchema = new Schema({
 
     username: { type: String, unique: true, required: true }, // Each user must have a unique username
     password: String,
+    email: String,
     firstName: String,  // Basic fields
     lastName: String,
     dateOfBirth: Date,
@@ -46,7 +47,7 @@ userSchema.virtual('fullName')
     });
 
 // Actually create the User schema
-export const User1 = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
 
 /**
  * This schema represents Pets in the database.
