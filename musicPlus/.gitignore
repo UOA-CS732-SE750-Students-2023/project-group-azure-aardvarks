@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # jetbrain set up
-*.idea
+.idea/*
