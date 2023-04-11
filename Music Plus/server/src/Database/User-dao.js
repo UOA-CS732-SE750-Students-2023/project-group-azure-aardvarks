@@ -10,25 +10,29 @@ async function createUser(user) {
 async function retrieveUsersList() {
     return await User.find();
 }
-
-async function retrieveUser(id) {
+async function retrieveUser(username) {
+    return await User.find({username: username});
+}
+async function retrieveUserById(id) {
     return await User.findById(id);
 }
 async function VaildUser(username, password) {
     const user = await User.find({username: username});
-    console.log(user[0].password === password)
     if (user[0] == null){
         return false
     }
+    if (user[0].username !== username){
+        return false;
+    }
     if (user[0].password === password){
-        return true;
+        return user;
     }
     return false;
 }
 async function updateUser(user) {
 
     const dbUser = await User.findOneAndUpdate({ _id: user._id }, user);
-    return dbUser !== undefined;
+    return dbUser;
 }
 
 async function deleteUser(id) {
@@ -37,6 +41,7 @@ async function deleteUser(id) {
 
 export {
     createUser,
+    retrieveUserById,
     retrieveUsersList,
     retrieveUser,
     updateUser,

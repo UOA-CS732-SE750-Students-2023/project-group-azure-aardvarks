@@ -20,8 +20,8 @@ const userSchema = new Schema({
     firstName: String,  // Basic fields
     lastName: String,
     dateOfBirth: Date,
-    favorite_music : Number,
-    music_genre : [{type: Schema.Types.ObjectId, ref: 'Playlist', required: true}],
+    favorite_music : [{type: Schema.Types.ObjectId, ref: 'Playlist', required: true}],
+    music_genre : [{type: String}],
     favorite_Playlist : [{type: Schema.Types.ObjectId, ref: 'Playlist', required: true}],
     address: { // address is a nested document
         number: String,
@@ -53,7 +53,6 @@ export const User = mongoose.model('User', userSchema);
  * This schema represents Pets in the database.
  */
 const PlaylistSchema = new Schema({
-    ID: { type: String, unique: true, required: true },
     name: { type: String, required: true },
     private : Boolean,
     songs : [{type:Number}],
