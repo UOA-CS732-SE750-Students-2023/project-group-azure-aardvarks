@@ -1,4 +1,6 @@
 # Music Plus
+# File structure
+xxx
 # Configuration
 ```shell
 # backend server
