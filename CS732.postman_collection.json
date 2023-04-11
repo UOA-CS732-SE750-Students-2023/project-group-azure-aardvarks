@@ -1,0 +1,420 @@
+{
+	"info": {
+		"_postman_id": "76c8856e-2a48-4568-9c19-6158e1190eec",
+		"name": "CS732",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17018656"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "NewUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"dxh000130\",\r\n    \"password\" : \"duan002349\",\r\n    \"email\" : \"dxh000130@vip.126.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/user/NewUser",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"NewUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/user/login",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUserInfo",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"6434b0420fe28896b69bd99c\",\r\n    \"username\": \"dxh000130\",\r\n    \"password\": \"duan002349\",\r\n    \"email\": \"dxh000130@vip.126.com\",\r\n    \"firstName\": \"Xuheng\",\r\n    \"lastName\": \"Duan\",\r\n    \"dateOfBirth\": \"2000-01-30\",\r\n    \"music_genre\": [],\r\n    \"favorite_Playlist\": [],\r\n    \"address\":{\"number\":\"3\", \"street\":\"Windross Lane\", \"city\":\"Auckland\", \"postcode\":1060}\r\n  }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/user/UpdateUserInfo",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"UpdateUserInfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"item": [
+				{
+					"name": "NewPlaylist",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test\",\r\n    \"private\" : false,\r\n    \"songs\" : []\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/NewPlaylist",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"NewPlaylist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllPlaylist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/AllPlaylist",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"AllPlaylist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPlaylistByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByName/t",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"SearchPlaylistByName",
+								"t"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPlaylistByid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByid/6434b594f186e6393d2ef1ea",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"SearchPlaylistByid",
+								"6434b594f186e6393d2ef1ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPlaylistByOwnerid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByOwnerid/6434b0420fe28896b69bd99c",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"SearchPlaylistByOwnerid",
+								"6434b0420fe28896b69bd99c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddSongs",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"songs\":[\"1212\", \"4545\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/Addsong",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"Addsong"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletesong",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"songs\":[\"1212\", \"4545\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/Deletesong",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"Deletesong"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ChangePlaylistInfo",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"name\":\"test2\",\r\n    \"private\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/api/Playlist/ChangePlaylistInfo",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"Playlist",
+								"ChangePlaylistInfo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
