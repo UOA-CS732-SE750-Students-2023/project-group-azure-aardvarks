@@ -10,7 +10,7 @@ import {
 } from "../../Database/Playlist-dao.js";
 import mongoose from 'mongoose';
 import {contentDisposition} from "express/lib/utils.js";
-import vaildSongAvailable from "../../Tools/vaildSongAvailable.js";
+import vaildSongAvailable from "../../utils/vaildSongAvailable.js";
 
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
