@@ -10,6 +10,7 @@ import {
 } from "../../Database/Playlist-dao.js";
 import mongoose from 'mongoose';
 import {contentDisposition} from "express/lib/utils.js";
+import vaildSongAvailable from "../../Tools/vaildSongAvailable.js";
 
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
@@ -61,18 +62,33 @@ router.get('/SearchPlaylistByOwnerid/:id', async (req, res) => {
     return res.json(await retrievePlaylistByOwnerId(id))
 });
 router.post('/Addsong', auth,async (req, res) => {
-    let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
-    if (new ObjectId(user_id).equals(Playlist.owner)){
-        for (let song in req.body.songs){
-            Playlist.songs.push(req.body.songs[song])
+    try{
+        let existsArray = [];
+        let songIdErrorArray = [];
+        let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
+        if (new ObjectId(user_id).equals(Playlist.owner)){
+            for (let song in req.body.songs){
+                if (Playlist.songs.indexOf(req.body.songs[song]) === -1 && await vaildSongAvailable(req.body.songs[song])){
+                    Playlist.songs.push(req.body.songs[song])
+                }else if(Playlist.songs.indexOf(req.body.songs[song]) !== -1){
+                    existsArray.push(req.body.songs[song])
+                }else if(!await vaildSongAvailable(req.body.songs[song])){
+                    songIdErrorArray.push(req.body.songs[song])
+                }
+            }
+            const AfterChange = await updatePlaylist(Playlist)
+            if (existsArray.length !== 0 || songIdErrorArray !== 0){
+                return res.status(400).send('These songs are already in the playlist: ['+ existsArray.toString()+ "]. These songs ID are wrong: [" + songIdErrorArray + "]. The remaining ones have been successfully added. The current playlist has [" + Playlist.songs +"].")
+            }
+            if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(await retrievePlaylistById(AfterChange._id));
+            return res.sendStatus(HTTP_NOT_FOUND);
         }
-        const AfterChange = await updatePlaylist(Playlist)
-        if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(await retrievePlaylistById(AfterChange._id));
+        res.setHeader('WWW-Authenticate' , 'Basic realm="Authorization Required"');
+        return res.status(401).send('Authorization Required');
+    }catch (e) {
 
-        return res.sendStatus(HTTP_NOT_FOUND);
     }
-    res.setHeader('WWW-Authenticate' , 'Basic realm="Authorization Required"');
-    return res.status(401).send('Authorization Required');
+
 });
 router.post('/Deletesong', auth,async (req, res) => {
     let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))

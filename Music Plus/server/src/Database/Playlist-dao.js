@@ -47,14 +47,22 @@ async function GetSongInfo(playlists){
     for (let playlist in playlists){
         let songs = {};
         for (let song in playlists[playlist].songs){
-            const response = await fetch('http://127.0.0.1:4000/song/detail?ids='+playlists[playlist].songs[song]);
-            const data = await response.json();
-            let singer1 = ""
-            for (let ar in data.songs[0].ar){
-                singer1 += data.songs[0].ar[ar].name + " /"
+            try{
+                const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+playlists[playlist].songs[song]);
+                const data = await response.json();
+                let singer1 = ""
+                if (!data.songs[0]){
+                    throw "Song ID Error!"
+                }
+                for (let ar in data.songs[0].ar){
+                    singer1 += data.songs[0].ar[ar].name + " /"
+                }
+                singer1 = singer1.slice(0, -2);
+                songs[playlists[playlist].songs[song]] = {name: data.songs[0].name, singer:singer1}
+            } catch (error){
+                songs[playlists[playlist].songs[song]] = {error: error}
             }
-            singer1 = singer1.slice(0, -2);
-            songs[playlists[playlist].songs[song]] = {name: data.songs[0].name, singer:singer1}
+
         }
         let playlist1 = {_id: playlists[playlist]._id, name: playlists[playlist].name, private: playlists[playlist].private, songs:songs, owner: playlists[playlist].owner, notes: playlists[playlist].notes}
         result.push(playlist1)
