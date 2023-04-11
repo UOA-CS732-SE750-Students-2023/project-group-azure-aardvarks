@@ -1,4 +1,6 @@
 import { Playlist } from './schema';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function createPlaylist(user) {
 
@@ -47,7 +49,8 @@ async function GetSongInfo(playlists){
     for (let playlist in playlists){
         let songs = {};
         for (let song in playlists[playlist].songs){
-            const response = await fetch('http://127.0.0.1:4000/song/detail?ids='+playlists[playlist].songs[song]);
+
+            const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+playlists[playlist].songs[song]);
             const data = await response.json();
             let singer1 = ""
             for (let ar in data.songs[0].ar){
