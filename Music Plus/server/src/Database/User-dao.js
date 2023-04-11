@@ -1,4 +1,4 @@
-import { User, Playlist } from './schema';
+import { User } from './schema';
 
 async function createUser(user) {
 
