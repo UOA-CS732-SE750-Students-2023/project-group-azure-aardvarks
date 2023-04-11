@@ -1,16 +1,16 @@
-import { User, Playlist } from './schema';
+import { User, playList } from './schema';
 
 async function createUser(user) {
 
     const dbUser = new User(user);
-    const favorite_music = new Playlist({
+    const favoriteMusic = new playList({
         name : dbUser.username + "Love",
         private : true,
         owner : dbUser._id
     })
-    dbUser.favorite_music = favorite_music._id
+    dbUser.favoriteMusic = favoriteMusic._id
     await dbUser.save();
-    await favorite_music.save()
+    await favoriteMusic.save()
     return dbUser;
 }
 
@@ -23,7 +23,7 @@ async function retrieveUser(username) {
 async function retrieveUserById(id) {
     return await User.findById(id);
 }
-async function VaildUser(credentials) {
+async function vaildUser(credentials) {
     if (credentials){
         let username = credentials.name;
         let password = credentials.pass;
@@ -58,5 +58,5 @@ export {
     retrieveUser,
     updateUser,
     deleteUser,
-    VaildUser
+    vaildUser
 }

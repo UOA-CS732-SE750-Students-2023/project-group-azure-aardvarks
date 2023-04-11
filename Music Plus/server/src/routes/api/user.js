@@ -9,7 +9,7 @@ import {
     retrieveUser,
     updateUser,
     deleteUser,
-    VaildUser
+    vaildUser
 } from "../../Database/User-dao.js";
 import basicAuth from "basic-auth";
 import {returnMsg} from "../../utils/commonUtils.js";
@@ -22,7 +22,7 @@ const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
 const auth = async (req, res, next) => {
     const credentials = basicAuth(req);
-    let Vailduser = await VaildUser(credentials)
+    let Vailduser = await vaildUser(credentials)
     if (!credentials || Vailduser === false) {
         res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
         res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
@@ -35,31 +35,46 @@ const auth = async (req, res, next) => {
 //
 //     res.json("hello world");
 // });
-router.post('/NewUser', async (req, res) => { //创建user
-    const newUser = await createUser(req.body);
+router.post('/newUser', async (req, res) => { //创建user
+    try {
+        const newUser = await createUser(req.body);
 
-    if (newUser) return res.status(HTTP_CREATED)
-        .header('Location', `/api/user/${newUser._id}`)
-        .json(returnMsg(1, HTTP_OK, newUser));
+        if (newUser) return res.status(HTTP_CREATED)
+            .header('Location', `/api/user/logIn/${newUser._id}`)
+            .json(returnMsg(1, HTTP_OK, newUser));
 
-    return res.sendStatus(422).json(returnMsg(0, 422, "Error"));
-});
-router.post('/login',auth, async (req, res) => { //登录
-    const user = await retrieveUserById(user_id);
-    return res.header('Location', `/api/user/${user._id}`)
-        .json(returnMsg(1,HTTP_OK, user));
-});
-router.post('/UpdateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
-    if (!new ObjectId(user_id).equals(req.body._id)){
-        res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-        res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
+        return res.sendStatus(422).json(returnMsg(0, 422, "Error"));
+    }catch (e) {
+        console.log(e)
     }
-    const User = await updateUser(req.body);
-    if (User !== null) return res.status(HTTP_OK)
-        .header('Location', `/api/user/${User._id}`)
-        .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
 
-    return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+});
+router.post('/logIn',auth, async (req, res) => { //登录
+    try{
+        const user = await retrieveUserById(user_id);
+        return res.header('Location', `/api/user/logIn/${user._id}`)
+            .json(returnMsg(1,HTTP_OK, user));
+    }catch (e) {
+        console.log(e)
+    }
+
+});
+router.post('/updateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
+    try{
+        if (!new ObjectId(user_id).equals(req.body._id)){
+            res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+            res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
+        }
+        const User = await updateUser(req.body);
+        if (User !== null) return res.status(HTTP_OK)
+            .header('Location', `/api/user/logIn/${User._id}`)
+            .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
+
+        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+    }catch (e){
+        console.log(e)
+    }
+
 })
 
 export default router;

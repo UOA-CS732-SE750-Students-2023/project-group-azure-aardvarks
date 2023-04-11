@@ -10,7 +10,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "NewUser",
+					"name": "newUser",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -24,7 +24,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/user/NewUser",
+							"raw": "127.0.0.1:3000/api/user/newUser",
 							"host": [
 								"127",
 								"0",
@@ -35,14 +35,14 @@
 							"path": [
 								"api",
 								"user",
-								"NewUser"
+								"newUser"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "logIn",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -62,7 +62,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/user/login",
+							"raw": "127.0.0.1:3000/api/user/logIn",
 							"host": [
 								"127",
 								"0",
@@ -73,14 +73,14 @@
 							"path": [
 								"api",
 								"user",
-								"login"
+								"logIn"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "UpdateUserInfo",
+					"name": "updateUserInfo",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -101,7 +101,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"6434b0420fe28896b69bd99c\",\r\n    \"username\": \"dxh000130\",\r\n    \"password\": \"duan002349\",\r\n    \"email\": \"dxh000130@vip.126.com\",\r\n    \"firstName\": \"Xuheng\",\r\n    \"lastName\": \"Duan\",\r\n    \"dateOfBirth\": \"2000-01-30\",\r\n    \"music_genre\": [],\r\n    \"favorite_Playlist\": [],\r\n    \"address\":{\"number\":\"3\", \"street\":\"Windross Lane\", \"city\":\"Auckland\", \"postcode\":1060}\r\n  }\r\n",
+							"raw": "{\r\n    \"_id\": \"64353c02157f21abf0436045\",\r\n    \"username\": \"dxh000130\",\r\n    \"password\": \"duan002349\",\r\n    \"email\": \"dxh000130@vip.126.com\",\r\n    \"firstName\": \"Xuheng\",\r\n    \"lastName\": \"Duan\",\r\n    \"dateOfBirth\": \"2000-01-30\",\r\n    \"music_genre\": [],\r\n    \"favorite_Playlist\": [],\r\n    \"address\":{\"number\":\"3\", \"street\":\"Windross Lane\", \"city\":\"Auckland\", \"postcode\":1060}\r\n  }\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,7 +109,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/user/UpdateUserInfo",
+							"raw": "127.0.0.1:3000/api/user/updateUserInfo",
 							"host": [
 								"127",
 								"0",
@@ -120,7 +120,7 @@
 							"path": [
 								"api",
 								"user",
-								"UpdateUserInfo"
+								"updateUserInfo"
 							]
 						}
 					},
@@ -132,7 +132,7 @@
 			"name": "Playlist",
 			"item": [
 				{
-					"name": "NewPlaylist",
+					"name": "newPlayList",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -161,7 +161,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/NewPlaylist",
+							"raw": "127.0.0.1:3000/api/playList/newPlayList",
 							"host": [
 								"127",
 								"0",
@@ -171,20 +171,20 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"NewPlaylist"
+								"playList",
+								"newPlayList"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "AllPlaylist",
+					"name": "allPlayList",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/AllPlaylist",
+							"raw": "127.0.0.1:3000/api/playList/allPlayList",
 							"host": [
 								"127",
 								"0",
@@ -194,20 +194,20 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"AllPlaylist"
+								"playList",
+								"allPlayList"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "SearchPlaylistByName",
+					"name": "searchPlayListByName",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByName/t",
+							"raw": "127.0.0.1:3000/api/playList/searchPlayListByName/t",
 							"host": [
 								"127",
 								"0",
@@ -217,8 +217,8 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"SearchPlaylistByName",
+								"playList",
+								"searchPlayListByName",
 								"t"
 							]
 						}
@@ -226,12 +226,12 @@
 					"response": []
 				},
 				{
-					"name": "SearchPlaylistByid",
+					"name": "searchPlayListById",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByid/6434b594f186e6393d2ef1ea",
+							"raw": "127.0.0.1:3000/api/playList/searchPlayListById/64353dd71bbfe27d730d41ba",
 							"host": [
 								"127",
 								"0",
@@ -241,21 +241,21 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"SearchPlaylistByid",
-								"6434b594f186e6393d2ef1ea"
+								"playList",
+								"searchPlayListById",
+								"64353dd71bbfe27d730d41ba"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "SearchPlaylistByOwnerid",
+					"name": "searchPlayListByOwnerId",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/SearchPlaylistByOwnerid/6434b0420fe28896b69bd99c",
+							"raw": "127.0.0.1:3000/api/playList/searchPlayListByOwnerId/64353c02157f21abf0436045",
 							"host": [
 								"127",
 								"0",
@@ -265,16 +265,16 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"SearchPlaylistByOwnerid",
-								"6434b0420fe28896b69bd99c"
+								"playList",
+								"searchPlayListByOwnerId",
+								"64353c02157f21abf0436045"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "AddSongs",
+					"name": "addSongs",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"songs\":[\"1212\", \"4545\"]\r\n}",
+							"raw": "{\r\n    \"_id\": \"64353dd71bbfe27d730d41ba\",\r\n    \"songs\":[\"1974443817\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -303,7 +303,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/Addsong",
+							"raw": "127.0.0.1:3000/api/playList/addSong",
 							"host": [
 								"127",
 								"0",
@@ -313,15 +313,15 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"Addsong"
+								"playList",
+								"addSong"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Deletesong",
+					"name": "deleteSong",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -342,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"songs\":[\"1212\", \"4545\"]\r\n}",
+							"raw": "{\r\n    \"_id\": \"64353dd71bbfe27d730d41ba\",\r\n    \"songs\":[\"347230\", \"1974443815\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -350,7 +350,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/Deletesong",
+							"raw": "127.0.0.1:3000/api/playList/deleteSong",
 							"host": [
 								"127",
 								"0",
@@ -360,15 +360,15 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"Deletesong"
+								"playList",
+								"deleteSong"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "ChangePlaylistInfo",
+					"name": "changePlayListInfo",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -389,7 +389,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"6434c28c49abcf5e55a76390\",\r\n    \"name\":\"test2\",\r\n    \"private\": \"false\"\r\n}",
+							"raw": "{\r\n    \"_id\": \"64353dd71bbfe27d730d41ba\",\r\n    \"name\":\"test2\",\r\n    \"private\": \"false\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -397,7 +397,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/Playlist/ChangePlaylistInfo",
+							"raw": "127.0.0.1:3000/api/playList/changePlayListInfo",
 							"host": [
 								"127",
 								"0",
@@ -407,10 +407,23 @@
 							"port": "3000",
 							"path": [
 								"api",
-								"Playlist",
-								"ChangePlaylistInfo"
+								"playList",
+								"changePlayListInfo"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Music",
+			"item": [
+				{
+					"name": "play",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}

@@ -1,55 +1,55 @@
-import { Playlist } from './schema';
+import { playList } from './schema';
 import * as dotenv from 'dotenv';
 dotenv.config();
-async function createPlaylist(user) {
+async function createPlayList(user) {
 
-    const dbPlaylist = new Playlist(user);
-    await dbPlaylist.save();
-    return dbPlaylist;
+    const dbPlayList = new playList(user);
+    await dbPlayList.save();
+    return dbPlayList;
 }
 
-async function retrievePlaylistsList() {
-    let lists = await Playlist.find();
-    return await GetSongInfo(lists);
+async function retrievePlayListsList() {
+    let lists = await playList.find();
+    return await getSongInfo(lists);
 }
-async function retrievePlaylistsList_public() {
-    let lists = await Playlist.find({private : false});
-    return await GetSongInfo(lists);
+async function retrievePlayListsListPublic() {
+    let lists = await playList.find({private : false});
+    return await getSongInfo(lists);
 }
-async function retrievePlaylist(name) {
+async function retrievePlayList(name) {
     const regex = new RegExp(name, 'i');
-    let lists = await Playlist.find({$and:[{name: { $regex: regex }}, {private : false}]});
-    return await GetSongInfo(lists);
+    let lists = await playList.find({$and:[{name: { $regex: regex }}, {private : false}]});
+    return await getSongInfo(lists);
 }
-async function retrievePlaylistById(id) {
-    let lists = await Playlist.find({_id:id});
-    return await GetSongInfo(lists);
+async function retrievePlayListById(id) {
+    let lists = await playList.find({_id:id});
+    return await getSongInfo(lists);
 }
-async function retrievePlaylistById_NoSongInfo(id) {
+async function retrievePlayListByIdNoSongInfo(id) {
 
-    return await Playlist.findById(id);
+    return await playList.findById(id);
 }
-async function retrievePlaylistByOwnerId(id) {
-    let lists = await Playlist.find({owner:id});
-    return await GetSongInfo(lists);
+async function retrievePlayListByOwnerId(id) {
+    let lists = await playList.find({owner:id});
+    return await getSongInfo(lists);
 }
-async function updatePlaylist(playlist) {
+async function updatePlayList(playList1) {
 
-    const dbPlaylist = await Playlist.findOneAndUpdate({ _id: playlist._id }, playlist);
-    return dbPlaylist;
-}
-
-async function deletePlaylist(id) {
-    await Playlist.deleteOne({ _id: id });
+    const dbPlayList = await playList.findOneAndUpdate({ _id: playList1._id }, playList1);
+    return dbPlayList;
 }
 
-async function GetSongInfo(playlists){
+async function deletePlayList(id) {
+    await playList.deleteOne({ _id: id });
+}
+
+async function getSongInfo(playLists){
     let result=[]
-    for (let playlist in playlists){
+    for (let playList in playLists){
         let songs = {};
-        for (let song in playlists[playlist].songs){
+        for (let song in playLists[playList].songs){
             try{
-                const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+playlists[playlist].songs[song]);
+                const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+playLists[playList].songs[song]);
                 const data = await response.json();
                 let singer1 = ""
                 if (!data.songs[0]){
@@ -59,26 +59,26 @@ async function GetSongInfo(playlists){
                     singer1 += data.songs[0].ar[ar].name + " /"
                 }
                 singer1 = singer1.slice(0, -2);
-                songs[playlists[playlist].songs[song]] = {name: data.songs[0].name, singer:singer1}
+                songs[playLists[playList].songs[song]] = {name: data.songs[0].name, singer:singer1}
             } catch (error){
-                songs[playlists[playlist].songs[song]] = {error: error}
+                songs[playLists[playList].songs[song]] = {error: error}
                 console.log(error)
             }
 
         }
-        let playlist1 = {_id: playlists[playlist]._id, name: playlists[playlist].name, private: playlists[playlist].private, songs:songs, owner: playlists[playlist].owner, notes: playlists[playlist].notes}
-        result.push(playlist1)
+        let playList1 = {_id: playLists[playList]._id, name: playLists[playList].name, private: playLists[playList].private, songs:songs, owner: playLists[playList].owner, notes: playLists[playList].notes}
+        result.push(playList1)
     }
     return result
 }
 
 export {
-    createPlaylist,
-    retrievePlaylistById,
-    retrievePlaylistsList,
-    retrievePlaylist,
-    updatePlaylist,
-    deletePlaylist,
-    retrievePlaylistByOwnerId,
-    retrievePlaylistsList_public,retrievePlaylistById_NoSongInfo
+    createPlayList,
+    retrievePlayListById,
+    retrievePlayListsList,
+    retrievePlayList,
+    updatePlayList,
+    deletePlayList,
+    retrievePlayListByOwnerId,
+    retrievePlayListsListPublic,retrievePlayListByIdNoSongInfo
 }

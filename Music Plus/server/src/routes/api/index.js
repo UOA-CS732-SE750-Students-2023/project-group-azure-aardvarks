@@ -8,8 +8,8 @@ router.use('/user', User);
 import music from './music';
 router.use('/music', music);
 
-import playlist from './playlist';
-router.use('/playlist', playlist);
+import playList from './playList';
+router.use('/playList', playList);
 
 import comment from './comment.js'
 router.use('/comment', comment);
