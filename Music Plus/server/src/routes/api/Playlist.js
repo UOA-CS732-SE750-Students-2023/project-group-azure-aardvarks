@@ -6,9 +6,10 @@ import {
     retrievePlaylist,
     retrievePlaylistById,
     retrievePlaylistsList,
-    retrievePlaylistByOwnerId, retrievePlaylistsList_public, updatePlaylist
+    retrievePlaylistByOwnerId, retrievePlaylistsList_public, updatePlaylist, retrievePlaylistById_NoSongInfo
 } from "../../Database/Playlist-dao.js";
 import mongoose from 'mongoose';
+import {contentDisposition} from "express/lib/utils.js";
 
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
@@ -45,13 +46,9 @@ router.get('/AllPlaylist', async (req, res) => {
 });
 router.get('/SearchPlaylistByName/:id', async (req, res) => {
     const { id } = req.params;
-    let playlist = await retrievePlaylist(id);
-    // let songs = {};
-    // for (let song in playlist.songs){
-    //
-    //     songs.playlist.songs[song] =
-    // }
-    return res.json(playlist)
+    let playlists = await retrievePlaylist(id);
+
+    return res.json(playlists)
 });
 router.get('/SearchPlaylistByid/:id', async (req, res) => {
     const { id } = req.params;
@@ -64,7 +61,7 @@ router.get('/SearchPlaylistByOwnerid/:id', async (req, res) => {
     return res.json(await retrievePlaylistByOwnerId(id))
 });
 router.post('/Addsong', auth,async (req, res) => {
-    let Playlist = await retrievePlaylistById(new ObjectId(req.body._id))
+    let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
     if (new ObjectId(user_id).equals(Playlist.owner)){
         for (let song in req.body.songs){
             Playlist.songs.push(req.body.songs[song])
@@ -74,11 +71,11 @@ router.post('/Addsong', auth,async (req, res) => {
 
         return res.sendStatus(HTTP_NOT_FOUND);
     }
-    res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+    res.setHeader('WWW-Authenticate' , 'Basic realm="Authorization Required"');
     return res.status(401).send('Authorization Required');
 });
 router.post('/Deletesong', auth,async (req, res) => {
-    let Playlist = await retrievePlaylistById(new ObjectId(req.body._id))
+    let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
     if (new ObjectId(user_id).equals(Playlist.owner)){
         for (let song in req.body.songs){
             const index = Playlist.songs.indexOf(req.body.songs[song]);
@@ -95,7 +92,7 @@ router.post('/Deletesong', auth,async (req, res) => {
     return res.status(401).send('Authorization Required');
 });
 router.post('/ChangePlaylistInfo', auth,async (req, res) => {
-    let Playlist = await retrievePlaylistById(new ObjectId(req.body._id))
+    let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
     if (new ObjectId(user_id).equals(Playlist.owner)){
         Playlist.name = req.body.name;
         Playlist.private = req.body.private;
