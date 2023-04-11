@@ -74,7 +74,7 @@ const commentSchema = new Schema({
     userId:{type:Schema.Types.ObjectId, ref:'User', require:true},
     songId:{type:Number},
     comment:{type:String, require: true},
-    like:{type:Boolean},
+    likes:{type:Number, default:0},
     follows:[{type:Schema.Types.ObjectId, ref:'comments'}],
     publishTime:{type:Date, default:Date.now},
     lastEditTime:{type:Date, default:Date.now},

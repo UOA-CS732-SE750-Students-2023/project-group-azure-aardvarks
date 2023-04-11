@@ -9,8 +9,16 @@ router.get('/', (req, res) => {
 })
 
 router.post('/comment', [
-    check()
+    check('userId', "'userId' field is required").notEmpty(),
+    check('songId', "'songId' field is required").notEmpty(),
+    check('comment', "'comment' field is required").notEmpty(),
 ], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.send(
+            returnMsg(0,400,errors.array())
+        )
+    }
     console.log(req.body)
     return res.sendStatus(200)
 })
