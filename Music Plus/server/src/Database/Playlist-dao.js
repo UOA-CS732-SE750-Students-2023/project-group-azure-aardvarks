@@ -1,5 +1,6 @@
 import { Playlist } from './schema';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 async function createPlaylist(user) {
 
     const dbPlaylist = new Playlist(user);
@@ -61,6 +62,7 @@ async function GetSongInfo(playlists){
                 songs[playlists[playlist].songs[song]] = {name: data.songs[0].name, singer:singer1}
             } catch (error){
                 songs[playlists[playlist].songs[song]] = {error: error}
+                console.log(error)
             }
 
         }

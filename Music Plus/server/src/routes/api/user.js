@@ -12,7 +12,7 @@ import {
     VaildUser
 } from "../../Database/User-dao.js";
 import basicAuth from "basic-auth";
-import {retrievePlaylistById} from "../../Database/Playlist-dao.js";
+import {returnMsg} from "../../utils/commonUtils.js";
 
 const router = express.Router();
 let user_id;
@@ -25,7 +25,7 @@ const auth = async (req, res, next) => {
     let Vailduser = await VaildUser(credentials)
     if (!credentials || Vailduser === false) {
         res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-        res.status(401).send('Authorization Required');
+        res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
         return;
     }
     user_id = Vailduser[0]._id
@@ -40,26 +40,26 @@ router.post('/NewUser', async (req, res) => { //创建user
 
     if (newUser) return res.status(HTTP_CREATED)
         .header('Location', `/api/user/${newUser._id}`)
-        .json(newUser);
+        .json(returnMsg(1, HTTP_OK, newUser));
 
-    return res.sendStatus(422);
+    return res.sendStatus(422).json(returnMsg(0, 422, "Error"));
 });
 router.post('/login',auth, async (req, res) => { //登录
     const user = await retrieveUserById(user_id);
     return res.header('Location', `/api/user/${user._id}`)
-        .json(user);
+        .json(returnMsg(1,HTTP_OK, user));
 });
 router.post('/UpdateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
     if (!new ObjectId(user_id).equals(req.body._id)){
         res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-        return res.status(401).send('Authorization Required');
+        res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
     }
     const User = await updateUser(req.body);
     if (User !== null) return res.status(HTTP_OK)
         .header('Location', `/api/user/${User._id}`)
-        .json(await retrieveUserById(User._id));
+        .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
 
-    return res.sendStatus(HTTP_NOT_FOUND);
+    return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
 })
 
 export default router;

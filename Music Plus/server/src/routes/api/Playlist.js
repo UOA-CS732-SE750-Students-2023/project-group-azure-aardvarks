@@ -8,8 +8,8 @@ import {
     retrievePlaylistsList,
     retrievePlaylistByOwnerId, retrievePlaylistsList_public, updatePlaylist, retrievePlaylistById_NoSongInfo
 } from "../../Database/Playlist-dao.js";
+import {returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
-import {contentDisposition} from "express/lib/utils.js";
 import vaildSongAvailable from "../../utils/vaildSongAvailable.js";
 
 const { ObjectId } = mongoose.Types;
@@ -24,7 +24,7 @@ const auth = async (req, res, next) => {
     let Vailduser = await VaildUser(credentials)
     if (!credentials || Vailduser === false) {
         res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-        res.status(401).send('Authorization Required');
+        res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
         return;
     }
     user_id = Vailduser[0]._id
@@ -37,29 +37,29 @@ router.post('/NewPlaylist', auth, async (req, res) => {
 
     if (newPlaylist) return res.status(HTTP_CREATED)
         .header('Location', `/api/Playlist/${newPlaylist._id}`)
-        .json(newPlaylist);
+        .json(returnMsg(1, HTTP_CREATED, newPlaylist) );
 
-    return res.sendStatus(422);
+    return res.send(returnMsg(0, 422, "Error!"));
 });
 router.get('/AllPlaylist', async (req, res) => {
 
-    return res.json(await retrievePlaylistsList_public())
+    return res.json(returnMsg(1, HTTP_OK, await retrievePlaylistsList_public()) )
 });
 router.get('/SearchPlaylistByName/:id', async (req, res) => {
     const { id } = req.params;
     let playlists = await retrievePlaylist(id);
 
-    return res.json(playlists)
+    return res.json(returnMsg(1, HTTP_OK, playlists))
 });
 router.get('/SearchPlaylistByid/:id', async (req, res) => {
     const { id } = req.params;
 
-    return res.json(await retrievePlaylistById(new ObjectId(id)))
+    return res.json(returnMsg(1, HTTP_OK, await retrievePlaylistById(new ObjectId(id))) )
 });
 router.get('/SearchPlaylistByOwnerid/:id', async (req, res) => {
     const { id } = req.params;
 
-    return res.json(await retrievePlaylistByOwnerId(id))
+    return res.json(returnMsg(1, HTTP_OK, await retrievePlaylistByOwnerId(id)) )
 });
 router.post('/Addsong', auth,async (req, res) => {
     try{
@@ -78,13 +78,13 @@ router.post('/Addsong', auth,async (req, res) => {
             }
             const AfterChange = await updatePlaylist(Playlist)
             if (existsArray.length !== 0 || songIdErrorArray !== 0){
-                return res.status(400).send('These songs are already in the playlist: ['+ existsArray.toString()+ "]. These songs ID are wrong: [" + songIdErrorArray + "]. The remaining ones have been successfully added. The current playlist has [" + Playlist.songs +"].")
+                return res.status(400).json(returnMsg(0, 400, 'These songs are already in the playlist: ['+ existsArray.toString()+ "]. These songs ID are wrong: [" + songIdErrorArray + "]. The remaining ones have been successfully added. The current playlist has [" + Playlist.songs +"]."))
             }
-            if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(await retrievePlaylistById(AfterChange._id));
-            return res.sendStatus(HTTP_NOT_FOUND);
+            if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(returnMsg(1, HTTP_OK, await retrievePlaylistById(AfterChange._id)));
+            return res.json(returnMsg(0, HTTP_NOT_FOUND, "Error!"))
         }
         res.setHeader('WWW-Authenticate' , 'Basic realm="Authorization Required"');
-        return res.status(401).send('Authorization Required');
+        return res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
     }catch (e) {
 
     }
@@ -100,12 +100,12 @@ router.post('/Deletesong', auth,async (req, res) => {
             }
         }
         const AfterChange = await updatePlaylist(Playlist)
-        if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(await retrievePlaylistById(AfterChange._id));
+        if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(returnMsg(1, HTTP_OK, await retrievePlaylistById(AfterChange._id)));
 
-        return res.sendStatus(HTTP_NOT_FOUND);
+        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND, "Error!"));
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-    return res.status(401).send('Authorization Required');
+    return res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
 });
 router.post('/ChangePlaylistInfo', auth,async (req, res) => {
     let Playlist = await retrievePlaylistById_NoSongInfo(new ObjectId(req.body._id))
@@ -113,11 +113,11 @@ router.post('/ChangePlaylistInfo', auth,async (req, res) => {
         Playlist.name = req.body.name;
         Playlist.private = req.body.private;
         const AfterChange = await updatePlaylist(Playlist)
-        if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(await retrievePlaylistById(AfterChange._id));
+        if (AfterChange !== null) return res.status(HTTP_OK).header('Location', `/api/Playlist/${AfterChange._id}`).json(returnMsg(1, HTTP_OK, await retrievePlaylistById(AfterChange._id)));
 
-        return res.sendStatus(HTTP_NOT_FOUND);
+        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND, "Error!"));
     }
     res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-    return res.status(401).send('Authorization Required');
+    return res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
 });
 export default router;
