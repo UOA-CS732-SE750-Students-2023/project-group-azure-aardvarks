@@ -66,18 +66,3 @@ const playListSchema = new Schema({
 export const playList = mongoose.model('playList', playListSchema);
 
 
-/**
- *
- *
- */
-const commentSchema = new Schema({
-    userId:{type:Schema.Types.ObjectId, ref:'User', require:true},
-    songId:{type:Number},
-    comment:{type:String, require: true},
-    like:{type:Boolean},
-    follows:[{type:Schema.Types.ObjectId, ref:'comments'}],
-    publishTime:{type:Date, default:Date.now},
-    lastEditTime:{type:Date, default:Date.now},
-});
-
-export const comments = mongoose.model('comments', commentSchema);

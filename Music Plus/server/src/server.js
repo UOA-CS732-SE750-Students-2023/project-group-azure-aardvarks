@@ -17,6 +17,17 @@ app.use(cors());
 // Setup body-parser
 app.use(express.json());
 
+// print logs
+import fs from 'fs'
+import morgan from 'morgan'
+// create log file automatically
+const logFilePath = process.cwd()+'/logs'
+if (!fs.existsSync(logFilePath)) {
+    fs.mkdirSync(logFilePath);
+}
+const accessLogStream = fs.createWriteStream(logFilePath + '/access.logs', { flags: 'a' }); // writing log to access.log file
+app.use(morgan('short', { stream: accessLogStream }));
+
 // Setup our routes.
 import routes from './routes';
 app.use('/', routes);

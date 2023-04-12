@@ -4,16 +4,17 @@ xxx
 # Configuration
 ```shell
 # backend server
+# step 1, create .env environment.  
 # if ./Music Plus/server folder has no .env file
 cd ./Music Plus/server
 mkdir .env
-vi .env
+vi .env # create .env file
 DB_URL=${your mongodb URL} # eg: mongodb://127.0.0.1:27017/MusicPlus
 
-# if ./Music Plus/server folder has .env file
+# step 2, create log file
 cd ./Music Plus/server
-vi .env
-DB_URL=${your mongodb URL} # eg: mongodb://127.0.0.1:27017/MusicPlus
+mkdir log
+vi access.log # create log file
 ```
 # Startup
 ```shell
