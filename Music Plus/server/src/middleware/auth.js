@@ -2,6 +2,7 @@ import basicAuth from "basic-auth";
 import {vaildUser} from "../Database/User-dao.js";
 
 export async function auth(req, res, next){
+    //身份验证
     const credentials = basicAuth(req);
     let Vailduser = await vaildUser(credentials)
     if (!credentials || Vailduser === false) {

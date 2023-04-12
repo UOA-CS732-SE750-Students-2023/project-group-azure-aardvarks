@@ -7,6 +7,7 @@ dotenv.config();
 const router = express.Router();
 
 router.get('/search/:id', async (req, res) => {
+    //综合搜索（音乐，作者，歌单）
     try{
         const { id } = req.params;
         const songSearchResponse = await fetch(process.env.NeteaseCloudMusicApi+'/search/?keywords='+id+"&type=1");
@@ -22,6 +23,7 @@ router.get('/search/:id', async (req, res) => {
     }
 });
 router.get('/similarSongs/:id', async (req, res) => {
+    //显示该音乐的相似音乐
     try{
         const { id } = req.params;
         const songSearchResponse = await fetch(process.env.NeteaseCloudMusicApi+'/simi/song?id='+id);

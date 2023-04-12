@@ -16,6 +16,7 @@ async function getStyleSongs(styleId) {
 }
 
 router.get('/allStyle', async (req, res) => {
+    //展示所有曲风
     try{
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/style/list');
         let data = await response.json();
@@ -29,6 +30,7 @@ router.get('/allStyle', async (req, res) => {
 });
 
 router.get('/songs/:id', async (req, res) => {
+    //展示某个曲风下的所有歌曲
     try{
         const { id } = req.params;
         let data = await getStyleSongs(id)
@@ -39,6 +41,7 @@ router.get('/songs/:id', async (req, res) => {
 });
 
 router.get('/preference', auth,async (req, res) => {
+    //根据用户个人偏好曲风推荐音乐
     try{
         let result = []
         let user = await retrieveUserById(req.user_id)
@@ -56,6 +59,7 @@ router.get('/preference', auth,async (req, res) => {
 });
 
 router.post('/setPreference/:id', auth,async (req, res) => {
+    //添加用户曲风偏好
     try{
         const { id } = req.params;
         let user = await retrieveUserById(req.user_id)

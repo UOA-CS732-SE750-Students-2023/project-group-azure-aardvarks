@@ -23,6 +23,7 @@ const HTTP_NO_CONTENT = 204;
 
 
 router.post('/newPlayList', auth, async (req, res) => {
+    //新建歌单
     try{
         req.body.owner = new ObjectId(req.user_id)
         const newPlayList = await createPlayList(req.body);
@@ -37,6 +38,7 @@ router.post('/newPlayList', auth, async (req, res) => {
     }
 });
 router.get('/allPlayList', async (req, res) => {
+    //展示所有public的歌单
     try{
         return res.json(returnMsg(1, HTTP_OK, await retrievePlayListsListPublic()) )
     }
@@ -45,6 +47,7 @@ router.get('/allPlayList', async (req, res) => {
     }
 });
 router.get('/searchPlayListByName/:id', async (req, res) => {
+    //根据歌单名搜索歌单（public）
     try {
         const { id } = req.params;
         let playLists = await retrievePlayList(id);
@@ -55,6 +58,7 @@ router.get('/searchPlayListByName/:id', async (req, res) => {
     }
 });
 router.get('/searchPlayListById/:id', async (req, res) => {
+    //根据歌单ID搜索（忽略public）
     try{
         const { id } = req.params;
         return res.json(returnMsg(1, HTTP_OK, await retrievePlayListById(new ObjectId(id))) )
@@ -64,6 +68,7 @@ router.get('/searchPlayListById/:id', async (req, res) => {
 
 });
 router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
+    //根据ownerid搜索（忽略public）
     try{
         const { id } = req.params;
         return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
@@ -72,6 +77,7 @@ router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
     }
 });
 router.post('/addSong', auth,async (req, res) => {
+    //向歌单添加歌曲
     try{
         let existsArray = [];
         let songIdErrorArray = [];
@@ -104,6 +110,7 @@ router.post('/addSong', auth,async (req, res) => {
 
 });
 router.post('/deleteSong', auth,async (req, res) => {
+    //删除歌单歌曲
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
         if (playList){
@@ -128,6 +135,7 @@ router.post('/deleteSong', auth,async (req, res) => {
     }
 });
 router.post('/changePlayListInfo', auth,async (req, res) => {
+    //更改歌单信息
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
         if(playList){

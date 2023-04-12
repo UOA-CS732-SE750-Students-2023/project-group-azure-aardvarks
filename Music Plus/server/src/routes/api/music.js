@@ -9,6 +9,7 @@ dotenv.config();
 const router = express.Router();
 const pipelineAsync = promisify(pipeline);
 router.get('/play/:id', async (req, res) => {
+    //播放音乐
     try{
         const { id } = req.params;
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/url/v1?id='+id+"&level=standard");
@@ -26,6 +27,7 @@ router.get('/play/:id', async (req, res) => {
     }
 });
 router.get('/image/:id', async (req, res) => {
+    //音乐插图
     try{
         const { id } = req.params;
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+id);
@@ -42,6 +44,7 @@ router.get('/image/:id', async (req, res) => {
     }
 });
 router.get('/lyric/:id', async (req, res) => {
+    //歌词
     try{
         const { id } = req.params;
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/lyric?id='+id);
@@ -53,6 +56,7 @@ router.get('/lyric/:id', async (req, res) => {
 });
 
 router.get('/detail/:id', async (req, res) => {
+    //音乐详情
     try{
         const { id } = req.params;
         const styleResponse = await fetch(process.env.NeteaseCloudMusicApi+'/song/wiki/summary?id='+id);
