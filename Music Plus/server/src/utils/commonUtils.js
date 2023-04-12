@@ -19,16 +19,21 @@ export function returnMsg(status, code, msg){
  *
  * @param pageSize 10 in default
  * @param pageNum 1 in default
- * @param db , object database (did not await database, otherwise it can not be use)
+ * @param data , object database (did not await database, otherwise it can not be use)
+ * @param callback callback function
  * @returns {Promise<{data: *, length, pageSize, currentPage}>}
  *
  */
-export async function Paginator(pageSize=10, pageNum=1, db){
-    const data = await db.skip((pageNum - 1) * pageSize).limit(pageSize)
+export  function Paginator(pageSize=10, pageNum=1, data, callback=null){
+    const slicedData = data.slice((pageNum - 1) * pageSize, pageNum * pageSize);
+    if (callback){
+        callback(slicedData)
+    }
     return {
         "pageSize":pageSize,
         "currentPage":pageNum,
         "length":data.length,
-        "data":data
+        "data":slicedData
     }
 }
+
