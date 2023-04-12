@@ -59,7 +59,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "127.0.0.1:3000/api/user/logIn",
@@ -97,7 +97,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -295,7 +295,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"64353dd71bbfe27d730d41ba\",\r\n    \"songs\":[\"1974443817\"]\r\n}",
+							"raw": "{\r\n    \"_id\": \"6436761b8ef88a8a1f6828b5\",\r\n    \"songs\":[\"1974443817\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -338,7 +338,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -385,7 +385,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -526,7 +526,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "127.0.0.1:3000/api/search/search/我记得",
+							"raw": "127.0.0.1:3000/api/search/search/我记得/0/10",
 							"host": [
 								"127",
 								"0",
@@ -538,7 +538,9 @@
 								"api",
 								"search",
 								"search",
-								"我记得"
+								"我记得",
+								"0",
+								"10"
 							]
 						}
 					},
@@ -664,6 +666,115 @@
 					"request": {
 						"method": "GET",
 						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "singer",
+			"item": [
+				{
+					"name": "detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/singer/detail/6731",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"singer",
+								"detail",
+								"6731"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "album",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/singer/album/6731/0/10",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"singer",
+								"album",
+								"6731",
+								"0",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "songs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/singer/songs/6731/0/10",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"singer",
+								"songs",
+								"6731",
+								"0",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "album",
+			"item": [
+				{
+					"name": "album",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/album/150127127",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"album",
+								"150127127"
+							]
+						}
 					},
 					"response": []
 				}

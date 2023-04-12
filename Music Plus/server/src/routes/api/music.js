@@ -68,7 +68,7 @@ router.get('/detail/:id', async (req, res) => {
         const data = await response.json();
         let name = data.songs[0].name
         return res.json(returnMsg(1,200,{
-            name: name, singer: data.songs[0].ar, style: {id: styleTagId, name: style}
+            name: name, singer: data.songs[0].ar, album: data.songs[0].al,style: {id: styleTagId, name: style}
         }))
     }catch (e) {
         console.log(e)

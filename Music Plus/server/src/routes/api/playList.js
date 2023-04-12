@@ -109,7 +109,7 @@ router.post('/addSong', auth,async (req, res) => {
     }
 
 });
-router.post('/deleteSong', auth,async (req, res) => {
+router.delete('/deleteSong', auth,async (req, res) => {
     //删除歌单歌曲
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
@@ -134,7 +134,7 @@ router.post('/deleteSong', auth,async (req, res) => {
         console.log(e)
     }
 });
-router.post('/changePlayListInfo', auth,async (req, res) => {
+router.put('/changePlayListInfo', auth,async (req, res) => {
     //更改歌单信息
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
