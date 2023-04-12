@@ -51,15 +51,12 @@ async function getSongInfo(playLists){
             try{
                 const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+playLists[playList].songs[song]);
                 const data = await response.json();
-                let singer1 = ""
+
                 if (!data.songs[0]){
                     throw "Song ID Error!"
                 }
-                for (let ar in data.songs[0].ar){
-                    singer1 += data.songs[0].ar[ar].name + " /"
-                }
-                singer1 = singer1.slice(0, -2);
-                songs[playLists[playList].songs[song]] = {name: data.songs[0].name, singer:singer1}
+
+                songs[playLists[playList].songs[song]] = {name: data.songs[0].name, singer:data.songs[0].ar.map(singer => ({name: singer.name, id: singer.id})), album: {name: data.songs[0].al.name, id: data.songs[0].al.id}, picUrl: data.songs[0].al.picUrl}
             } catch (error){
                 songs[playLists[playList].songs[song]] = {error: error}
                 console.log(error)

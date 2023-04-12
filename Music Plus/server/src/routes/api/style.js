@@ -11,7 +11,7 @@ async function getStyleSongs(styleId) {
     const response = await fetch(process.env.NeteaseCloudMusicApi + `/style/song?tagId=${styleId}&sort=0`);
     let data = await response.json();
     data = data.data.songs
-    data = data.map(song => ({name: song.name, id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id}))}))
+    data = data.map(song => ({name: song.name, id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id})), album: {name: song.al.name, id: song.al.id}}))
     return data
 }
 

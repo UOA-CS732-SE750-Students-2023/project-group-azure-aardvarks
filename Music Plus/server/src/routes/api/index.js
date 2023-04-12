@@ -20,4 +20,10 @@ router.use('/search', search)
 import style from './style.js'
 router.use('/style', style)
 
+import singer from './singer.js'
+router.use('/singer', singer)
+
+import album from "./album.js";
+router.use('/album', album)
+
 export default router;
