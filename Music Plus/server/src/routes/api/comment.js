@@ -223,7 +223,7 @@ router.post('/reply/:parentCommentId', [auth, [
 router.get('/click/:parentCommentId', async (req, res)=>{
     const {pageNum=1, pageSize=20} =req.query
     const {parentCommentId} = req.params
-    const parentCommentObject = Comments.findById(parentCommentId);
+    const parentCommentObject = await Comments.findById(parentCommentId);
     if (parentCommentObject.type !== "comment"){
         return res.send(returnMsg(0,500,"Your are selecting a 'reply' type comment, which is invalid"))
     }
