@@ -101,7 +101,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"64353c02157f21abf0436045\",\r\n    \"username\": \"dxh000130\",\r\n    \"password\": \"duan002349\",\r\n    \"email\": \"dxh000130@vip.126.com\",\r\n    \"firstName\": \"Xuheng\",\r\n    \"lastName\": \"Duan\",\r\n    \"dateOfBirth\": \"2000-01-30\",\r\n    \"music_genre\": [],\r\n    \"favorite_Playlist\": [],\r\n    \"address\":{\"number\":\"3\", \"street\":\"Windross Lane\", \"city\":\"Auckland\", \"postcode\":1060}\r\n  }\r\n",
+							"raw": "{\r\n    \"_id\": \"643608191965c45807913947\",\r\n    \"username\": \"dxh000130\",\r\n    \"password\": \"duan002349\",\r\n    \"email\": \"dxh000130@vip.126.com\",\r\n    \"firstName\": \"Xuheng\",\r\n    \"lastName\": \"Duan\",\r\n    \"dateOfBirth\": \"2000-01-30\",\r\n    \"music_genre\": [],\r\n    \"favorite_Playlist\": [],\r\n    \"address\":{\"number\":\"3\", \"street\":\"Windross Lane\", \"city\":\"Auckland\", \"postcode\":1060}\r\n  }\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -512,6 +512,158 @@
 								"1974443814"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/search/search/我记得",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"search",
+								"search",
+								"我记得"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "similarSong",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/search/similarSongs/1974443814",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"search",
+								"similarSongs",
+								"1974443814"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "style",
+			"item": [
+				{
+					"name": "allStyle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/style/allStyle",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"style",
+								"allStyle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "song",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/style/songs/1107",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"style",
+								"songs",
+								"1107"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setPreference",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "duan002349",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dxh000130",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/style/setPreference/1108",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"style",
+								"setPreference",
+								"1108"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "preference",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
