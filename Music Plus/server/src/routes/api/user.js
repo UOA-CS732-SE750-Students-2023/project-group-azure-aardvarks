@@ -36,7 +36,7 @@ router.post('/newUser', async (req, res) => { //创建user
     }
 
 });
-router.post('/logIn',auth, async (req, res) => { //登录
+router.get('/logIn',auth, async (req, res) => { //登录
     try{
         const user = await retrieveUserById(req.user_id);
         return res.header('Location', `/api/user/logIn/${user._id}`)
@@ -46,7 +46,7 @@ router.post('/logIn',auth, async (req, res) => { //登录
     }
 
 });
-router.post('/updateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
+router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
     try{
         if (!new ObjectId(req.user_id).equals(req.body._id)){
             res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
