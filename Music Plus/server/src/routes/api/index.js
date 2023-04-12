@@ -14,4 +14,7 @@ router.use('/playList', playList);
 import comment from './comment.js'
 router.use('/comment', comment);
 
+import search from './search.js'
+router.use('/search', search)
+
 export default router;

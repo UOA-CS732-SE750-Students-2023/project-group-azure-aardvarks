@@ -70,4 +70,6 @@ router.get('/detail/:id', async (req, res) => {
         console.log(e)
     }
 });
+
+
 export default router;
