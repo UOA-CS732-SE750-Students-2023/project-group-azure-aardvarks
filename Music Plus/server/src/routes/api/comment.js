@@ -1,8 +1,8 @@
 import express from "express";
-import {Paginator, returnMsg} from '../../utils/commonUtils.js'
+import {Paginator, PaginatorAsync, returnMsg} from '../../utils/commonUtils.js'
 import { check, validationResult } from 'express-validator/check';
-import { Comments,} from "../../Database/Schemas/commentSchema.js";
-import {postComment, getCommentByUserId, replyComment} from "../../Database/commentDao.js";
+import {Comments, Replies} from "../../Database/Schemas/commentSchema.js";
+import {getReplies, postComment} from "../../Database/commentDao.js";
 import {auth} from "../../middleware/auth.js";
 import mongoose from "mongoose";
 const { ObjectId } = mongoose.Types;
@@ -30,11 +30,12 @@ router.post('/new', [auth, [
     }
     const userId = req.user_id
     const data = {
-        "userId" : userId,
+        "userId":userId,
         "songId":req.body.songId,
         "comment":req.body.comment
     }
     await postComment(data)
+
     return res.send(returnMsg(1,200,"Add a comment successfully"))
 })
 
@@ -52,31 +53,53 @@ router.get('/user/:userId', async(req, res)=>{
     // const c =  await getCommentByUserId(userId);
     const commentDb = await Comments.find({userId: userId});
     commentDb.sort((a, b) => b.likes.length - a.likes.length) // sort the comment model by likes rank
-    const data = Paginator(pageSize, pageNum, commentDb, (x)=>{
+    const data = await PaginatorAsync(pageSize, pageNum, commentDb, async (x)=>{
         for (let i=0; i<x.length; i++){
             x[i].likes = x[i].likes.length
+            x[i].userId = {
+                "_id":x[i].userId._id,
+                "username":x[i].userId.username
+            }
+            const repliesDetails =  await getReplies(x[i]._id)
+            const firstFiveRepliesDetails = Paginator(5, 1, repliesDetails,(x)=>{
+                for (let i=0; i<x.length;i++){
+                    x[i].commentId.likes = x[i].commentId.likes.length
+                }
+            })
+            x[i].replies.push(firstFiveRepliesDetails)
         }
-        // return x.sort((a, b) => b.likes - a.likes);
+
     })
     return res.send(returnMsg(1,200,data))
 
 })
 
 /**
- * Get all comment by a commentId, and sorted by number of likes
+ * Get all comment with first 5 replies details by a commentId, and sorted by number of likes.
  * @route /api/comment/all
  * @param pageNum
  * @param pageSize
  */
 router.get('/all', async (req, res)=>{
     const {pageNum=1, pageSize=20} =req.query
-    const commentDb = await Comments.find();
+    const commentDb = await Comments.find({type:"comment"}).populate('userId')
+
     commentDb.sort((a, b) => b.likes.length - a.likes.length) // sort the comment model by likes rank
-    const data = Paginator(pageSize, pageNum, commentDb, (x)=>{
+    const data = await PaginatorAsync(pageSize, pageNum, commentDb, async (x)=>{
         for (let i=0; i<x.length; i++){
             x[i].likes = x[i].likes.length
+            x[i].userId = {
+                "_id":x[i].userId._id,
+                "username":x[i].userId.username
+            };
+            const repliesDetails =  await getReplies(x[i]._id)
+            const firstFiveRepliesDetails = Paginator(5, 1, repliesDetails,(x)=>{
+                for (let i=0; i<x.length;i++){
+                    x[i].commentId.likes = x[i].commentId.likes.length
+                }
+            })
+            x[i].replies.push(firstFiveRepliesDetails)
         }
-        // return x.sort((a, b) => b.likes - a.likes);
     })
     return res.send(returnMsg(1,200,data))
 })
@@ -144,8 +167,73 @@ router.put('/like/:commentId', auth, async (req, res)=>{
         await Comments.findOneAndUpdate({_id:commentId }, {$push:{likes:userId}})
         return res.send(returnMsg(1,200,`like ${commentId} successfully`))
     }
-
 })
 
+/**
+ * @param toUserId required, which user your want to reply.
+ * @param comment required,reply message
+ */
+router.post('/reply/:parentCommentId', [auth, [
+    check("toUserId", "'toUserId' field is required in reply method").notEmpty(),
+    check("comment", "'comment' field is required in reply method").notEmpty(),
+]], async (req, res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.send(
+            returnMsg(0,400,errors.array())
+        )
+    }
+
+    if (req.body.comment === ''){
+        return res.send(returnMsg(0,500,"Your comment cannot be empty"))
+    }
+
+    const userId = req.user_id
+    const {parentCommentId} = req.params
+    const parentCommentObject = await Comments.findById(parentCommentId)
+    if (parentCommentObject.type !== "comment"){
+        return res.send(returnMsg(0,500,"Your are selecting a 'reply' type comment, which is invalid"))
+    }
+
+    const replyCommentObject = new Comments({
+        "type":"reply",
+        "comment":req.body.comment
+    })
+
+    const replyObject = new Replies({
+        "fromUserId":userId,
+        "toUserId":req.body.toUserId,
+        "commentId":replyCommentObject,
+        "parentCommentId":parentCommentObject
+    })
+
+    await replyCommentObject.save()
+    await replyObject.save()
+
+    return res.send(returnMsg(1,200,`Add a reply successfully`))
+})
+
+
+/**
+ *  Click a Comment, then go into the replies chat
+ *  @route /api/comment/click/:parentCommentId  # note enter a 'comment' type in :parentCommentId
+ *  @param pageNum
+ *  @param pageSize
+ */
+router.get('/click/:parentCommentId', async (req, res)=>{
+    const {pageNum=1, pageSize=20} =req.query
+    const {parentCommentId} = req.params
+    const parentCommentObject = await Comments.findById(parentCommentId);
+    if (parentCommentObject.type !== "comment"){
+        return res.send(returnMsg(0,500,"Your are selecting a 'reply' type comment, which is invalid"))
+    }
+    const commentDetail = await getReplies(parentCommentId);
+    const data = Paginator(pageSize,pageNum,commentDetail, (x)=>{
+        for (let i=0; i<x.length;i++){
+            x[i].commentId.likes = x[i].commentId.likes.length
+        }
+    })
+    return res.send(returnMsg(1,200,data))
+})
 
 export default router;
