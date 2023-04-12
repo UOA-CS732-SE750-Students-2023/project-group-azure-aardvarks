@@ -1,4 +1,4 @@
-import { playList } from './schema';
+import { playList } from './Schemas/Schema.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 async function createPlayList(user) {

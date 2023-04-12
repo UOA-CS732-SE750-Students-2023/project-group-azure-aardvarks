@@ -1,5 +1,5 @@
 
-import { User, playList } from './schema';
+import { User, playList } from './Schemas/Schema.js';
 
 
 async function createUser(user) {
