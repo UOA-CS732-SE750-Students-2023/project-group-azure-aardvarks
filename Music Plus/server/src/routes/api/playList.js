@@ -11,29 +11,20 @@ import {
 import {returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
 import vaildSongAvailable from "../../utils/vaildSongAvailable.js";
+import {auth} from "../../middleware/auth.js";
 
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
-let userId;
+
 const HTTP_OK = 200;
 const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
-const auth = async (req, res, next) => {
-    const credentials = basicAuth(req);
-    let vaildUser1 = await vaildUser(credentials)
-    if (!credentials || vaildUser1 === false) {
-        res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
-        res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
-        return;
-    }
-    userId = vaildUser1[0]._id
-    next();
-};
+
 
 router.post('/newPlayList', auth, async (req, res) => {
     try{
-        req.body.owner = new ObjectId(userId)
+        req.body.owner = new ObjectId(req.user_id)
         const newPlayList = await createPlayList(req.body);
 
         if (newPlayList) return res.status(HTTP_CREATED)
@@ -86,7 +77,7 @@ router.post('/addSong', auth,async (req, res) => {
         let songIdErrorArray = [];
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
         if(playList){
-            if (new ObjectId(userId).equals(playList.owner)){
+            if (new ObjectId(req.user_id).equals(playList.owner)){
                 for (let song in req.body.songs){
                     if (playList.songs.indexOf(req.body.songs[song]) === -1 && await vaildSongAvailable(req.body.songs[song])){
                         playList.songs.push(req.body.songs[song])
@@ -116,7 +107,7 @@ router.post('/deleteSong', auth,async (req, res) => {
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
         if (playList){
-            if (new ObjectId(userId).equals(playList.owner)){
+            if (new ObjectId(req.user_id).equals(playList.owner)){
                 for (let song in req.body.songs){
                     const index = playList.songs.indexOf(req.body.songs[song]);
                     if (index !== -1) {
@@ -140,7 +131,7 @@ router.post('/changePlayListInfo', auth,async (req, res) => {
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
         if(playList){
-            if (new ObjectId(userId).equals(playList.owner)){
+            if (new ObjectId(req.user_id).equals(playList.owner)){
                 playList.name = req.body.name;
                 playList.private = req.body.private;
                 const afterChange = await updatePlayList(playList)

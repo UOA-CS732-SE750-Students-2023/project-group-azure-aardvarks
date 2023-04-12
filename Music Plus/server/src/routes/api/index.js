@@ -17,4 +17,7 @@ router.use('/comment', comment);
 import search from './search.js'
 router.use('/search', search)
 
+import style from './style.js'
+router.use('/style', style)
+
 export default router;

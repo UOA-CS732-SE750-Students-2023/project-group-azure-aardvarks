@@ -21,7 +21,7 @@ const userSchema = new Schema({
     lastName: String,
     dateOfBirth: Date,
     favoriteMusic : {type: Schema.Types.ObjectId, ref: 'playList', required: true},
-    musicGenre : [{type: String}],
+    musicGenre : [{type1: String, count: Number}],
     favoritePlayList : [{type: Schema.Types.ObjectId, ref: 'playList', required: true}],
     address: { // address is a nested document
         number: String,
