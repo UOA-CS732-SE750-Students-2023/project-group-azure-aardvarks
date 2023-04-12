@@ -21,6 +21,7 @@
     "express-validator": "^6.15.0",
     "file-stream-rotator": "^1.0.0",
     "mongoose": "^7.0.3",
+    "mongoose-schema-extend": "^0.2.2",
     "mongoose-transactions": "^1.1.4",
     "morgan": "^1.10.0",
     "node-fetch": "^3.3.1"

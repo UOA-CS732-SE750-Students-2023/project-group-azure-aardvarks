@@ -16,15 +16,33 @@ export function returnMsg(status, code, msg){
 
 
 /**
- *
  * @param pageSize 10 in default
  * @param pageNum 1 in default
  * @param data , object database (did not await database, otherwise it can not be use)
  * @param callback callback function
  * @returns {Promise<{data: *, length, pageSize, currentPage}>}
- *
  */
-export  function Paginator(pageSize=10, pageNum=1, data, callback=null){
+export async function PaginatorAsync(pageSize=10, pageNum=1, data, callback=null){
+    const slicedData = data.slice((pageNum - 1) * pageSize, pageNum * pageSize);
+    if (callback){
+        await callback(slicedData)
+    }
+    return {
+        "pageSize":pageSize,
+        "currentPage":pageNum,
+        "length":data.length,
+        "data":slicedData
+    }
+}
+
+/**
+ * @param pageSize 10 in default
+ * @param pageNum 1 in default
+ * @param data , object database (did not await database, otherwise it can not be use)
+ * @param callback callback function
+ * @returns {Promise<{data: *, length, pageSize, currentPage}>}
+ */
+export function Paginator(pageSize=10, pageNum=1, data, callback=null){
     const slicedData = data.slice((pageNum - 1) * pageSize, pageNum * pageSize);
     if (callback){
         callback(slicedData)
@@ -36,4 +54,3 @@ export  function Paginator(pageSize=10, pageNum=1, data, callback=null){
         "data":slicedData
     }
 }
-
