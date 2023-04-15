@@ -5,7 +5,7 @@ xxx
 ```shell
 # backend server
 # step 1, create .env environment.  
-# if ./Music Plus/server folder has no .env file
+# if ./MusicPlus/server folder has no .env file
 cd ./Music Plus/server
 mkdir .env
 vi .env # create .env file
