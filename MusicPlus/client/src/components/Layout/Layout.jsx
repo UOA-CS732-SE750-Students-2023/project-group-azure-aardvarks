@@ -53,15 +53,7 @@ function Layout(props){
                 {props.children}
             </div>
 
-            <div className={"layout-footer"} style={{
-                position: "fixed",
-                bottom: 0,
-                height:100,
-                width: "100%",
-                borderTop:"solid",
-                borderBlockWidth:"1px",
-                backgroundColor:"red"
-            }}>
+            <div className={"layout-footer"} style={{}}>
                 <LayoutFooter/>
             </div>
         </div>

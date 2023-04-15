@@ -2,10 +2,10 @@ import {Route, Routes} from "react-router-dom";
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Home from "../components/Layout/HomePage/Home.jsx";
-import Login from "../components/Layout/LoginPage/Login.jsx";
+import Home from "../components/HomePage/Home.jsx";
+import Login from "../components/LoginPage/Login.jsx";
 import NotFount from "../pages/404.jsx";
-import Register from "../components/Layout/LoginPage/Register";
+import Register from "../components/LoginPage/Register";
 
 
 

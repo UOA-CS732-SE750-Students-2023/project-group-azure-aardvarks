@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../Layout.jsx";
+import Layout from "../Layout/Layout.jsx";
 
 function Register(){
     return (

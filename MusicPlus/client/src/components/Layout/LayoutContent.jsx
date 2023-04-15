@@ -1,5 +1,5 @@
 import React from "react";
-import HomeActionSlide from "./HomePage/HomeActionSlide.jsx";
+import HomeActionSlide from "../HomePage/HomeActionSlide.jsx";
 
 function LayoutContent(){
     return (

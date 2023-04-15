@@ -13,6 +13,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.3",
     "react-dom": "^18.2.0",
+    "react-jinke-music-player": "^4.24.2",
     "react-router-dom": "^6.10.0"
   },
   "devDependencies": {
