@@ -29,7 +29,7 @@ const audioLists = [
 ];
 
 
-function LayoutFooter(){
+function Player(){
     return (
         <div className="App">
             <ReactJkMusicPlayer
@@ -46,4 +46,4 @@ function LayoutFooter(){
     );
 }
 
-export default LayoutFooter;
+export default Player;

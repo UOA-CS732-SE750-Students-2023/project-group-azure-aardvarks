@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
 import LayoutHeader from "./LayoutHeader.jsx";
-import LayoutFooter from "./LayoutFooter.jsx";
+import Player from "./Player.jsx";
 import LayoutContent from "./LayoutContent.jsx";
 
 
-function Layout(props){
+function Layout(props) {
     const [device, setDevice] = useState("pc");
 
-    const handleResize = () =>{
+    const handleResize = () => {
         const clientWidth = document.documentElement.clientWidth
         const clientHeight = document.documentElement.clientHeight
-        if (clientWidth < 1000){
+        if (clientWidth < 1000) {
             // Pad device
             console.log("pad device")
-        } else if(clientWidth < 500){
+        } else if (clientWidth < 500) {
             // Phone device
             console.log("mobile device")
-        }else{
+        } else {
             // Pc device
             console.log("pc device")
         }
@@ -25,16 +25,16 @@ function Layout(props){
     // Detach your device
     handleResize()
 
-    useEffect(()=>{
-        window.addEventListener('resize',handleResize.bind())
-    },[])
+    useEffect(() => {
+        window.addEventListener('resize', handleResize.bind())
+    }, [])
 
     return (
         <div className={"layout-container"} style={{
             position: "fixed",
             height: "100%",
             width: "100%",
-            backgroundColor:"lightgray"
+            backgroundColor: "lightgray"
         }}>
             <div>
                 <LayoutHeader/>
@@ -51,10 +51,7 @@ function Layout(props){
             }}>
                 {/*content components*/}
                 {props.children}
-            </div>
-
-            <div className={"layout-footer"} style={{}}>
-                <LayoutFooter/>
+                <Player/>
             </div>
         </div>
     )
