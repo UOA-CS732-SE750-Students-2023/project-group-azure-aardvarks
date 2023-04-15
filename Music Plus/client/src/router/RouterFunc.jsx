@@ -14,7 +14,7 @@ function RouterFunc() {
         <>
             <Routes >
                 <Route path={"/register"} element={<Register/>}/>
-                <Route index path="/home" element={<Home/>}/>
+                <Route index path="/home" element={<Home/>} exact/>
                 <Route path={"/login"} element={<Login/>}/>
 
                 <Route path={"*"} element={<NotFount/>}/>
