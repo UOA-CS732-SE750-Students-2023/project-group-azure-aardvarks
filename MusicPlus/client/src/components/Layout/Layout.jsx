@@ -8,8 +8,16 @@ import "./index.css"
 import Search from "./Search.jsx";
 
 
-function Layout(props) {
-    return (
+
+class Layout extends React.Component{
+    state={}
+
+    componentWillUnmount() {
+        console.log(11)
+    }
+
+    render() {
+        return (
             <div>
                 <Row style={{ width: "100%", zIndex: "10"}}>
                     <LayoutHeader/>
@@ -25,7 +33,7 @@ function Layout(props) {
                             <Col className={"search_section"}>
                                 <Row></Row>
                                 <Row className={"content"}>
-                                    {props.children}
+                                    {this.props.children}
                                 </Row>
                             </Col>
 
@@ -37,10 +45,11 @@ function Layout(props) {
                 </Row>
 
                 <Row>
-                    <Player/>
+                        <Player/>
                 </Row>
             </div>
-    )
+        )
+    }
 }
 
 export default Layout;

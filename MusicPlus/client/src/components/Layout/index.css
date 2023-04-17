@@ -2,7 +2,7 @@
     height: 100vh;
     border-left: 2px solid rgb(60 60 67 / 3%);
     border-right: 2px solid rgb(60 60 67 / 3%);
-
+    width: 1300px;
 }
 
 .side_color{
@@ -171,5 +171,5 @@ input[type="text"]::placeholder {
 }
 
 .content{
-    padding: 30px;
+    padding: 20px;
 }

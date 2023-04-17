@@ -1,6 +1,6 @@
 import express from 'express';
 import basicAuth from "basic-auth";
-import {createUser, vaildUser} from "../../Database/User-dao.js";
+import {createUser, retrieveUserBaseProfile, retrieveUserById, vaildUser} from "../../Database/User-dao.js";
 import {
     createPlayList,
     retrievePlayList,
@@ -12,6 +12,7 @@ import {returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
 import vaildSongAvailable from "../../utils/vaildSongAvailable.js";
 import {auth} from "../../middleware/auth.js";
+import {playList} from "../../Database/Schemas/Schema.js";
 
 const { ObjectId } = mongoose.Types;
 const router = express.Router();
@@ -155,4 +156,39 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
         console.log(e)
     }
 });
+
+/**
+ * Take a number of public playlist randomly. takes min(num, playList.length)
+ */
+router.get('/random/:num',async (req, res)=>{
+    let {num} = req.params
+
+    num = Number(num)
+    if(isNaN(num)){
+        return res.send(returnMsg(0, 500, "type error: " + num))
+    }
+
+    const pipeline = []
+    pipeline.push({
+        $match:{
+            private:false
+        }
+    })
+    pipeline.push({
+        $sample:{
+            size:num
+        }
+    })
+
+    const result = await playList.aggregate(pipeline)
+
+    for (const resultKey in result) {
+        const author = await retrieveUserBaseProfile(result[resultKey].owner)
+        result[resultKey].owner = author
+    }
+
+    return res.send(returnMsg(1, 200, result))
+})
+
+
 export default router;

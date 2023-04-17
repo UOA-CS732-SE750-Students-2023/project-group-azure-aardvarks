@@ -58,11 +58,36 @@ async function deleteUser(id) {
     await User.deleteOne({ _id: id });
 }
 
+
+/**
+ * return the basic profile of a user
+ * @param id user id
+ * @returns
+ * {
+ *      "_id": "64366fc18a753d1f42b35d3b",
+ *      username": "2797146538",
+ *      "email": "2797146538@qq.com",
+ *       favoritePlayList": [],
+ *      "musicGenre": [],
+ * }
+ */
+async function retrieveUserBaseProfile(id){
+    const user = await retrieveUserById(id)
+    return {
+        '_id' : user._id,
+        'username':user.username,
+        'email':user.email,
+        "favoritePlayList": user.favoritePlayList,
+        "musicGenre": user.musicGenre,
+    }
+}
+
 export {
     createUser,
     retrieveUserById,
     retrieveUsersList,
     retrieveUser,
+    retrieveUserBaseProfile,
     updateUser,
     deleteUser,
     vaildUser

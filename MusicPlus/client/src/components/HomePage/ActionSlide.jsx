@@ -4,12 +4,13 @@ import downloadImage from '../../../public/download.jpg';
 import code_structure from '../../../public/code_structure.png';
 import Layout from "../Layout/Layout.jsx";
 
-function HomeActionSlide(){
+function ActionSlide(){
     return (
         <>
             <Carousel variant={"dark"}>
                 <Carousel.Item interval={1000}>
                     <img
+                        height={400}
                         className="d-block w-100"
                         src={code_structure}
                         alt="First slide"
@@ -17,6 +18,7 @@ function HomeActionSlide(){
                 </Carousel.Item>
                 <Carousel.Item interval={1000}>
                     <img
+                        height={400}
                         className="d-block w-100"
                         src={code_structure}
                         alt="First slide"
@@ -28,4 +30,4 @@ function HomeActionSlide(){
     );
 }
 
-export default HomeActionSlide;
+export default ActionSlide;
