@@ -11,8 +11,16 @@ function Home(){
         <>
             <Layout>
                 <div className={"container-home"}>
-                    <div className={"container-action-slide"}>
+                    <div className={"container-content-header"}>
+                        <h1>Explore</h1>
+                    </div>
+                    <hr/>
+                    <div className={"container-content-actionSlide"}>
                         <HomeActionSlide/>
+                    </div>
+                    <hr/>
+                    <div className={"container-content-recommendation"}>
+                        <h1>Recommendation</h1>
                     </div>
 
 

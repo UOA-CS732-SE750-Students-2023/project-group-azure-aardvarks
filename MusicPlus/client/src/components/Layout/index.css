@@ -14,3 +14,7 @@
     border-left: 1px solid rgb(0 0 0 / 15%);
     height: 100vh;
 }
+
+.content{
+    padding: 30px;
+}

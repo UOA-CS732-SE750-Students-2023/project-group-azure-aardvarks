@@ -2,6 +2,10 @@ import ReactJkMusicPlayer from "react-jinke-music-player";
 import "react-jinke-music-player/assets/index.css";
 import b from '../../static/b.mp3'
 import {useState} from "react";
+import axios from "axios";
+
+
+const API_BASE_URL = import.meta.env.ADDRESS_URL ?? '';
 
 let playlistId;
 
@@ -28,6 +32,8 @@ async function newPlaylist() {
         const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
         playlistId = responseData.data._id
         return responseData;
+
+        // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
     } catch (error) {
         console.error('Error posting data:', error);
     }
@@ -75,12 +81,21 @@ function LoadPlaylistButton({ setAudioLists }) {
 }
 
 function Player() {
+
     newPlaylist();
     const [audioLists, setAudioLists] = useState([{
         name: "b",
         singer: "b",
         musicSrc: b
     }])
+
+    function handleShowComment(currentPlayId, audioLists, audioInfo){
+        console.log(currentPlayId)
+        return new Promise((resolve, reject) => {
+            // your custom validate
+            reject()
+        })
+    }
 
     return (
         <div className="App">
@@ -97,6 +112,10 @@ function Player() {
                 showLyric={true}
                 showDownload={false}
                 mode="full"
+
+                // Change the Destroy function as a Show comment function
+                showDestroy={true}
+                onBeforeDestroy={handleShowComment}
             />
         </div>
     );

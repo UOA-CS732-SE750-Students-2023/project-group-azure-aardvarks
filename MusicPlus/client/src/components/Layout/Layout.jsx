@@ -19,7 +19,7 @@ function Layout(props) {
                     <Col className={"col_layout"} xs={8}>
                         <Row>
                             <Col className={"search_section"} xs={3}></Col>
-                            <Col>
+                            <Col className={"content"}>
                                 {props.children}
                             </Col>
 
