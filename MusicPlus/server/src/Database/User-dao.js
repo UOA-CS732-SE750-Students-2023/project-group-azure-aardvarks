@@ -3,17 +3,22 @@ import { User, playList } from './Schemas/Schema.js';
 
 
 async function createUser(user) {
-
-    const dbUser = new User(user);
-    const favoriteMusic = new playList({
-        name : dbUser.username + "Love",
-        private : true,
-        owner : dbUser._id
-    })
-    dbUser.favoriteMusic = favoriteMusic._id
-    await dbUser.save();
-    await favoriteMusic.save()
-    return dbUser;
+    let check = await retrieveUser(user.username)
+    if (check.length === 0){
+        const dbUser = new User(user);
+        const favoriteMusic = new playList({
+            name : dbUser.username + "Love",
+            private : true,
+            owner : dbUser._id
+        })
+        dbUser.favoriteMusic = favoriteMusic._id
+        await dbUser.save();
+        await favoriteMusic.save()
+        return dbUser;
+    }
+   else {
+       return {"Error": "Username unavailable!"}
+    }
 }
 
 async function retrieveUsersList() {
