@@ -5,12 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "./index.css"
+import Search from "./Search.jsx";
 
 
 function Layout(props) {
     return (
             <div>
-                <Row>
+                <Row style={{position: "fixed", width: "100%", zIndex: "10"}}>
                     <LayoutHeader/>
                 </Row>
 
@@ -18,9 +19,14 @@ function Layout(props) {
                     <Col className={"side_color"}></Col>
                     <Col className={"col_layout"} xs={8}>
                         <Row>
-                            <Col className={"search_section"} xs={3}></Col>
-                            <Col className={"content"}>
-                                {props.children}
+                            <Col className={"search_section"} xs={3}>
+                                <Search/>
+                            </Col>
+                            <Col className={"search_section"}>
+                                <Row></Row>
+                                <Row>
+                                    {props.children}
+                                </Row>
                             </Col>
 
                         </Row>
