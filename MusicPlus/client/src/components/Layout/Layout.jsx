@@ -11,7 +11,7 @@ import Search from "./Search.jsx";
 function Layout(props) {
     return (
             <div>
-                <Row style={{position: "fixed", width: "100%", zIndex: "10"}}>
+                <Row style={{ width: "100%", zIndex: "10"}}>
                     <LayoutHeader/>
                 </Row>
 
@@ -24,7 +24,7 @@ function Layout(props) {
                             </Col>
                             <Col className={"search_section"}>
                                 <Row></Row>
-                                <Row>
+                                <Row className={"content"}>
                                     {props.children}
                                 </Row>
                             </Col>
