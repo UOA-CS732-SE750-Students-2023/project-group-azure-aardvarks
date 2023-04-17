@@ -1,0 +1,16 @@
+.col_layout{
+    height: 100vh;
+    border-left: 2px solid rgb(60 60 67 / 3%);
+    border-right: 2px solid rgb(60 60 67 / 3%);
+
+}
+
+.side_color{
+    background: rgb(60 60 67 / 3%);
+}
+
+.search_section{
+    border-right: 1px solid rgb(0 0 0 / 15%);
+    border-left: 1px solid rgb(0 0 0 / 15%);
+    height: 100vh;
+}

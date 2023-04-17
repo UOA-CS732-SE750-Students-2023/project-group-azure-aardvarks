@@ -7,19 +7,6 @@ import Layout from "../Layout/Layout.jsx";
 function HomeActionSlide(){
     return (
         <>
-            <div style={{textAlignLast: "center"}}>
-
-                <Carousel variant={"dark"} >
-                    <Carousel.Item interval={1000} >
-                        <img src={downloadImage} alt={"asd"}/>
-                    </Carousel.Item>
-
-                    <Carousel.Item interval={1000}>
-                        <img src={code_structure} alt={"asd"}/>
-                    </Carousel.Item>
-                </Carousel>
-                <hr/>
-            </div>
         </>
     );
 }
