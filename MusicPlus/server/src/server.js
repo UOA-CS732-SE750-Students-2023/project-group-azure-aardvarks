@@ -7,13 +7,15 @@ import mongoose from 'mongoose';
 //import * as url from 'url';
 import cors from 'cors';
 //import {User1, Playlist} from "./Database/Schema.js";
+import bodyParser from 'body-parser';
 
 // Setup Express
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 app.use(cors());
-
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // Setup body-parser
 app.use(express.json());
 

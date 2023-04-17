@@ -19,6 +19,7 @@ const userSchema = new Schema({
     email: String,
     firstName: String,  // Basic fields
     lastName: String,
+    avatar: String,
     dateOfBirth: Date,
     favoriteMusic : {type: Schema.Types.ObjectId, ref: 'playList', required: true},
     musicGenre : [{type1: String, count: Number}],
@@ -55,6 +56,7 @@ export const User = mongoose.model('User', userSchema);
 const playListSchema = new Schema({
     name: { type: String, required: true },
     private : Boolean,
+    cover: String,
     songs : [{type:String}],
     notes: [{ date: Date, content: String }],
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
