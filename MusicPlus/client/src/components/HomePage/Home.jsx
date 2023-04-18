@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import Layout from "../Layout/Layout.jsx";
 import Carousel from "react-bootstrap/Carousel";
 import downloadImage from "../../../public/download.jpg";
@@ -9,6 +9,7 @@ import "./index.css"
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import {AlbumCover} from "../Album/AlbumCover.jsx";
+import PlayerContext from "../../utils/AppContextProvider.jsx";
 
 
 class Home extends React.Component{
@@ -18,6 +19,14 @@ class Home extends React.Component{
 
     // has to use an async method once Mounting a component
     async componentDidMount() {
+        const { setShowPlayer } = useContext(PlayerContext);
+
+        useEffect(() => {
+            setShowPlayer(true);
+            return () => {
+                setShowPlayer(false);
+            };
+        }, [setShowPlayer]);
         const getPlayList = async () => {
             const playListDetail = await axios.get(`${BACKEND_API}/api/playList/random/4`)
             if (playListDetail.data.status === 1){
@@ -56,5 +65,18 @@ class Home extends React.Component{
         )
     }
 }
+function HomeWithPlayerContext() {
+    const { setShowPlayer } = useContext(PlayerContext);
 
-export default Home;
+    useEffect(() => {
+        setShowPlayer(true);
+        return () => {
+            setShowPlayer(false);
+        };
+    }, [setShowPlayer]);
+
+    return <Home />;
+}
+
+export default HomeWithPlayerContext;
+//export default Home;

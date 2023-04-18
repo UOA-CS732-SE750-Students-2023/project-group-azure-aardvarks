@@ -82,11 +82,11 @@ const API_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
 function Player() {
     // newPlaylist();
-    // const [audioLists, setAudioLists] = useState([{
-    //     name: "b",
-    //     singer: "b",
-    //     musicSrc: b
-    // }])
+    const [audioLists, setAudioLists] = useState([{
+        name: "b",
+        singer: "b",
+        musicSrc: b
+    }])
     //
     // function handleShowComment(currentPlayId, audioLists, audioInfo){
     //     console.log(currentPlayId)
@@ -103,7 +103,7 @@ function Player() {
                 quietUpdate
                 clearPriorAudioLists
                 glassBg
-                // audioLists={audioLists}
+                audioLists={audioLists}
                 showMediaSession
                 preload = {true}
                 autoPlay={false}

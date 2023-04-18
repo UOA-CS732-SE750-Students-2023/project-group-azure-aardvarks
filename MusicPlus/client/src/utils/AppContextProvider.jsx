@@ -5,6 +5,12 @@ import LoginForm from "../components/LoginPage/LoginForm.jsx";
 export const UserContext = React.createContext({})
 
 
+const PlayerContext = React.createContext({
+    showPlayer: false,
+    setShowPlayer: () => {},
+});
+
+export default PlayerContext;
 
 /**
  * Put it to the Root component. Global user status management.

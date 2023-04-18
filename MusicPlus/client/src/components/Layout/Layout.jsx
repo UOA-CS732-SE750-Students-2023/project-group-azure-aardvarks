@@ -44,9 +44,6 @@ class Layout extends React.Component{
 
                 </Row>
 
-                <Row>
-                        <Player/>
-                </Row>
             </div>
         )
     }
