@@ -1,0 +1,15 @@
+.login-container {
+    height: 100vh;
+    background-color: wheat; /* 你的背景图片URL */
+    background-size: cover;
+    background-position: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    min-height: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
