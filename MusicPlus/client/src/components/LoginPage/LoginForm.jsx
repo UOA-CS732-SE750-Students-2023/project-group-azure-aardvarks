@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
 
@@ -36,7 +36,7 @@ function  LoginForm(){
         }
     }, [userDetail]);
     function handleRegister(){
-
+        history("/register");
     }
     function handleLastPage(){
         history(-1)
