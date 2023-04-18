@@ -4,8 +4,22 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Card} from "react-bootstrap";
 import CardTest from '../../../public/download.jpg'
+import {UserContext} from "../../utils/AppContextProvider.jsx";
+import {useContext} from "react";
+import Form from "react-bootstrap/Form";
+import {FaLock, FaUserCircle} from "react-icons/fa";
+import Button from "react-bootstrap/Button";
+
 
 function LayoutHeader() {
+    const {userDetail, setUserDetail} = useContext(UserContext)
+    function handleSelect(selectedKey) {
+        if (selectedKey === "1"){
+            setUserDetail({})
+        }
+        console.log('You selected key: ', selectedKey);
+    }
+    console.log(userDetail._id === undefined)
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -28,10 +42,18 @@ function LayoutHeader() {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <NavDropdown title={"Login"} >
-                            <NavDropdown.Item href="./#/login">Exist an account</NavDropdown.Item>
-                            <NavDropdown.Item href="./#/register">Register an account</NavDropdown.Item>
-                        </NavDropdown>
+                        {userDetail._id === undefined ? (
+                            <NavDropdown title={"Login"} >
+                                <NavDropdown.Item href="./#/login">Exist an account</NavDropdown.Item>
+                                <NavDropdown.Item href="./#/register">Register an account</NavDropdown.Item>
+                            </NavDropdown>
+                        ) : (
+                            <NavDropdown title={userDetail.username} onSelect={handleSelect}>
+                                <NavDropdown.Item href="./#/personalInformation">Personal Information</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="1">Log out</NavDropdown.Item>
+                            </NavDropdown>
+                        )}
+
                     </Nav>
                 </Navbar.Collapse>
                 <Card style={{ width: '35px' }}>

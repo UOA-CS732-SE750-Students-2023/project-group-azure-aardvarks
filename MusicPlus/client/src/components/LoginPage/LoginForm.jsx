@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
-import {Outlet, Link, NavLink} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
 
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import {Card, Col, Container, Row} from "react-bootstrap";
 import { FaUserCircle, FaLock } from 'react-icons/fa';
+import { RiArrowGoBackFill } from 'react-icons/ri';
 import './LoginForm.css';
 
 
@@ -14,31 +15,40 @@ import './LoginForm.css';
 const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 
 function  LoginForm(){
+    const history = useNavigate();
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loginSuccess, setLoginSuccess] = useState(true);
     const {userDetail, setUserDetail} = useContext(UserContext)
+     async function handleSubmit(e){
+         e.preventDefault();
+        try{
+            const detail = await axios.get(`${backendAPI}/api/user/logIn`,{headers:{
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+                }})
 
-     async function handleSubmit(){
-         const detail = await axios.get(`${backendAPI}/api/user/logIn`,{headers:{
-                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
-                'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-            }})
-         setUserDetail(detail.data.data)
-         console.log(detail.data.data)
-
+            setUserDetail(detail.data.data)
+            setLoginSuccess(true)
+        }catch (e) {
+            e.preventDefault();
+            console.log(e)
+            setLoginSuccess(false)
+        }
     }
     useEffect(() => {
         if (userDetail && userDetail.username) {
             console.log(userDetail.username);
-            alert(userDetail.username);
+            history("/home")
+            //alert(userDetail.username);
         }
     }, [userDetail]);
     function handleRegister(){
-
+        history("/register");
     }
-    function handleHome(){
-
+    function handleLastPage(){
+        history(-1)
     }
     const handleNext = (e) => {
         e.preventDefault();
@@ -56,11 +66,20 @@ function  LoginForm(){
                 <Col className="d-none d-md-flex col-md-5 col-lg-7" />
                 <Col className="d-flex align-items-center col-12 col-md-6 col-lg-4">
                     <Card className="login-card">
+                        <Button
+                            variant="link"
+                            className="back-button hover-text-button"
+                            onClick={handleLastPage}
+
+                        >
+                            <RiArrowGoBackFill />
+                        </Button>
                         <Card.Body>
+
                             <h1 className="text-center mb-4">MusicPlus</h1>
                             {step === 1 ? (
                                 <Form onSubmit={handleNext}>
-                                    <Form.Group className="mb-3">
+                                    <Form.Group className="mb-3 mt-4">
                                         <Form.Label>
                                             <FaUserCircle /> Username
                                         </Form.Label>
@@ -74,7 +93,7 @@ function  LoginForm(){
                                         />
                                     </Form.Group>
                                     <Button variant="primary" type="submit" className="w-100 mt-4">
-                                        下一步
+                                        Next
                                     </Button>
                                     <Button
                                         variant="link"
@@ -83,7 +102,7 @@ function  LoginForm(){
                                     >
                                         Register
                                     </Button>
-                                    <NavLink to="/home">home</NavLink>
+
                                 </Form>
                             ) : (
                                 <Form onSubmit={handleSubmit}>
@@ -98,7 +117,11 @@ function  LoginForm(){
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
                                             autoFocus
+                                            isInvalid={!loginSuccess}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid password.
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                     <Button variant="primary" type="submit" className="w-100 mt-4">
                                         Log in
