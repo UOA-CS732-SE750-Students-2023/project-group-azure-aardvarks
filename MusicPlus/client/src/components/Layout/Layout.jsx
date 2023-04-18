@@ -10,12 +10,6 @@ import Search from "./Search.jsx";
 
 
 class Layout extends React.Component{
-    state={}
-
-    componentWillUnmount() {
-        console.log(11)
-    }
-
     render() {
         return (
             <div>
