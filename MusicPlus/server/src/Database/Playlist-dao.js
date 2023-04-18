@@ -1,5 +1,6 @@
 import { playList } from './Schemas/Schema.js';
 import * as dotenv from 'dotenv';
+import {formatDateTime} from "../utils/commonUtils.js";
 dotenv.config();
 async function createPlayList(user) {
 
@@ -22,11 +23,27 @@ async function retrievePlayList(name) {
     return await getSongInfo(lists);
 }
 async function retrievePlayListById(id) {
-    let lists = await playList.find({_id:id});
-    return await getSongInfo(lists);
+    let list = await playList.findById(id).populate('owner');
+    list.owner = {
+        "_id": list.owner._id,
+        "username": list.owner.username,
+        "email": list.owner.email,
+        "favoritePlayList": list.owner.favoritePlayList,
+        "musicGenre": list.owner.musicGenre,
+        "favoriteMusic": list.owner.favoriteMusic
+    }
+    const result = {
+        "_id" : list.id,
+        "name":list.name,
+        "private":list.private,
+        "songs":list.songs,
+        "createAt":formatDateTime(list.createAt),
+        "updatedAt":formatDateTime(list.updatedAt),
+        "owner": list.owner
+    }
+    return result
 }
 async function retrievePlayListByIdNoSongInfo(id) {
-
     return await playList.findById(id);
 }
 async function retrievePlayListByOwnerId(id) {

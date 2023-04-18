@@ -1,0 +1,12 @@
+.playlist-body-cover{
+    display: flex;
+    flex-direction: row;
+    padding: 40px;
+}
+.playlist-body-cover-img{
+    margin-right: 70px;
+}
+.playlist-body-cover-info-title{
+    font-size: 45px;
+    font-weight: bold;
+}

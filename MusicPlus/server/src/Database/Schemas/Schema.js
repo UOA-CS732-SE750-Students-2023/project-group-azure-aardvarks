@@ -58,7 +58,7 @@ const playListSchema = new Schema({
     private : Boolean,
     cover: String,
     songs : [{type:String}],
-    notes: [{ date: Date, content: String }],
+    description: {  type: String, default:"Oops, the user does not update yet" },
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 }, {
     timestamps: {}

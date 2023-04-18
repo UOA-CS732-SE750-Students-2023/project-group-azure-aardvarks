@@ -35,7 +35,6 @@ function PlaylistCover({playList}){
         playListName:'',
         authorName:''
     });
-
     useEffect(()=>{
         if (isHovered){
             setFigureCaption({playListName: playList.name, authorName: `Author: ${playList.owner.username}`})
@@ -54,7 +53,8 @@ function PlaylistCover({playList}){
     return (
         <div style={{padding:35}}>
             <Link
-                onClick={()=>openPlaylistContent()}
+                to={`/playlist/${playList._id}`}
+                // onClick={()=>openPlaylistContent()}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             >
@@ -75,10 +75,11 @@ function PlaylistCover({playList}){
             </Figure>
             </Link>
 
-            <PlaylistContent
-                show={contentShow}
-                onHide={()=>setContentShow(false)}
-            />
+            {/*<PlaylistContent*/}
+            {/*    show={contentShow}*/}
+            {/*    onHide={()=>setContentShow(false)}*/}
+            {/*    playlist={playList} // react dom cannot recognize the playList, so  playlist instead*/}
+            {/*/>*/}
         </div>
     )
 }

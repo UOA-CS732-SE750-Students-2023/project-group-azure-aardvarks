@@ -8,7 +8,7 @@ import {
     retrievePlayListsList,
     retrievePlayListByOwnerId, retrievePlayListsListPublic, updatePlayList, retrievePlayListByIdNoSongInfo
 } from "../../Database/playList-dao.js";
-import {returnMsg} from "../../utils/commonUtils.js"
+import {formatDateTime, returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
 import vaildSongAvailable from "../../utils/vaildSongAvailable.js";
 import {auth} from "../../middleware/auth.js";
@@ -60,12 +60,14 @@ router.get('/searchPlayListByName/:id', async (req, res) => {
 });
 router.get('/searchPlayListById/:id', async (req, res) => {
     //根据歌单ID搜索（忽略public）
-    try{
+    try {
         const { id } = req.params;
-        return res.json(returnMsg(1, HTTP_OK, await retrievePlayListById(new ObjectId(id))) )
-    }catch (e) {
-        console.log(e)
+        const result = await retrievePlayListById(id)
+        return res.json(returnMsg(1, HTTP_OK, result))
+    }catch (e){
+        return res.json(returnMsg(0, 500, e))
     }
+
 
 });
 router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
@@ -185,6 +187,9 @@ router.get('/random/:num',async (req, res)=>{
     for (const resultKey in result) {
         const author = await retrieveUserBaseProfile(result[resultKey].owner)
         result[resultKey].owner = author
+        result[resultKey].createdAt = formatDateTime(result[resultKey].createdAt)
+        result[resultKey].updatedAt = formatDateTime(result[resultKey].updatedAt)
+        // result[resultKey].updatedAt = result[resultKey].updatedAt.format("yyyy-MM-dd:mm")
     }
 
     return res.send(returnMsg(1, 200, result))
