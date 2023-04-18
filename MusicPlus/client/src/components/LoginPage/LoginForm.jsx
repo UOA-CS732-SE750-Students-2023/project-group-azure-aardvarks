@@ -19,19 +19,28 @@ function  LoginForm(){
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loginSuccess, setLoginSuccess] = useState(true);
     const {userDetail, setUserDetail} = useContext(UserContext)
-     async function handleSubmit(){
-         const detail = await axios.get(`${backendAPI}/api/user/logIn`,{headers:{
-                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
-                'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-            }})
-         setUserDetail(detail.data.data)
-         //console.log(detail.data.data)
+     async function handleSubmit(e){
+         e.preventDefault();
+        try{
+            const detail = await axios.get(`${backendAPI}/api/user/logIn`,{headers:{
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+                }})
 
+            setUserDetail(detail.data.data)
+            setLoginSuccess(true)
+        }catch (e) {
+            e.preventDefault();
+            console.log(e)
+            setLoginSuccess(false)
+        }
     }
     useEffect(() => {
         if (userDetail && userDetail.username) {
             console.log(userDetail.username);
+            history("/home")
             //alert(userDetail.username);
         }
     }, [userDetail]);
@@ -108,7 +117,11 @@ function  LoginForm(){
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
                                             autoFocus
+                                            isInvalid={!loginSuccess}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            Please enter a valid password.
+                                        </Form.Control.Feedback>
                                     </Form.Group>
                                     <Button variant="primary" type="submit" className="w-100 mt-4">
                                         Log in

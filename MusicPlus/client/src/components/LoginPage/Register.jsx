@@ -68,7 +68,7 @@ function Register(){
 
                 const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
                 console.log(responseData)
-                handleLastPage()
+                history("/login")
                 // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
             } catch (error) {
                 console.error('Error posting data:', error);
