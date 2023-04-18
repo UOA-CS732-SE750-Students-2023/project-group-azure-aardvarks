@@ -1,0 +1,36 @@
+.register-container {
+    height: 100vh;
+    background: linear-gradient(#e66465, #9198e5);
+    background-size: cover;
+}
+
+.register-card {
+    min-width: 450px;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.register-card .card-body {
+    padding: 2rem;
+}
+
+.register-card h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.register-card label {
+    font-weight: 500;
+}
+
+.register-card .form-control {
+    border-radius: 5px;
+}
+
+.register-card .btn-primary {
+    border-radius: 5px;
+    font-weight: 500;
+}

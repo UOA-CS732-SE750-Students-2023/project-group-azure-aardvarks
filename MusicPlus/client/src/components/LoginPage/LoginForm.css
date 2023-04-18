@@ -1,8 +1,7 @@
 .login-container {
     height: 100vh;
-    background-color: wheat; /* 你的背景图片URL */
+    background: linear-gradient(#e66465, #9198e5);
     background-size: cover;
-    background-position: center;
 }
 
 .login-card {

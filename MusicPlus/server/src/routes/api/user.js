@@ -58,11 +58,21 @@ router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，
             .header('Location', `/api/user/logIn/${User._id}`)
             .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
 
-        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+        return res.status(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
     }catch (e){
         console.log(e)
     }
 
 })
+router.get('/validUsername/:username',  async (req,res) => { //检查username是否可用
+    try{
+        const { username } = req.params;
+        const user = await retrieveUser(username);
+        console.log(user)
+        return res.status(HTTP_OK).json(returnMsg(1, HTTP_OK, user.length === 0))
+    }catch (e){
+        console.log(e)
+    }
 
+})
 export default router;
