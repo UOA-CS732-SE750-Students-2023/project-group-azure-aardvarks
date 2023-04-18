@@ -19,14 +19,7 @@ class Home extends React.Component{
 
     // has to use an async method once Mounting a component
     async componentDidMount() {
-        const { setShowPlayer } = useContext(PlayerContext);
 
-        useEffect(() => {
-            setShowPlayer(true);
-            return () => {
-                setShowPlayer(false);
-            };
-        }, [setShowPlayer]);
         const getPlayList = async () => {
             const playListDetail = await axios.get(`${BACKEND_API}/api/playList/random/4`)
             if (playListDetail.data.status === 1){
@@ -34,6 +27,15 @@ class Home extends React.Component{
             }
         }
         await getPlayList()
+
+        // const { setShowPlayer } = useContext(PlayerContext);
+
+        // useEffect(() => {
+        //     setShowPlayer(true);
+        //     return () => {
+        //         setShowPlayer(false);
+        //     };
+        // }, [setShowPlayer]);
     }
 
     componentWillUnmount() {
