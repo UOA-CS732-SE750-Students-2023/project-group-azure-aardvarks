@@ -413,6 +413,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "random",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
