@@ -5,12 +5,15 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {DropdownButton, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {BACKEND_API} from "../utils/env.js";
-import PlayerContext from "../utils/AppContextProvider.jsx";
+import PlayerContext, {NotificationContext, TemporaryPlayListContext} from "../utils/AppContextProvider.jsx";
 
 
 function SongList({songList}) {
     const {currentPlayList,setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
+    const {show, setShow} = useContext(NotificationContext)
+    const { removeTemporaryPlaylist,addToTemporaryPlaylist, addToCurrentPlaylist,showTemporaryPlaylist} = useContext(TemporaryPlayListContext)
+
     async function handleAddToPlayer(song){
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
         // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
@@ -56,7 +59,9 @@ function SongList({songList}) {
 
     }
 
-
+    function handleAddToTemporaryList(song){
+        addToTemporaryPlaylist(song)
+    }
 
     return (
         <>
@@ -95,7 +100,9 @@ function SongList({songList}) {
                                     size={"sm"}
                                     variant="outline-secondary"
                                 >
-                                    <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                                    <Dropdown.Item
+                                        eventKey="1"
+                                    >Action</Dropdown.Item>
                                     <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
                                     <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
                                     <Dropdown.Divider />
@@ -105,6 +112,12 @@ function SongList({songList}) {
                                         //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
                                     >
                                         Current playlist
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        eventKey="5"
+                                        onClick={()=>handleAddToTemporaryList(song)}
+                                    >
+                                        Temporary playlist
                                     </Dropdown.Item>
                                 </DropdownButton>
                             </td>
