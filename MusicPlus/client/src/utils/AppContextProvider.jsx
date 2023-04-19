@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import Cookies from 'js-cookie';
 import b from "../static/b.mp3";
 import Player from "../components/Layout/Player.jsx";
-
+import axios from "axios";
+const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 // Manage the user's status
 export const UserContext = React.createContext({})
 
@@ -25,14 +26,26 @@ export function UserProvider({ children }) {
     expiresDate.setDate(expiresDate.getDate() + 30);
     const setCookieUserDetail = (detail) => {
         setUserDetail(detail);
-        Cookies.set('userDetail', JSON.stringify(detail), { expires: expiresDate }); // 有效期为30天
+        Cookies.set('userDetail', JSON.stringify({_id: detail._id, username: detail.username, password: detail.password}), { expires: expiresDate }); // 有效期为30天
     };
 
     useEffect(() => {
-        const cookieUserDetail = Cookies.get('userDetail');
-        if (cookieUserDetail) {
-            setUserDetail(JSON.parse(cookieUserDetail));
-        }
+        const fetchUserDetail = async () => {
+            const cookieUserDetail = Cookies.get('userDetail');
+
+            if (cookieUserDetail) {
+                const parsedUserDetail = JSON.parse(cookieUserDetail);
+                const detail = await axios.get(`${backendAPI}/api/user/logIn`, {
+                    headers: {
+                        'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                        'Authorization': 'Basic ' + btoa(`${parsedUserDetail.username}:${parsedUserDetail.password}`),
+                    },
+                });
+                setUserDetail(detail.data.data);
+            }
+        };
+
+        fetchUserDetail();
     }, []);
 
     const context = {
