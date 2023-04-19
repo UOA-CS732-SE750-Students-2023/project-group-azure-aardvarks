@@ -1,0 +1,4 @@
+.user-detail-container {
+    max-height: 80vh;
+    overflow-y: auto;
+}

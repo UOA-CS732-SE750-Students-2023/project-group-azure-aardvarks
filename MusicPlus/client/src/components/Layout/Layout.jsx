@@ -11,35 +11,38 @@ import Search from "./Search.jsx";
 
 class Layout extends React.Component{
     render() {
-        return (
-            <div>
-                <Row style={{ width: "100%", zIndex: "10"}}>
+        const div = <>
+            <div className="layout-container">
+                <Row style={{width: "100%", zIndex: "10"}}>
                     <LayoutHeader/>
                 </Row>
+                <div className="content-container">
+                    <Row >
+                        <Col className={"side_color"}></Col>
+                        <Col className={"col_layout"} xs={8}>
+                            <Row>
+                                <Col className={"search_section"} xs={3}>
+                                    <Search/>
+                                </Col>
+                                <Col className={"search_section"}>
+                                    <Row></Row>
+                                    <Row className={"content"}>
+                                        {this.props.children}
+                                    </Row>
+                                </Col>
 
-                <Row>
-                    <Col className={"side_color"}></Col>
-                    <Col className={"col_layout"} xs={8}>
-                        <Row>
-                            <Col className={"search_section"} xs={3}>
-                                <Search/>
-                            </Col>
-                            <Col className={"search_section"}>
-                                <Row></Row>
-                                <Row className={"content"}>
-                                    {this.props.children}
-                                </Row>
-                            </Col>
+                            </Row>
 
-                        </Row>
+                        </Col>
+                        <Col className={"side_color"}></Col>
 
-                    </Col>
-                    <Col className={"side_color"}></Col>
+                    </Row>
+                </div>
 
-                </Row>
 
             </div>
-        )
+        </>;
+        return div
     }
 }
 

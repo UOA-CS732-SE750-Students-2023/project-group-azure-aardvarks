@@ -18,7 +18,9 @@ function LayoutHeader() {
             setUserDetail({})
         }
         console.log('You selected key: ', selectedKey);
+
     }
+    console.log(userDetail)
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -40,6 +42,7 @@ function LayoutHeader() {
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
+
                     <Nav>
                         {userDetail._id === undefined ? (
                             <NavDropdown title={"Login"} >
@@ -48,17 +51,22 @@ function LayoutHeader() {
                             </NavDropdown>
                         ) : (
                             <NavDropdown title={userDetail.username} onSelect={handleSelect}>
-                                <NavDropdown.Item href="./#/personalInformation">Personal Information</NavDropdown.Item>
+                                <NavDropdown.Item href="./#/user/detail">User Detail</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="1">Log out</NavDropdown.Item>
                             </NavDropdown>
                         )}
 
                     </Nav>
                 </Navbar.Collapse>
+                {userDetail._id !== undefined ? (
                 <Card style={{ width: '35px' }}>
-                    <Card.Img variant="top" src={CardTest} alt={"img not found"}/>
-
+                    <Card.Img variant="top" src={userDetail.avatar} alt={"img not found"}/>
                 </Card>
+                    ) : (
+                    <Card style={{ display: "none" }}>
+                        <Card.Img variant="top" src={CardTest} alt={"img not found"}/>
+                    </Card>
+                ) }
             </Container>
         </Navbar>
     );

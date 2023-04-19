@@ -13,7 +13,7 @@ import HomeWithPlayerContext from "../components/HomePage/Home.jsx";
 import PlaylistCover from "../components/Playlist/PlaylistCover.jsx";
 import PlaylistContent from "../components/Playlist/PlaylistContent.jsx";
 import PlayerContext from "../utils/AppContextProvider.jsx"
-
+import UserDetail from "../components/LoginPage/UserDetail.jsx";
 
 function RouterFunc() {
     // const [showPlayer, setShowPlayer] = useState(false);
@@ -25,7 +25,7 @@ function RouterFunc() {
                 <Route index path="/home" element={<HomeWithPlayerContext/>} exact/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path="/playlist/:id" element={<PlaylistContent/>} />
-
+                <Route path="/user/detail" element={<UserDetail />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
 
