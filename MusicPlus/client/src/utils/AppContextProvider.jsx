@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import b from "../static/b.mp3";
 import Player from "../components/Layout/Player.jsx";
 import axios from "axios";
-import PlayListNotification from "../components/Notification/PlayListNotification.jsx";
+import PlayListNotification from "../components/Notification/GlobalNotification.jsx";
 import TemporaryPlayList from "../components/Playlist/TemporaryPlayList.jsx";
 import {audioStreamToBlob, fetchSongDetailsAsync, formatDateTime, formatSinger} from "./commentUtils.js";
 import {BACKEND_API} from "./env.js";
