@@ -5,16 +5,26 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {DropdownButton, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {BACKEND_API} from "../utils/env.js";
-import PlayerContext, {NotificationContext, TemporaryPlayListContext} from "../utils/AppContextProvider.jsx";
+import PlayerContext, {
+    NotificationContext,
+    TemporaryPlayListContext,
+    UserContext
+} from "../utils/AppContextProvider.jsx";
 
 
 function SongList({songList}) {
-    const {currentPlayList,setCurrentPlayList} = useContext(PlayerContext);
+    const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
     const {show, setShow} = useContext(NotificationContext)
-    const { removeTemporaryPlaylist,addToTemporaryPlaylist, addToCurrentPlaylist,showTemporaryPlaylist} = useContext(TemporaryPlayListContext)
+    const {
+        removeTemporaryPlaylist,
+        addToTemporaryPlaylist,
+        addToCurrentPlaylist,
+        showTemporaryPlaylist
+    } = useContext(TemporaryPlayListContext)
+    const {userPlaylist, setUserPlaylist, userDetail} = useContext(UserContext)
 
-    async function handleAddToPlayer(song){
+    async function handleAddToPlayer(song) {
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
         // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
         // let formattedSinger = ''
@@ -40,13 +50,13 @@ function SongList({songList}) {
         let lyricData = await lyricResponse.json();
         const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
         let songData = await songFile.blob()
-        songData=URL.createObjectURL(songData)
+        songData = URL.createObjectURL(songData)
         let formattedSinger = ''
         for (const i in song.singer) {
             formattedSinger = song.singer[i].name + '/'
         }
-        formattedSinger = formattedSinger.substring(0,formattedSinger.length-1)
-        const musicDetail ={
+        formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+        const musicDetail = {
             _id: song._id,
             name: song.name,
             singer: formattedSinger,
@@ -60,8 +70,22 @@ function SongList({songList}) {
 
     }
 
-    function handleAddToTemporaryList(song){
+    function handleAddToTemporaryList(song) {
         addToTemporaryPlaylist(song)
+    }
+
+    async function handleAddSongToMyPlayList(song, playListId) {
+        console.log(playListId)
+        console.log(song._id)
+        const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
+            "_id":playListId,
+            "songs":[`${song._id}`]
+        }, {headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }}).catch((err)=>{
+                console.log(err)
+        })
     }
 
     return (
@@ -93,7 +117,7 @@ function SongList({songList}) {
                             <td>{song.singer.map((singer, index) => (singer.name))}</td>
                             <td>{song.album.name}</td>
                             {/*<td>{song.style.name}</td>*/}
-                            <td style={{width:100}}>
+                            <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
                                     title="+ Add"
@@ -101,22 +125,31 @@ function SongList({songList}) {
                                     size={"sm"}
                                     variant="outline-secondary"
                                 >
-                                    <Dropdown.Item
-                                        eventKey="1"
-                                    >Action</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
-                                    <Dropdown.Divider />
+                                    {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
+                                    {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
+                                    {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
+                                    {userPlaylist.map((value, key) => (
+                                        <div key={key}>
+                                            <Dropdown.Item
+                                                eventKey={`${key}`}
+                                                onClick={() => handleAddSongToMyPlayList(song, value._id)}
+                                            >
+                                                {value.name}
+                                            </Dropdown.Item>
+                                        </div>
+
+                                    ))}
+                                    <Dropdown.Divider/>
                                     <Dropdown.Item
                                         eventKey="4"
-                                        onClick={()=>handleAddToPlayer(song)}
+                                        onClick={() => handleAddToPlayer(song)}
                                         //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
                                     >
                                         Current playlist
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         eventKey="5"
-                                        onClick={()=>handleAddToTemporaryList(song)}
+                                        onClick={() => handleAddToTemporaryList(song)}
                                     >
                                         Temporary playlist
                                     </Dropdown.Item>

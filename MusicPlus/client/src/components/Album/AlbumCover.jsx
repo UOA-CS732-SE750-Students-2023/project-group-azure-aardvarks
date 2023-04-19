@@ -1,4 +1,7 @@
 import PlaylistCover from "../Playlist/PlaylistCover.jsx";
+import {useParams} from "react-router-dom";
+import Layout from "../Layout/Layout.jsx";
+import SongList from "../SongList.jsx";
 
 /**
  * Album cover is a type of playlist cover

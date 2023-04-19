@@ -24,11 +24,13 @@ export default PlayerContext;
 
 /**
  * Put it to the Root component. Global user status management.
+ * Load the information of current user
  * @param children  Root entry
  * @returns {JSX.Element}
  */
 export function UserProvider({ children }) {
     const [userDetail, setUserDetail] = useState({});
+    const [userPlaylist, setUserPlaylist] = useState([]);
     const expiresDate = new Date();
     expiresDate.setDate(expiresDate.getDate() + 30);
     const setCookieUserDetail = (detail) => {
@@ -55,9 +57,25 @@ export function UserProvider({ children }) {
         fetchUserDetail();
     }, []);
 
+    useEffect( () => {
+        const getMyPlayList = async ()=>{
+            if (userDetail._id === undefined){
+                setUserPlaylist([])
+            }else {
+                const myPlayList = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${userDetail._id}`)
+                setUserPlaylist(myPlayList.data.data)
+            }
+        }
+        getMyPlayList()
+    },[userDetail]) // Once user updated, the render the playlist again
+
     const context = {
         userDetail,
-        setUserDetail: setCookieUserDetail,
+        // setUserDetail: setCookieUserDetail,
+        setUserDetail,
+        setCookieUserDetail,
+        userPlaylist,
+        setUserPlaylist
     };
 
     return (
