@@ -10,28 +10,48 @@ import PlayerContext from "../utils/AppContextProvider.jsx";
 
 function SongList({songList}) {
     const {currentPlayList,setCurrentPlayList} = useContext(PlayerContext);
-    async function handleAddToPlayer(id,singerList=null, name=null){
-
+    async function handleAddToPlayer(song){
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
-        const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
+        // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
+        // let formattedSinger = ''
+        // for (const i in singerList) {
+        //     formattedSinger = singerList[i].name + '-'
+        // }
+        //
+        //
+        // const uint8Array = new Uint8Array(response.data);
+        // const blob = new Blob([uint8Array], {type: "audio/mp3"}); // convert Uint8Array to Blob with a mp3 type
+        // const musicSrc = URL.createObjectURL(blob); // use blob to create a temporary address, like ./xxx.mp3
+        //                                             // once you close your browser, the blob will destroy
+        //
+        // const musicDetail = {
+        //     name:name,
+        //     singer:formattedSinger,
+        //     musicSrc:musicSrc
+        // }
+
+        const lyricResponse = await fetch(
+            "http://127.0.0.1:3000/api/music/lyric/" + song._id
+        );
+        let lyricData = await lyricResponse.json();
+        const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
+        let songData = await songFile.blob()
+        songData=URL.createObjectURL(songData)
         let formattedSinger = ''
-        for (const i in singerList) {
-            formattedSinger = singerList[i].name + '-'
+        for (const i in song.singer) {
+            formattedSinger = song.singer[i].name + '/'
         }
-
-
-        const uint8Array = new Uint8Array(response.data);
-        const blob = new Blob([uint8Array], {type: "audio/mp3"}); // convert Uint8Array to Blob with a mp3 type
-        const musicSrc = URL.createObjectURL(blob); // use blob to create a temporary address, like ./xxx.mp3
-                                                    // once you close your browser, the blob will destroy
-
-        const musicDetail = {
-            name:name,
-            singer:formattedSinger,
-            musicSrc:musicSrc
+        formattedSinger = formattedSinger.substring(0,formattedSinger.length-1)
+        const musicDetail ={
+            _id: song._id,
+            name: song.name,
+            singer: formattedSinger,
+            cover: song.album.picUrl,
+            musicSrc: songData,
+            lyric: lyricData.data,
         }
-
         setCurrentPlayList([...currentPlayList,musicDetail])
+
 
     }
 
@@ -39,7 +59,6 @@ function SongList({songList}) {
 
     return (
         <>
-
             <div style={{paddingBottom: 15}}>
                 <Button variant="light"
                         style={{
@@ -81,7 +100,8 @@ function SongList({songList}) {
                                     <Dropdown.Divider />
                                     <Dropdown.Item
                                         eventKey="4"
-                                        onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
+                                        onClick={()=>handleAddToPlayer(song)}
+                                        //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
                                     >
                                         Current playlist
                                     </Dropdown.Item>
