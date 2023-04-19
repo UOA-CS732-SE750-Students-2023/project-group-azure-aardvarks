@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import LoginForm from "../components/LoginPage/LoginForm.jsx";
+import React, {useState, useEffect} from "react";
+import Cookies from 'js-cookie';
 import b from "../static/b.mp3";
 import Player from "../components/Layout/Player.jsx";
 
@@ -19,16 +19,32 @@ export default PlayerContext;
  * @param children  Root entry
  * @returns {JSX.Element}
  */
-export function UserProvider({children}){
-    const [userDetail, setUserDetail] = useState({})
+export function UserProvider({ children }) {
+    const [userDetail, setUserDetail] = useState({});
+    const expiresDate = new Date();
+    expiresDate.setDate(expiresDate.getDate() + 30);
+    const setCookieUserDetail = (detail) => {
+        setUserDetail(detail);
+        Cookies.set('userDetail', JSON.stringify(detail), { expires: expiresDate }); // 有效期为30天
+    };
+
+    useEffect(() => {
+        const cookieUserDetail = Cookies.get('userDetail');
+        if (cookieUserDetail) {
+            setUserDetail(JSON.parse(cookieUserDetail));
+        }
+    }, []);
+
     const context = {
-        userDetail, setUserDetail
-    }
+        userDetail,
+        setUserDetail: setCookieUserDetail,
+    };
+
     return (
         <UserContext.Provider value={context}>
             {children}
         </UserContext.Provider>
-    )
+    );
 }
 
 /**
