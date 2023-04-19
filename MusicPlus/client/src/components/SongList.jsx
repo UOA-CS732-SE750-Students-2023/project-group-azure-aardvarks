@@ -5,12 +5,11 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {DropdownButton, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {BACKEND_API} from "../utils/env.js";
-import {PlayerContext} from "../utils/AppContextProvider.jsx";
-import {PlaylistContext} from "../utils/AppContextProvider.jsx";
+import PlayerContext from "../utils/AppContextProvider.jsx";
 
 
 function SongList({songList}) {
-    const {currentPlayList,setCurrentPlayList} = useContext(PlaylistContext);
+    const {currentPlayList,setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
     async function handleAddToPlayer(song){
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
