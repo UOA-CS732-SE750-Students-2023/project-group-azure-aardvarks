@@ -2,14 +2,16 @@ import Table from "react-bootstrap/Table";
 import React, {useContext, useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {DropdownButton} from "react-bootstrap";
+import {DropdownButton, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {BACKEND_API} from "../utils/env.js";
-import PlayerContext from "../utils/AppContextProvider.jsx";
+import {PlayerContext} from "../utils/AppContextProvider.jsx";
+import {PlaylistContext} from "../utils/AppContextProvider.jsx";
 
 
 function SongList({songList}) {
-    const {currentPlayList,setCurrentPlayList} = useContext(PlayerContext);
+    const {currentPlayList,setCurrentPlayList} = useContext(PlaylistContext);
+    const [isLoading, setIsLoading] = useState(false); // Add isLoading state
     async function handleAddToPlayer(song){
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
         // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
@@ -29,7 +31,7 @@ function SongList({songList}) {
         //     singer:formattedSinger,
         //     musicSrc:musicSrc
         // }
-
+        setIsLoading(true);
         const lyricResponse = await fetch(
             "http://127.0.0.1:3000/api/music/lyric/" + song._id
         );
@@ -51,7 +53,7 @@ function SongList({songList}) {
             lyric: lyricData.data,
         }
         setCurrentPlayList([...currentPlayList,musicDetail])
-
+        setIsLoading(false);
 
     }
 
@@ -112,6 +114,13 @@ function SongList({songList}) {
                     </tbody>
                 </Table>
             </div>
+            {isLoading && (
+                <div style={{}}>
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
+            )}
         </>
 
     )
