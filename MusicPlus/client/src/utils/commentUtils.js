@@ -30,6 +30,12 @@ export async function fetchSongDetailsAsync(songId){
     }
 }
 
+/**
+ * After you use axios to get a Arraybuffer  eg await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
+ * you can use "audioStreamToBlob" to get the audio blob file
+ * @param audioStream
+ * @return {string}
+ */
 export function audioStreamToBlob(audioStream){
     const uint8Array = new Uint8Array(audioStream.data);
     const blob = new Blob([uint8Array], {type: "audio/mp3"});
@@ -37,6 +43,11 @@ export function audioStreamToBlob(audioStream){
     return musicSrc
 }
 
+/**
+ * format date
+ * @param date Date() type
+ * @return {string} 2323-10-10 23:23:00
+ */
 export function formatDateTime(date) {
     const formatter = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -58,16 +69,16 @@ export function formatDateTime(date) {
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
-
+/**
+ * @param singerList eg ["a", "b"]
+ * @return {string} a/b
+ */
 export function formatSinger(singerList){
     let formattedSinger = ''
-    for (const i in singerList.singer) {
-        formattedSinger = singerList.singer[i].name + '/'
+    for (const i in singerList) {
+        formattedSinger = singerList[i].name + '/'
     }
     formattedSinger = formattedSinger.substring(0,formattedSinger.length-1)
     return formattedSinger
 }
 
-// export function fetchSongInParallel(songId){
-//
-// }

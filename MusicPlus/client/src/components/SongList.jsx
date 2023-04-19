@@ -54,7 +54,8 @@ function SongList({songList}) {
             musicSrc: songData,
             lyric: lyricData.data,
         }
-        setCurrentPlayList([...currentPlayList,musicDetail])
+        // setCurrentPlayList([...currentPlayList,musicDetail])
+        setCurrentPlayList(prevList => [...prevList, musicDetail])
         setIsLoading(false);
 
     }

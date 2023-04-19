@@ -129,29 +129,25 @@ export function TemporaryPlaylistProvider({children}){
         setTemporaryPlaylistDetail([])
     }
     const addToCurrentPlaylist = async () =>{
-        const result = []
 
         for (const i in songList) {
             const request = await fetchSongDetailsAsync(songList[i]._id)
             const lyric = request.lyric
             const audioStream = request.audioStream
 
-            console.log(lyric)
             const musicSrc = audioStreamToBlob(audioStream)
             const musicDetail = {
                 _id:songList[i]._id,
                 name:songList[i].name,
                 cover:songList[i].album.picUrl,
                 musicSrc:musicSrc,
-                lyric:lyric.data.data
+                lyric:lyric.data.data,
+                singer:formatSinger(songList[i].singer)
             }
             // React 函数式更新(Functional updates)， 不会改变之前的状态，而是通过创建新的数组实现状态更新，这有助于避免副作用带来的各种问题
             setCurrentPlayList(prevList => [...prevList, musicDetail])
             // setCurrentPlayList([...currentPlayList, musicDetail])
         }
-
-
-
     }
     const showTemporaryPlaylist = () =>{
         setShow(true)
