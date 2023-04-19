@@ -19,7 +19,6 @@ function LayoutHeader() {
         }
         console.log('You selected key: ', selectedKey);
     }
-    console.log(userDetail._id === undefined)
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>

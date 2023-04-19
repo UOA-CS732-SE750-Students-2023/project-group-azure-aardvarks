@@ -12,12 +12,12 @@ import PlayerContext from "../../utils/AppContextProvider.jsx";
 
 function Player() {
     // newPlaylist();
-    const [audioLists, setAudioLists] = useState([])
 
-    const {currentPlayList} = useContext(PlayerContext)
+    const {currentPlayList,setCurrentPlayList } = useContext(PlayerContext)
 
-    function handleAudioListChange(){
-        console.log(1)
+    function handleAudioListChange(currentPlayId,audioLists,audioInfo){
+        setCurrentPlayList(audioLists)
+        //console.log(audioLists)
     }
     return (
         <div className="App">
@@ -37,8 +37,8 @@ function Player() {
 
                 // Change the Destroy function as a Show comment function
                 showDestroy={true}
-                onAudioListsChange={()=>{
-                    handleAudioListChange()
+                onAudioListsChange={(currentPlayId,audioLists,audioInfo)=>{
+                    handleAudioListChange(currentPlayId,audioLists,audioInfo)
                 }}
             />
         </div>
