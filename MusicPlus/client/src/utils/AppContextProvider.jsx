@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import Cookies from 'js-cookie';
 import b from "../static/b.mp3";
+import {useNavigate} from "react-router-dom";
 import Player from "../components/Layout/Player.jsx";
 import axios from "axios";
 import PlayListNotification from "../components/Notification/GlobalNotification.jsx";
@@ -41,7 +42,7 @@ export function UserProvider({ children }) {
     useEffect(() => {
         const fetchUserDetail = async () => {
             const cookieUserDetail = Cookies.get('userDetail');
-
+            console.log(cookieUserDetail)
             if (cookieUserDetail) {
                 const parsedUserDetail = JSON.parse(cookieUserDetail);
                 const detail = await axios.get(`${backendAPI}/api/user/logIn`, {
@@ -71,9 +72,7 @@ export function UserProvider({ children }) {
 
     const context = {
         userDetail,
-        // setUserDetail: setCookieUserDetail,
-        setUserDetail,
-        setCookieUserDetail,
+        setUserDetail: setCookieUserDetail,
         userPlaylist,
         setUserPlaylist
     };

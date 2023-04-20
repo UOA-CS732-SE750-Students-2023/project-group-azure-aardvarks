@@ -5,22 +5,21 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Card} from "react-bootstrap";
 import CardTest from '../../../public/download.jpg'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
+import user from "../../static/user.jpg"
 import {useContext} from "react";
-import Form from "react-bootstrap/Form";
-import {FaLock, FaUserCircle} from "react-icons/fa";
-import Button from "react-bootstrap/Button";
+
+import {useNavigate} from "react-router-dom";
 
 
 function LayoutHeader() {
+    const Navigate = useNavigate();
     const {userDetail, setUserDetail} = useContext(UserContext)
     function handleSelect(selectedKey) {
         if (selectedKey === "1"){
             setUserDetail({})
         }
         console.log('You selected key: ', selectedKey);
-
     }
-    console.log(userDetail)
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -43,30 +42,35 @@ function LayoutHeader() {
                         </NavDropdown>
                     </Nav>
 
-                    <Nav>
-                        {userDetail._id === undefined ? (
-                            <NavDropdown title={"Login"} >
-                                <NavDropdown.Item href="./#/login">Exist an account</NavDropdown.Item>
-                                <NavDropdown.Item href="./#/register">Register an account</NavDropdown.Item>
-                            </NavDropdown>
-                        ) : (
-                            <NavDropdown title={userDetail.username} onSelect={handleSelect}>
-                                <NavDropdown.Item href="./#/user/detail">User Detail</NavDropdown.Item>
-                                <NavDropdown.Item eventKey="1">Log out</NavDropdown.Item>
-                            </NavDropdown>
-                        )}
 
-                    </Nav>
                 </Navbar.Collapse>
-                {userDetail._id !== undefined ? (
-                <Card style={{ width: '35px' }}>
-                    <Card.Img variant="top" src={userDetail.avatar} alt={"img not found"}/>
-                </Card>
+                <div style={{display: "flex"}}>
+                    {userDetail._id === undefined ? (
+                        <span style={{color:"white"}} onClick={() => Navigate("/login")}>
+                    Log in
+                    </span>
                     ) : (
-                    <Card style={{ display: "none" }}>
-                        <Card.Img variant="top" src={CardTest} alt={"img not found"}/>
-                    </Card>
-                ) }
+                        <span style={{color:"white"}} onClick={() => Navigate("/user/detail")}>
+                    {userDetail.username}
+                    </span>
+                    )}
+
+                    {userDetail._id !== undefined ? (
+                        <Card style={{ width: '35px', marginLeft: "0.5vh"}}>
+                            {userDetail.avatar === "" || !userDetail.avatar? (
+                                <Card.Img variant="top" src={user} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
+                            ):(
+                                <Card.Img variant="top" src={userDetail.avatar} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
+                            )}
+
+                        </Card>
+                    ) : (
+                        <Card style={{ display: "none" }}>
+                            <Card.Img variant="top" src={CardTest} alt={"img not found"}/>
+                        </Card>
+                    ) }
+                </div>
+
             </Container>
         </Navbar>
     );
