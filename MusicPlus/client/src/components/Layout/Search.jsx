@@ -8,12 +8,13 @@ import {UserContext} from "../../utils/AppContextProvider.jsx";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import Toast from "react-bootstrap/Toast";
+import { useNavigate } from 'react-router-dom';
 import {Button} from "react-bootstrap";
 
 
 export default function Search(){
     const {userPlaylist} = useContext(UserContext);
-
+    const Navigate = useNavigate();
     return(
         <>
             <div id="cover" className={"mt-4"}>
@@ -39,7 +40,9 @@ export default function Search(){
                 {userPlaylist.map((value, i)=>(
                     <div className="wrap mt-4" key={i}>
                         {/*<Link to={`/playlist/${value._id}`}><Button variant={"light"}>{value.name}</Button></Link>*/}
-                        <PlayListButton to={`/playlist/${value._id}`} name={value.name}></PlayListButton>
+                        <Button variant="light" type="button" onClick={() => {Navigate(`/playlist/${value._id}`);}}>
+                            {value.name}
+                        </Button>
                     </div>
                 ))}
             </Row>
@@ -47,10 +50,4 @@ export default function Search(){
     )
 }
 
-function PlayListButton({to, name}){
-    return (
-        <>
-            <Link to={to}><Button variant={"light"} type={"button"}>{name}</Button></Link>
-        </>
-    )
-}
+

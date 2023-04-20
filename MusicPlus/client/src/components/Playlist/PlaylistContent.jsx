@@ -107,8 +107,10 @@ import PlayerContext from "../../utils/AppContextProvider.jsx";
 //     }
 // }
 function PlaylistContent() {
+
     const { addToast } = useToast();
     const { id } = useParams();
+
     const [playList, setPlayList] = useState({});
     const [loading, setLoading] = useState(true);
     const { setShowPlayer } = useContext(PlayerContext);
@@ -157,10 +159,17 @@ function PlaylistContent() {
         }
     };
 
-
     useEffect(() => {
+        setPlayList({})
+        setLoading(true);
         getPlayList();
-    }, []);
+
+    }, [id]);
+    // useEffect(() => {
+    //     setPlayList({})
+    //     setLoadingSong(true);
+    //     getPlayList();
+    // }, []);
 
     useEffect(()=>{
         getSongList();
