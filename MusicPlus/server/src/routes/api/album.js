@@ -12,7 +12,7 @@ router.get('/:id', async (req, res) => {
         let songsSearchData = await songsSearchResponse.json();
         return res.json(returnMsg(1, 200, {album: {name: songsSearchData.album.name, id: songsSearchData.album.id, picUrl: songsSearchData.album.picUrl, artist:{name:songsSearchData.album.artist.name, id:songsSearchData.album.artist.id, picUrl:songsSearchData.album.artist.picUrl}, size:songsSearchData.album.size} ,songs:songsSearchData.songs.map(song => ({name: song.name, id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id})), album: {name: song.al.name, id: song.al.id}}))}))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 

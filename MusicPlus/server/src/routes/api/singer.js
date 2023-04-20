@@ -11,7 +11,7 @@ router.get('/detail/:id', async (req, res) => {
         let singerSearchData = await singerSearchResponse.json();
         return res.json(returnMsg(1, 200, {name: singerSearchData.data.artist.name, id: singerSearchData.data.artist.id, image: singerSearchData.data.artist.cover, musicSize: singerSearchData.data.artist.musicSize, albumSize: singerSearchData.data.artist.albumSize}))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -25,7 +25,7 @@ router.get('/album/:id/:pagenum/:pagesize', async (req, res) => {
 
         return res.json(returnMsg(1, 200, singerSearchData.hotAlbums.map(album => ({name: album.name, id: album.id, picUrl: album.picUrl, artist:{name:album.artist.name, id:album.artist.id, picUrl:album.artist.picUrl}, size:album.size}))))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/songs/:id/:pagenum/:pagesize', async (req, res) => {
@@ -37,7 +37,7 @@ router.get('/songs/:id/:pagenum/:pagesize', async (req, res) => {
         let songsSearchData = await songsSearchResponse.json();
         return res.json(returnMsg(1, 200, songsSearchData.songs.map(song => ({name: song.name, id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id})), album: {name: song.al.name, id: song.al.id}}))))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 export default router;

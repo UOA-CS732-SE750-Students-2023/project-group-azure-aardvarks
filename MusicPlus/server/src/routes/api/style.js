@@ -25,7 +25,7 @@ router.get('/allStyle', async (req, res) => {
         //console.log(songSearchData)
         return res.json(returnMsg(1, 200, data))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -36,7 +36,7 @@ router.get('/songs/:id', async (req, res) => {
         let data = await getStyleSongs(id)
         return res.json(returnMsg(1, 200, data))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -54,7 +54,7 @@ router.get('/preference', auth,async (req, res) => {
         }
         return res.json(returnMsg(1, 200, result))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -73,7 +73,7 @@ router.post('/setPreference/:id', auth,async (req, res) => {
         await updateUser(user)
         return res.json(returnMsg(1, 200, await retrieveUserById(req.user_id)))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 export default router;

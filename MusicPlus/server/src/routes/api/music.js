@@ -23,7 +23,7 @@ router.get('/play/:id', async (req, res) => {
         res.setHeader('Content-Type', musicFileResponse.headers.get('Content-Type'));
         await pipelineAsync(musicFileResponse.body, res);
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/image/:id', async (req, res) => {
@@ -40,7 +40,7 @@ router.get('/image/:id', async (req, res) => {
         res.setHeader('Content-Type', imageFileResponse.headers.get('Content-Type'));
         await pipelineAsync(imageFileResponse.body, res);
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/lyric/:id', async (req, res) => {
@@ -51,7 +51,7 @@ router.get('/lyric/:id', async (req, res) => {
         const data = await response.json();
         return res.json(returnMsg(1,200,data.lrc.lyric))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -71,7 +71,7 @@ router.get('/detail/:id', async (req, res) => {
             name: name, singer: data.songs[0].ar, album: data.songs[0].al,style: {id: styleTagId, name: style}
         }))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 

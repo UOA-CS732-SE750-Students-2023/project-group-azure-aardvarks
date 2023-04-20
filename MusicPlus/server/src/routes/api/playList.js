@@ -35,7 +35,7 @@ router.post('/newPlayList', auth, async (req, res) => {
 
         return res.send(returnMsg(0, 422, "Error!"));
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/allPlayList', async (req, res) => {
@@ -44,7 +44,7 @@ router.get('/allPlayList', async (req, res) => {
         return res.json(returnMsg(1, HTTP_OK, await retrievePlayListsListPublic()) )
     }
     catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/searchPlayListByName/:id', async (req, res) => {
@@ -55,7 +55,7 @@ router.get('/searchPlayListByName/:id', async (req, res) => {
 
         return res.json(returnMsg(1, HTTP_OK, playLists))
     }catch (e){
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/searchPlayListById/:id', async (req, res) => {
@@ -76,7 +76,7 @@ router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
         const { id } = req.params;
         return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.post('/addSong', auth,async (req, res) => {
@@ -108,7 +108,7 @@ router.post('/addSong', auth,async (req, res) => {
         }
         return res.json(returnMsg(0, 500, "ID Error!"))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 
 });
@@ -134,7 +134,7 @@ router.delete('/deleteSong', auth,async (req, res) => {
         }
         return res.json(returnMsg(0, 500, "ID Error!"))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.put('/changePlayListInfo', auth,async (req, res) => {
@@ -155,7 +155,7 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
         }
         return res.json(returnMsg(0, 500, "ID Error!"))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 
@@ -163,36 +163,41 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
  * Take a number of public playlist randomly. takes min(num, playList.length)
  */
 router.get('/random/:num',async (req, res)=>{
-    let {num} = req.params
+    try{
+        let {num} = req.params
 
-    num = Number(num)
-    if(isNaN(num)){
-        return res.send(returnMsg(0, 500, "type error: " + num))
+        num = Number(num)
+        if(isNaN(num)){
+            return res.send(returnMsg(0, 500, "type error: " + num))
+        }
+
+        const pipeline = []
+        pipeline.push({
+            $match:{
+                private:false
+            }
+        })
+        pipeline.push({
+            $sample:{
+                size:num
+            }
+        })
+
+        const result = await playList.aggregate(pipeline)
+
+        for (const resultKey in result) {
+            const author = await retrieveUserBaseProfile(result[resultKey].owner)
+            result[resultKey].owner = author
+            result[resultKey].createdAt = formatDateTime(result[resultKey].createdAt)
+            result[resultKey].updatedAt = formatDateTime(result[resultKey].updatedAt)
+            // result[resultKey].updatedAt = result[resultKey].updatedAt.format("yyyy-MM-dd:mm")
+        }
+
+        return res.send(returnMsg(1, 200, result))
+    }catch (e) {
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 
-    const pipeline = []
-    pipeline.push({
-        $match:{
-            private:false
-        }
-    })
-    pipeline.push({
-        $sample:{
-            size:num
-        }
-    })
-
-    const result = await playList.aggregate(pipeline)
-
-    for (const resultKey in result) {
-        const author = await retrieveUserBaseProfile(result[resultKey].owner)
-        result[resultKey].owner = author
-        result[resultKey].createdAt = formatDateTime(result[resultKey].createdAt)
-        result[resultKey].updatedAt = formatDateTime(result[resultKey].updatedAt)
-        // result[resultKey].updatedAt = result[resultKey].updatedAt.format("yyyy-MM-dd:mm")
-    }
-
-    return res.send(returnMsg(1, 200, result))
 })
 
 

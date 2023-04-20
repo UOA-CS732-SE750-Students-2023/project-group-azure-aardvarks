@@ -21,7 +21,7 @@ router.get('/search/:id/:pagenum/:pagesize', async (req, res) => {
         albumSearchData = albumSearchData.result.albums.map(album => ({name: album.name, id: album.id, picUrl: album.picUrl, artist:{name:album.artist.name, id:album.artist.id, picUrl:album.artist.picUrl}, size:album.size}))
         return res.json(returnMsg(1, 200, {song: songSearchData, singer: singerSearchData, playlist: await retrievePlayList(id), album:albumSearchData}))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 router.get('/similarSongs/:id', async (req, res) => {
@@ -34,7 +34,7 @@ router.get('/similarSongs/:id', async (req, res) => {
         //console.log(songSearchData)
         return res.json(returnMsg(1, 200, {song: songSearchData}))
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
 

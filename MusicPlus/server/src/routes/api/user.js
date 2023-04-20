@@ -30,9 +30,9 @@ router.post('/newUser', async (req, res) => { //创建user
             .header('Location', `/api/user/logIn/${newUser._id}`)
             .json(returnMsg(1, HTTP_OK, newUser));
 
-        return res.sendStatus(422).json(returnMsg(0, 422, "Error"));
+        return res.status(422).json(returnMsg(0, 422, "Error"));
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 
 });
@@ -42,7 +42,7 @@ router.get('/logIn',auth, async (req, res) => { //登录
         return res.header('Location', `/api/user/logIn/${user._id}`)
             .json(returnMsg(1,HTTP_OK, user));
     }catch (e) {
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 
 });
@@ -59,9 +59,9 @@ router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，
             .header('Location', `/api/user/logIn/${User._id}`)
             .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
 
-        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+        return res.status(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
     }catch (e){
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 
 })
@@ -74,7 +74,7 @@ router.get('/validUsername/:username',  async (req,res) => { //检查username是
         console.log(user)
         return res.status(HTTP_OK).json(returnMsg(1, HTTP_OK, user.length === 0))
     }catch (e){
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 })
 router.put('/changePassword',  auth,async (req,res) => { //修改密码
@@ -99,7 +99,7 @@ router.put('/changePassword',  auth,async (req,res) => { //修改密码
 
         return res.status(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
     }catch (e){
-        console.log(e)
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 })
 
