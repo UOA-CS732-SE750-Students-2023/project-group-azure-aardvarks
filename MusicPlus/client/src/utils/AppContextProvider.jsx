@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import Cookies from 'js-cookie';
 import b from "../static/b.mp3";
-import {useNavigate} from "react-router-dom";
 import Player from "../components/Layout/Player.jsx";
 import axios from "axios";
 
@@ -92,11 +91,7 @@ export function UserProvider({ children }) {
  */
 export function PlayerProvider({children}){
     // use fake data, delete this at the end
-    const [currentPlayList, setCurrentPlayList] = useState([{
-        name: "b",
-        singer: "b",
-        musicSrc: b
-    }])
+    const [currentPlayList, setCurrentPlayList] = useState([])
     const [showPlayer, setShowPlayer] = useState(false);
 
 

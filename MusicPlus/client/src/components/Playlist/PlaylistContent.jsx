@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+
 import default_photo from '../../../public/default_photo.png'
-import Table from 'react-bootstrap/Table';
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import './index.css'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
@@ -10,7 +8,6 @@ import SongList from "../SongList.jsx";
 import Layout from "../Layout/Layout.jsx";
 import {useParams} from "react-router-dom";
 
-import {render} from "react-dom";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import {Spinner} from "react-bootstrap";
