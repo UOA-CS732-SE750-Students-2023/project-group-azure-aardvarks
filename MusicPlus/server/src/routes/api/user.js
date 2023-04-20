@@ -9,7 +9,7 @@ import {
     retrieveUser,
     updateUser,
     deleteUser,
-    vaildUser
+    vaildUser, retrieveUserByIdWithPass
 } from "../../Database/User-dao.js";
 import basicAuth from "basic-auth";
 import {returnMsg} from "../../utils/commonUtils.js";
@@ -48,7 +48,8 @@ router.get('/logIn',auth, async (req, res) => { //登录
 });
 router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
     try{
-        if (!new ObjectId(req.user_id).equals(req.body._id)){
+        const vaild = retrieveUserById(req.user_id)
+        if (!new ObjectId(req.user_id).equals(req.body._id) && req.body.password !== vaild.password && req.body.username !== vaild.username){
             res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
             res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
             return res
@@ -58,12 +59,14 @@ router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，
             .header('Location', `/api/user/logIn/${User._id}`)
             .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
 
-        return res.status(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+        return res.sendStatus(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
     }catch (e){
         console.log(e)
     }
 
 })
+
+
 router.get('/validUsername/:username',  async (req,res) => { //检查username是否可用
     try{
         const { username } = req.params;
@@ -73,6 +76,31 @@ router.get('/validUsername/:username',  async (req,res) => { //检查username是
     }catch (e){
         console.log(e)
     }
-
 })
+router.put('/changePassword',  auth,async (req,res) => { //修改密码
+    try{
+        if (!new ObjectId(req.user_id).equals(req.body._id)){
+            res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+            res.status(401).json(returnMsg(0, 401, 'Authorization Required'));
+            return res
+        }
+        const User = await retrieveUserByIdWithPass(req.body._id);
+        console.log(User)
+        if (User.password !== req.body.oldPassword){
+            res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
+            res.status(401).json(returnMsg(0, 401, 'Wrong password'));
+            return res
+        }
+        User.password = req.body.newPassword
+        const user = updateUser(User)
+        if (user !== null) return res.status(HTTP_OK)
+            .header('Location', `/api/user/logIn/${User._id}`)
+            .json(returnMsg(1, HTTP_OK, await retrieveUserById(User._id)));
+
+        return res.status(HTTP_NOT_FOUND).json(returnMsg(0, HTTP_NOT_FOUND));
+    }catch (e){
+        console.log(e)
+    }
+})
+
 export default router;

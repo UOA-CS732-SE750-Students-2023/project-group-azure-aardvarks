@@ -16,19 +16,28 @@ async function createUser(user) {
         await favoriteMusic.save()
         return dbUser;
     }
-   else {
-       return {"Error": "Username unavailable!"}
+    else {
+        return {"Error": "Username unavailable!"}
     }
 }
 
 async function retrieveUsersList() {
-    return await User.find();
+    const user = await User.find()
+    return user.map(user => ({address: user.address, dateOfBirth: user.dateOfBirth, email: user.email, favoriteMusic: user.favoriteMusic, firstName: user.firstName, lastName:user.lastName, favoritePlayList: user.favoritePlayList, username: user.username, _id:user._id}));
 }
 async function retrieveUser(username) {
-    return await User.find({username: username});
+    const user = await User.find({username: username})
+    return user
+    //return user.map(user => ({address: user.address, dateOfBirth: user.dateOfBirth, email: user.email, favoriteMusic: user.favoriteMusic, firstName: user.firstName, lastName:user.lastName, favoritePlayList: user.favoritePlayList, username: user.username, _id:user._id}));
 }
 async function retrieveUserById(id) {
-    return await User.findById(id);
+    const user = await User.findById(id)
+    return user
+    //return {address: user.address, dateOfBirth: user.dateOfBirth, email: user.email, favoriteMusic: user.favoriteMusic, firstName: user.firstName, lastName:user.lastName, favoritePlayList: user.favoritePlayList, username: user.username, _id:user._id};
+}
+async function retrieveUserByIdWithPass(id) {
+    const user = await User.findById(id)
+    return user
 }
 async function vaildUser(credentials) {
     if (credentials){
@@ -57,8 +66,6 @@ async function updateUser(user) {
 async function deleteUser(id) {
     await User.deleteOne({ _id: id });
 }
-
-
 /**
  * return the basic profile of a user
  * @param id user id
@@ -81,14 +88,14 @@ async function retrieveUserBaseProfile(id){
         "musicGenre": user.musicGenre,
     }
 }
-
 export {
     createUser,
     retrieveUserById,
     retrieveUsersList,
     retrieveUser,
-    retrieveUserBaseProfile,
     updateUser,
     deleteUser,
-    vaildUser
+    vaildUser,
+    retrieveUserByIdWithPass,
+    retrieveUserBaseProfile
 }
