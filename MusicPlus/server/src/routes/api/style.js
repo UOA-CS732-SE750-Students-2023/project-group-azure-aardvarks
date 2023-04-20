@@ -1,8 +1,9 @@
 import * as dotenv from 'dotenv';
-import {returnMsg} from "../../utils/commonUtils.js";
+import {formatDateTime, returnMsg} from "../../utils/commonUtils.js";
 import express from "express";
 import {auth} from "../../middleware/auth.js";
 import {retrieveUserById, updateUser} from "../../Database/User-dao.js";
+import {playList} from "../../Database/Schemas/Schema.js";
 dotenv.config();
 
 const router = express.Router();
@@ -11,8 +12,12 @@ async function getStyleSongs(styleId) {
     const response = await fetch(process.env.NeteaseCloudMusicApi + `/style/song?tagId=${styleId}&sort=0`);
     let data = await response.json();
     data = data.data.songs
-    data = data.map(song => ({name: song.name, id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id})), album: {name: song.al.name, id: song.al.id}}))
-    return data
+    const result = []
+    for (const song in data){
+        result.push(data[song].id)
+    }
+    //data = data.map(song => ({id: song.id, artists: song.ar.map(artist => ({name: artist.name, id: artist.id})), album: {name: song.al.name, id: song.al.id}}))
+    return result
 }
 
 router.get('/allStyle', async (req, res) => {
@@ -50,9 +55,31 @@ router.get('/preference', auth,async (req, res) => {
         for (let userGenre in top5UserGenre){
             let data = await getStyleSongs(top5UserGenre[userGenre].type1)
             data = data.slice(0,10)
-            result.push(data.sort(() => 0.5 - Math.random()).slice(0, 2));
+            //result.push(data.sort(() => 0.5 - Math.random()).slice(0, 2));
+            const temp = data.sort(() => 0.5 - Math.random()).slice(0, 2)
+            for (const t in temp){
+                result.push(temp[t])
+            }
         }
-        return res.json(returnMsg(1, 200, result))
+        let list = {
+            "_id": user._id,
+            "username": user.username,
+            "email": user.email,
+            "favoritePlayList": user.favoritePlayList,
+            "musicGenre": user.musicGenre,
+            "favoriteMusic": user.favoriteMusic
+        }
+        const now = new Date();
+        const result1 = {
+            "_id" : "125154"+list._id,
+            "name":"Random Recommendation",
+            "private":true,
+            "songs":result,
+            "createAt":now.toLocaleString(),
+            "updatedAt":now.toLocaleString(),
+            "owner": list
+        }
+        return res.json(returnMsg(1, 200, result1))
     }catch (e) {
         console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }

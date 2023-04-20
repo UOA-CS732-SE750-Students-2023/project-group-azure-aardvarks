@@ -17,96 +17,8 @@ import {Spinner} from "react-bootstrap";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
 
 
-// function PlaylistContent(props){
-//
-//     // console.log(props.playlist)
-//     return (
-//         <Modal
-//             {...props}
-//             size="xl"
-//             aria-labelledby="contained-modal-title-vcenter"
-//             centered
-//         >
-//             <Modal.Header closeButton >
-//                 <Modal.Title id="contained-modal-title-vcenter">
-//                     {/*{props.playlist.name}*/}
-//                 </Modal.Title>
-//             </Modal.Header>
-//             <Modal.Body className={"playlist-body"}>
-//                 <div className={"playlist-body-cover"}>
-//                     <img src={default_photo} width={171} height={180} className={"playlist-body-cover-img"}/>
-//                     <div className={"playlist-body-cover-info"}>
-//                         <div className={"playlist-body-cover-info-title"}>
-//                             {props.playlist.name}
-//                         </div>
-//                         <div className={"playlist-body-cover-info-author"}>
-//                             {props.playlist.owner.username} update at: {props.playlist.updatedAt}
-//                         </div>
-//                         <div className={"playlist-body-cover-info-description"}>
-//                             {props.playlist.description}
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <hr/>
-//                 <div className={"playlist-body-songs-info"}>
-//                     <SongList/>
-//                 </div>
-//             </Modal.Body>
-//             <Modal.Footer>
-//                 <Button onClick={props.onHide}>Close</Button>
-//             </Modal.Footer>
-//         </Modal>
-//     );
-//
-// }
 
-
-// const {setShowPlayer} = useContext(PlayerContext);
-//
-// const {playList, setPlayList} = useState({});
-
-// class PlaylistContent extends React.Component{
-//     state = {
-//         playList:{}
-//     }
-//
-//
-//     // has to use an async method once Mounting a component
-//     async componentDidMount() {
-//         console.log(this.props)
-//         // const {id} = this.props.match.params
-//         // async function getPlayList() {
-//         //     await axios.get(`${BACKEND_API}/api/playList/searchPlayListById/${id}`).then(
-//         //         (res)=>{console.log(res.data.data)}
-//         //     )
-//         // }
-//         // await getPlayList()
-//     }
-//     render(){
-//         return (
-//             <Layout>
-//                 <div className={"playlist-body-cover"}>
-//                     <img src={default_photo} width={171} height={180} className={"playlist-body-cover-img"}/>
-//                     <div className={"playlist-body-cover-info"}>
-//                         {/*<div className={"playlist-body-cover-info-title"}>*/}
-//                         {/*    {playList.name}</div>*/}
-//                         {/*<div className={"playlist-body-cover-info-author"}>*/}
-//                         {/*    {playList.owner.username} update at: {playList.updatedAt}*/}
-//                         {/*</div>*/}
-//                         {/*<div className={"playlist-body-cover-info-description"}>*/}
-//                         {/*    {playList.description}*/}
-//                         {/*</div>*/}
-//                     </div>
-//                 </div>
-//                 <hr/>
-//                 <div className={"playlist-body-songs-info"}>
-//                     <SongList/>
-//                 </div>
-//             </Layout>
-//         )
-//     }
-// }
-function PlaylistContent() {
+function PlaylistContent(props) {
 
     const { addToast } = useToast();
     const { id } = useParams();
@@ -126,7 +38,7 @@ function PlaylistContent() {
 
     const getPlayList = async () => {
         try {
-            const response = await axios.get(`${BACKEND_API}/api/playList/searchPlayListById/${id}`);
+            const response = await axios.get(`${BACKEND_API}/api${props.link}/${id}`);
             setPlayList(response.data.data);
             setLoading(false)
         } catch (error) {

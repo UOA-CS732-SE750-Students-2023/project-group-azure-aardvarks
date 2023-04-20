@@ -28,12 +28,13 @@ class Home extends React.Component{
                     this.setState({playList:playListDetail.data.data})
                 }
             }
+            await getPlayList()
         }catch (e) {
             console.log(e);
 
         }
 
-        await getPlayList()
+
 
     }
 
