@@ -131,6 +131,7 @@ function PlaylistContent() {
             setLoading(false)
         } catch (error) {
             console.log(error);
+            addToast("Something wrong! We will fix it ASAP!")
         }
     };
 
@@ -149,6 +150,7 @@ function PlaylistContent() {
                     return result
                 } catch (err) {
                     console.log(err);
+                    addToast("Something wrong! We will fix it ASAP!")
                     return null;
                 }
             })

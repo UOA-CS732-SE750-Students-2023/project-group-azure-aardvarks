@@ -75,6 +75,7 @@ function Register(){
                 // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
             } catch (error) {
                 console.error('Error posting data:', error);
+                addToast("Something wrong! We will fix it ASAP!")
             }
         }
     };

@@ -103,6 +103,7 @@ function UserDetail(){
             // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
         } catch (error) {
             console.error('Error posting data:', error);
+            addToast("Something wrong! We will fix it ASAP!")
         }
     }
     async function changePassword(event) {
@@ -133,10 +134,11 @@ function UserDetail(){
                 // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
             } catch (error) {
                 console.error('Error posting data:', error);
+                addToast("Something wrong! We will fix it ASAP!")
             }
         }
         else {
-            alert("Passwords do not match")
+            addToast("Passwords do not match!")
         }
     }
     function handleFileSelect(e) {

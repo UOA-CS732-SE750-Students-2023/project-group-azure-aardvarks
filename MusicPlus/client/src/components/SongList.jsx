@@ -45,31 +45,38 @@ function SongList({songList}) {
         //     singer:formattedSinger,
         //     musicSrc:musicSrc
         // }
-        setIsLoading(true);
-        const lyricResponse = await fetch(
-            "http://127.0.0.1:3000/api/music/lyric/" + song._id
-        );
-        let lyricData = await lyricResponse.json();
-        const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
-        let songData = await songFile.blob()
-        songData = URL.createObjectURL(songData)
-        let formattedSinger = ''
-        for (const i in song.singer) {
-            formattedSinger = song.singer[i].name + '/'
+        try{
+            setIsLoading(true);
+            const lyricResponse = await fetch(
+                "http://127.0.0.1:3000/api/music/lyric/" + song._id
+            );
+            let lyricData = await lyricResponse.json();
+            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
+            let songData = await songFile.blob()
+            songData = URL.createObjectURL(songData)
+            let formattedSinger = ''
+            for (const i in song.singer) {
+                formattedSinger = song.singer[i].name + '/'
+            }
+            formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+            const musicDetail = {
+                _id: song._id,
+                name: song.name,
+                singer: formattedSinger,
+                cover: song.album.picUrl,
+                musicSrc: songData,
+                lyric: lyricData.data,
+                style: song.style
+            }
+            // setCurrentPlayList([...currentPlayList,musicDetail])
+            setCurrentPlayList(prevList => [...prevList, musicDetail])
+            setIsLoading(false);
+            addToast(song.name+' being added to the playlist!');
+        }catch (e){
+            console.log(e)
+            addToast("Song error! We will fix it ASAP!")
         }
-        formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
-        const musicDetail = {
-            _id: song._id,
-            name: song.name,
-            singer: formattedSinger,
-            cover: song.album.picUrl,
-            musicSrc: songData,
-            lyric: lyricData.data,
-        }
-        // setCurrentPlayList([...currentPlayList,musicDetail])
-        setCurrentPlayList(prevList => [...prevList, musicDetail])
-        setIsLoading(false);
-        addToast(song.name+' being added to the playlist!');
+
     }
 
     function handleAddToTemporaryList(song) {
@@ -79,15 +86,21 @@ function SongList({songList}) {
     async function handleAddSongToMyPlayList(song, playListId) {
         console.log(playListId)
         console.log(song._id)
-        const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
-            "_id":playListId,
-            "songs":[`${song._id}`]
-        }, {headers:{
-                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
-                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
-            }}).catch((err)=>{
+        try{
+            const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
+                "_id":playListId,
+                "songs":[`${song._id}`]
+            }, {headers:{
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                }}).catch((err)=>{
                 console.log(err)
-        })
+            })
+        }catch (e) {
+            console.log(e)
+            addToast("Something wrong! We will fix it ASAP!")
+        }
+
     }
 
     return (

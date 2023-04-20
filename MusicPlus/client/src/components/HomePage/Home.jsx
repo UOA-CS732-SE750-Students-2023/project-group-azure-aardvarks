@@ -4,6 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 import downloadImage from "../../../public/download.jpg";
 import code_structure from "../../../public/code_structure.png";
 import ActionSlide from "./ActionSlide.jsx";
+import {useToast} from "../../utils/AppContextProvider.jsx";
 import PlaylistCover from "../Playlist/PlaylistCover.jsx";
 import "./index.css"
 import axios from "axios";
@@ -20,12 +21,18 @@ class Home extends React.Component{
 
     // has to use an async method once Mounting a component
     async componentDidMount() {
-        const getPlayList = async () => {
-            const playListDetail = await axios.get(`${BACKEND_API}/api/playList/random/4`)
-            if (playListDetail.data.status === 1){
-                this.setState({playList:playListDetail.data.data})
+        try{
+            const getPlayList = async () => {
+                const playListDetail = await axios.get(`${BACKEND_API}/api/playList/random/4`)
+                if (playListDetail.data.status === 1){
+                    this.setState({playList:playListDetail.data.data})
+                }
             }
+        }catch (e) {
+            console.log(e);
+
         }
+
         await getPlayList()
 
     }
@@ -61,15 +68,19 @@ class Home extends React.Component{
 }
 function HomeWithPlayerContext() {
     const { setShowPlayer } = useContext(PlayerContext);
-
+    const { addToast } = useToast();
     useEffect(() => {
         setShowPlayer(true);
         return () => {
             setShowPlayer(false);
         };
     }, [setShowPlayer]);
+    try{
+        return <Home />;
+    }catch (e) {
+        addToast("Something wrong! We will fix it ASAP!")
+    }
 
-    return <Home />;
 }
 
 export default HomeWithPlayerContext;
