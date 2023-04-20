@@ -5,10 +5,12 @@ import {useContext, useEffect, useState} from "react";
 import user from "../../static/user.jpg"
 import PlayerContext, {UserContext} from "../../utils/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
+import {useToast} from "../../utils/AppContextProvider.jsx";
 
 
 
 function UserDetail(){
+    const { addToast } = useToast();
     const { setShowPlayer } = useContext(PlayerContext);
     const {userDetail, setUserDetail} = useContext(UserContext)
     const history = useNavigate();
@@ -97,6 +99,7 @@ function UserDetail(){
             const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
             console.log(responseData.data)
             setUserDetail(responseData.data)
+            addToast('Updated successfully!');
             // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
         } catch (error) {
             console.error('Error posting data:', error);
@@ -126,6 +129,7 @@ function UserDetail(){
                 const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
                 setUserDetail({})
                 history("/login")
+                addToast('Updated successfully!');
                 // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
             } catch (error) {
                 console.error('Error posting data:', error);
@@ -280,7 +284,8 @@ function UserDetail(){
                                 </Card.Body>
                             </Card>
                             <Button type="submit" onClick={() => {setUserDetail({})
-                                history("/home")}} style={{marginTop: "1vh"}}>Log out</Button>
+                                history("/home")
+                                addToast('Log out successfully!');}} style={{marginTop: "1vh"}}>Log out</Button>
                         </Col>
                     </Row>
                 </Container>

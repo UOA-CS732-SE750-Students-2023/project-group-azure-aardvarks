@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import default_photo from '../../../public/default_photo.png'
 import Table from 'react-bootstrap/Table';
-
+import {useToast} from "../../utils/AppContextProvider.jsx";
 import './index.css'
 import songList from "../SongList.jsx";
 import SongList from "../SongList.jsx";
@@ -107,6 +107,7 @@ import PlayerContext from "../../utils/AppContextProvider.jsx";
 //     }
 // }
 function PlaylistContent() {
+    const { addToast } = useToast();
     const { id } = useParams();
     const [playList, setPlayList] = useState({});
     const [loading, setLoading] = useState(true);
@@ -151,6 +152,7 @@ function PlaylistContent() {
             })
             const results = await Promise.all(promises);
             setSongList(results.filter((item) => item !== null));
+
             setLoadingSong(false);
         }
     };

@@ -5,7 +5,7 @@ import {NotificationContext, useToast} from "../../utils/AppContextProvider.jsx"
 import {map} from "react-bootstrap/ElementChildren";
 
 
-function GlobalNotification(toasts ){
+function GlobalNotification({toasts} ){
     // const {show, setShow} = useContext(NotificationContext)
     //
     // return (
@@ -32,7 +32,7 @@ function GlobalNotification(toasts ){
     //     </>
     // );
     const { removeToast } = useToast();
-
+    const now = new Date();
     return (
         <ToastContainer position="top-end">
             {toasts.map(({ id, message, options }) => (
@@ -42,6 +42,10 @@ function GlobalNotification(toasts ){
                     delay={options.delay || 3000}
                     autohide={options.autohide !== false}
                 >
+                    <Toast.Header>
+                        <strong className="me-auto">Bootstrap</strong>
+                        <small className="text-muted">{now.toLocaleString()}</small>
+                    </Toast.Header>
                     <Toast.Body>{message}</Toast.Body>
                 </Toast>
             ))}

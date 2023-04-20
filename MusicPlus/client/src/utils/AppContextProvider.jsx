@@ -4,10 +4,11 @@ import b from "../static/b.mp3";
 import {useNavigate} from "react-router-dom";
 import Player from "../components/Layout/Player.jsx";
 import axios from "axios";
-import PlayListNotification from "../components/Notification/GlobalNotification.jsx";
+
 import TemporaryPlayList from "../components/Playlist/TemporaryPlayList.jsx";
 import {audioStreamToBlob, fetchSongDetailsAsync, formatDateTime, formatSinger} from "./commentUtils.js";
 import {BACKEND_API} from "./env.js";
+import GlobalNotification from "../components/Notification/GlobalNotification.jsx";
 const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 // Manage the user's status
 export const UserContext = React.createContext({})
@@ -149,7 +150,7 @@ export function NotificationProvider({children}){
     return (
         <NotificationContext.Provider value={{ addToast, removeToast }}>
             {children}
-            <ToastManager toasts={toasts} />
+            <GlobalNotification toasts={toasts} />
         </NotificationContext.Provider>
     );
 }

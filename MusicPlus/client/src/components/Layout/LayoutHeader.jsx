@@ -14,12 +14,7 @@ import {useNavigate} from "react-router-dom";
 function LayoutHeader() {
     const Navigate = useNavigate();
     const {userDetail, setUserDetail} = useContext(UserContext)
-    function handleSelect(selectedKey) {
-        if (selectedKey === "1"){
-            setUserDetail({})
-        }
-        console.log('You selected key: ', selectedKey);
-    }
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>

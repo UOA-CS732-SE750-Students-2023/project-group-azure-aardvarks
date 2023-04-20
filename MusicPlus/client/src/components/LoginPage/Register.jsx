@@ -4,10 +4,12 @@ import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
 import "./Register.css";
+import {useToast} from "../../utils/AppContextProvider.jsx";
 import './LoginForm.css';
 import {RiArrowGoBackFill} from "react-icons/ri";
 
 function Register(){
+    const { addToast } = useToast();
     const { setShowPlayer } = useContext(PlayerContext);
     const history = useNavigate();
     useEffect(() => {
@@ -69,6 +71,7 @@ function Register(){
                 const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
                 console.log(responseData)
                 history("/login")
+                addToast("Registration successfully!")
                 // const response = await axios.post(`${API_BASE_URL}/playList/newPlayList`)
             } catch (error) {
                 console.error('Error posting data:', error);

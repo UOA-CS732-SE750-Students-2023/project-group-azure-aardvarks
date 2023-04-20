@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import {NavLink, useLocation, useNavigate, redirect } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
-
+import {useToast} from "../../utils/AppContextProvider.jsx";
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import {Card, Col, Container, Row} from "react-bootstrap";
 import { FaUserCircle, FaLock } from 'react-icons/fa';
@@ -15,6 +15,7 @@ import './LoginForm.css';
 const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 
 function  LoginForm(){
+    const { addToast } = useToast();
     const history = useNavigate();
     const [step, setStep] = useState(1);
     const [username, setUsername] = useState('')
@@ -30,6 +31,7 @@ function  LoginForm(){
                 }})
 
             setUserDetail(detail.data.data)
+            addToast("Login successfully!")
             setLoginSuccess(true)
         }catch (e) {
             e.preventDefault();
