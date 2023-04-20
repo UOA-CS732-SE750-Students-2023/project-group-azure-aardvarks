@@ -110,27 +110,48 @@ export function PlayerProvider({children}){
     )
 }
 
-
+export const useToast = () => {
+    return useContext(NotificationContext);
+};
 export function NotificationProvider({children}){
-    const [show, setShow] = useState(true);
-    const [notification, setNotification] = useState({
-        show:true,
-        header:"",
-        time:"",
-        content:""
-    })
-    const deleteNotification = () =>{
-        console.log(1)
-    }
-    const context = {
-        show, setShow,deleteNotification
-    }
+    // const [show, setShow] = useState(true);
+    // const [notification, setNotification] = useState({
+    //     show:true,
+    //     header:"",
+    //     time:"",
+    //     content:""
+    // })
+    // const deleteNotification = () =>{
+    //     console.log(1)
+    // }
+    // const context = {
+    //     show, setShow,deleteNotification
+    // }
+    // return (
+    //     <NotificationContext.Provider value={context}>
+    //         {children}
+    //         {<PlayListNotification/>}
+    //     </NotificationContext.Provider>
+    // )
+    const [toasts, setToasts] = useState([]);
+
+    const addToast = (message, options = {}) => {
+        setToasts((prevToasts) => [
+            ...prevToasts,
+            { id: Date.now(), message, options },
+        ]);
+    };
+
+    const removeToast = (id) => {
+        setToasts((prevToasts) => prevToasts.filter((t) => t.id !== id));
+    };
+
     return (
-        <NotificationContext.Provider value={context}>
+        <NotificationContext.Provider value={{ addToast, removeToast }}>
             {children}
-            {<PlayListNotification/>}
+            <ToastManager toasts={toasts} />
         </NotificationContext.Provider>
-    )
+    );
 }
 
 
