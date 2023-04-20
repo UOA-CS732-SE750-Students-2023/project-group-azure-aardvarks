@@ -61,7 +61,6 @@ function PlaylistContent(props) {
     };
 
     const getSongList = async () => {
-        //console.log(playList.songs.length === 0)
         if (playList.songs){
             const promises = playList.songs.map(async (songId) => {
                 try {
@@ -90,14 +89,10 @@ function PlaylistContent(props) {
     useEffect(() => {
         setPlayList({})
         setLoading(true);
+        setLoadingSong(true)
         getPlayList();
 
     }, [id, userDetail]);
-    // useEffect(() => {
-    //     setPlayList({})
-    //     setLoadingSong(true);
-    //     getPlayList();
-    // }, []);
 
     useEffect(()=>{
         getSongList();
@@ -135,7 +130,11 @@ function PlaylistContent(props) {
             {loadingSong ? (
                 <Spinner animation="grow" />
             ) : (
-                <SongList songList={songList} />
+                playList.songs && playList.songs.length === 0 && props.link === "/style/preference" ? (
+                    "There are no songs to recommend at the moment, listen to a few songs and come back to try again!"
+                ) : (
+                    <SongList songList={songList} />
+                )
             )}
         </Layout>
     );
