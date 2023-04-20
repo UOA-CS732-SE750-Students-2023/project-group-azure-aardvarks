@@ -33,6 +33,12 @@ export default function Search(){
             <Row>
                 <div className="wrap mt-4">
                     <Link to={'/home'}><button className="button">home</button></Link>
+
+                </div>
+            </Row>
+            <Row>
+                <div className="wrap mt-4 mb-4">
+                    <Link to={'/preference'}><button className="button">Random Recommendation</button></Link>
                 </div>
             </Row>
             <hr/>

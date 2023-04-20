@@ -62,12 +62,12 @@ router.get('/preference', auth,async (req, res) => {
             }
         }
         let list = {
-            "_id": user._id,
-            "username": user.username,
-            "email": user.email,
-            "favoritePlayList": user.favoritePlayList,
-            "musicGenre": user.musicGenre,
-            "favoriteMusic": user.favoriteMusic
+            "_id": user._id+"1",
+            "username": "System",
+            "email": "System@email.com",
+            "favoritePlayList": [],
+            "musicGenre": [],
+            "favoriteMusic": user._id+"1"
         }
         const now = new Date();
         const result1 = {

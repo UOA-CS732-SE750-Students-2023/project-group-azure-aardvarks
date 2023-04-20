@@ -34,7 +34,6 @@ function  LoginForm(){
             addToast("Login successfully!")
             setLoginSuccess(true)
         }catch (e) {
-            e.preventDefault();
             console.log(e)
             setLoginSuccess(false)
         }
@@ -68,14 +67,21 @@ function  LoginForm(){
                 <Col className="d-none d-md-flex col-md-5 col-lg-7" />
                 <Col className="d-flex align-items-center col-12 col-md-6 col-lg-4">
                     <Card className="login-card">
-                        <Button
+                        {step === 1 ? (<Button
                             variant="link"
                             className="back-button hover-text-button"
                             onClick={handleLastPage}
-
                         >
                             <RiArrowGoBackFill />
-                        </Button>
+                        </Button>):(<Button
+                            variant="link"
+                            className="back-button hover-text-button"
+                            onClick={handleLastPage}
+                            style={{display:"none"}}
+                        >
+                            <RiArrowGoBackFill />
+                        </Button>)}
+
                         <Card.Body>
 
                             <h1 className="text-center mb-4">MusicPlus</h1>

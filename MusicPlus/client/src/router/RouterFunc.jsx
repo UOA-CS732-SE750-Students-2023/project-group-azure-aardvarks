@@ -25,6 +25,7 @@ function RouterFunc() {
                 <Route index path="/home" element={<HomeWithPlayerContext/>} exact/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path="/playlist/:id" element={<PlaylistContent link={"/playList/searchPlayListById"}/>} />
+                <Route path="/preference" element={<PlaylistContent link={"/style/preference"}/>} />
                 <Route path="/user/detail" element={<UserDetail />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>

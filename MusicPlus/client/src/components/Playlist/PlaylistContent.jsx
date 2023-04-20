@@ -5,7 +5,7 @@ import default_photo from '../../../public/default_photo.png'
 import Table from 'react-bootstrap/Table';
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import './index.css'
-import songList from "../SongList.jsx";
+import {UserContext} from "../../utils/AppContextProvider.jsx";
 import SongList from "../SongList.jsx";
 import Layout from "../Layout/Layout.jsx";
 import {useParams} from "react-router-dom";
@@ -19,7 +19,7 @@ import PlayerContext from "../../utils/AppContextProvider.jsx";
 
 
 function PlaylistContent(props) {
-
+    const {userDetail, setUserDetail} = useContext(UserContext)
     const { addToast } = useToast();
     const { id } = useParams();
 
@@ -37,8 +37,21 @@ function PlaylistContent(props) {
     }, [setShowPlayer]);
 
     const getPlayList = async () => {
+
         try {
-            const response = await axios.get(`${BACKEND_API}/api${props.link}/${id}`);
+            let response
+            if (props.link === "/playList/searchPlayListById"){
+                response = await axios.get(`${BACKEND_API}/api${props.link}/${id}`);
+            }else if(props.link === "/style/preference"){
+                if (userDetail){
+                    response = await axios.get(`${BACKEND_API}/api${props.link}`,{headers:{
+                            'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                            'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                        }})
+                }
+
+            }
+
             setPlayList(response.data.data);
             setLoading(false)
         } catch (error) {
@@ -48,6 +61,7 @@ function PlaylistContent(props) {
     };
 
     const getSongList = async () => {
+        //console.log(playList.songs.length === 0)
         if (playList.songs){
             const promises = playList.songs.map(async (songId) => {
                 try {
@@ -78,7 +92,7 @@ function PlaylistContent(props) {
         setLoading(true);
         getPlayList();
 
-    }, [id]);
+    }, [id, userDetail]);
     // useEffect(() => {
     //     setPlayList({})
     //     setLoadingSong(true);
@@ -118,10 +132,10 @@ function PlaylistContent(props) {
 
                 </>
             )}
-            {loadingSong?(
+            {loadingSong ? (
                 <Spinner animation="grow" />
-            ):(
-                <SongList songList={songList}/>
+            ) : (
+                <SongList songList={songList} />
             )}
         </Layout>
     );
