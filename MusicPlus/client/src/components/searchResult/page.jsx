@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import ReactPaginate from 'react-paginate';
 import './index.css';
 import "./button.scss"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Page({data, category}) {
+    const Navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0);
 
     const PER_PAGE = 10;
@@ -38,7 +39,7 @@ export default function Page({data, category}) {
                             <td className="mt-4">
                                 {category==="album"?
                                     <div id="container">
-                                        <button className="learn-more">
+                                        <button className="learn-more" onClick={() => {Navigate(`/album/${item.id}`);}}>
                                             <span className="circle" aria-hidden="true">
                                                 <span className="icon arrow"></span>
                                             </span>

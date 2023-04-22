@@ -47,13 +47,14 @@ export default function Result() {
 
     useEffect(() => {
         const extractedSearchTerm = extractSearchTermFromUrl(location);
+        console.log(extractedSearchTerm)
         setSearchTerm(extractedSearchTerm);
         setShowPlayer(true);
 
         const getResult = async () => {
             try {
                 setIsLoading(true);
-                await axios.get(`${BACKEND_API}/api/search/search/${extractedSearchTerm}/${0}/${100}`).then(response => {
+                await axios.get(`${BACKEND_API}/api/search/search/${encodeURIComponent(extractedSearchTerm)}/${0}/${100}`).then(response => {
                     setResult(response.data.data.song)
                     setSinger(response.data.data.singer)
                     setAlbum(response.data.data.album)
@@ -62,7 +63,7 @@ export default function Result() {
                 });
             } catch (error) {
                 console.log(error);
-                addToast("search music error! Please contect us! We will fix it ASAP!")
+                addToast("search music error! Please contact us! We will fix it ASAP!")
             }
         };
         getResult()

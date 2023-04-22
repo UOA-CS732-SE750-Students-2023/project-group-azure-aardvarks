@@ -15,6 +15,7 @@ import PlaylistContent from "../components/Playlist/PlaylistContent.jsx";
 import PlayerContext from "../utils/AppContextProvider.jsx"
 import UserDetail from "../components/LoginPage/UserDetail.jsx";
 import Result from "../components/searchResult/Result";
+import AlbumContent from "../components/Album/AlbumContent";
 
 
 function RouterFunc() {
@@ -31,7 +32,7 @@ function RouterFunc() {
                 <Route path="/preference" element={<PlaylistContent link={"/style/preference"}/>} />
                 <Route path="/user/detail" element={<UserDetail />} />
                 <Route path="/search/:input" element={<Result />} />
-                <Route path="/album/:id" element={<Result />} />
+                <Route path="/album/:id" element={<AlbumContent />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
 
