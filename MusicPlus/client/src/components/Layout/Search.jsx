@@ -19,7 +19,6 @@ export default function Search(){
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
-        console.log(inputValue);
     };
 
     return(
