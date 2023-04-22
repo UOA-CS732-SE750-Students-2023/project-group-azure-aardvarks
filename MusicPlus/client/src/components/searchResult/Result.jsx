@@ -7,6 +7,7 @@ import {Link, useLocation} from "react-router-dom";
 import {Col, ListGroup, Row} from "react-bootstrap";
 import "./index.css"
 import Page from "./page";
+import Loading from "./Loading";
 
 export default function Result() {
     const {setShowPlayer} = useContext(PlayerContext)
@@ -51,6 +52,7 @@ export default function Result() {
 
         const getResult = async () => {
             try {
+                setIsLoading(true);
                 await axios.get(`${BACKEND_API}/api/search/search/${extractedSearchTerm}/${0}/${100}`).then(response => {
                     setResult(response.data.data.song)
                     setSinger(response.data.data.singer)
@@ -89,43 +91,28 @@ export default function Result() {
             </Row>
 
             <div style={{display: songSearch?"block":"none"}}>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <ListGroup>
-                    {result.map((song) =>
-                        <ListGroup.Item key={song.id}> {song.name} </ListGroup.Item>
-                    )}
-                </ListGroup>
-                )}
+                {isLoading?
+                    (<Loading></Loading>) :
+                    (<Page data={result}></Page>)
+                }
+
             </div>
 
             <div style={{display: singerSearch?"block":"none"}}>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <ListGroup>
-                        {singer.map((s) =>
-                            <ListGroup.Item key={s.id}> {s.name} </ListGroup.Item>
-                        )}
-                    </ListGroup>
-                )}
+                {isLoading?
+                    (<Loading></Loading>) :
+                    (<Page data={singer}></Page>)
+                }
             </div>
 
             <div style={{display: albumSearch?"block":"none"}}>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <ListGroup>
-                        {album.map((a) =>
-                            <ListGroup.Item key={a.id}> {a.name} </ListGroup.Item>
-                        )}
-                    </ListGroup>
-                )}
+                {isLoading?
+                    (<Loading></Loading>) :
+                    (<Page data={album}></Page>)
+                }
             </div>
 
-            {isLoading?(<p>Loading...</p>):
-                (<Page data={result}></Page>)}
+
 
         </Layout>
 
