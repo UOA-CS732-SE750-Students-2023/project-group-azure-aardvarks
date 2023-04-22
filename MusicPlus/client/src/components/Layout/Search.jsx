@@ -2,7 +2,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import "./index.css"
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import axios from "axios";
@@ -15,14 +15,23 @@ import {Button} from "react-bootstrap";
 export default function Search(){
     const {userPlaylist} = useContext(UserContext);
     const Navigate = useNavigate();
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+        console.log(inputValue);
+    };
+
     return(
         <>
             <div id="cover" className={"mt-4"}>
-                <form method="get" action="">
+                <form method="get">
                     <div className="tb">
-                        <div className="td"> <input className={"input_style"} type="text" placeholder="Search"/> </div>
+                        <div className="td">
+                            <input className={"input_style"} type="text" placeholder="Search" value={inputValue} onChange={handleInputChange}/>
+                        </div>
                         <div className="td" id="s-cover">
-                            <button type="submit" className={"button_style"}>
+                            <button type="submit" className={"button_style"} onClick={() => {Navigate(`/search/${inputValue}`);}}>
                                 <div id="s-circle"></div>
                                 <span></span>
                             </button>
