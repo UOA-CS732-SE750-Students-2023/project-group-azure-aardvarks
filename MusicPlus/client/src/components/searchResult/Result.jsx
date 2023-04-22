@@ -6,6 +6,7 @@ import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
 import {Link, useLocation} from "react-router-dom";
 import {Col, ListGroup, Row} from "react-bootstrap";
 import "./index.css"
+import Page from "./page";
 
 export default function Result() {
     const {setShowPlayer} = useContext(PlayerContext)
@@ -40,7 +41,6 @@ export default function Result() {
     }
 
 
-
     const { addToast } = useToast();
     const location = useLocation();
 
@@ -51,8 +51,10 @@ export default function Result() {
 
         const getResult = async () => {
             try {
-                await axios.get(`${BACKEND_API}/api/search/search/${extractedSearchTerm}/${0}/${10}`).then(response => {
+                await axios.get(`${BACKEND_API}/api/search/search/${extractedSearchTerm}/${0}/${100}`).then(response => {
                     setResult(response.data.data.song)
+                    setSinger(response.data.data.singer)
+                    setAlbum(response.data.data.album)
                     console.log(response.data.data)
                     setIsLoading(false);
                 });
@@ -99,14 +101,34 @@ export default function Result() {
             </div>
 
             <div style={{display: singerSearch?"block":"none"}}>
-                <h1>singer</h1>
-
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <ListGroup>
+                        {singer.map((s) =>
+                            <ListGroup.Item key={s.id}> {s.name} </ListGroup.Item>
+                        )}
+                    </ListGroup>
+                )}
             </div>
 
             <div style={{display: albumSearch?"block":"none"}}>
-                <h1>album</h1>
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <ListGroup>
+                        {album.map((a) =>
+                            <ListGroup.Item key={a.id}> {a.name} </ListGroup.Item>
+                        )}
+                    </ListGroup>
+                )}
             </div>
+
+            {isLoading?(<p>Loading...</p>):
+                (<Page data={result}></Page>)}
+
         </Layout>
+
     );
 }
 
