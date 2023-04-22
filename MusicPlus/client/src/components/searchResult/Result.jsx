@@ -93,7 +93,7 @@ export default function Result() {
             <div style={{display: songSearch?"block":"none"}}>
                 {isLoading?
                     (<Loading></Loading>) :
-                    (<Page data={result}></Page>)
+                    (<Page data={result} category="song"></Page>)
                 }
 
             </div>
@@ -101,14 +101,14 @@ export default function Result() {
             <div style={{display: singerSearch?"block":"none"}}>
                 {isLoading?
                     (<Loading></Loading>) :
-                    (<Page data={singer}></Page>)
+                    (<Page data={singer} category="singer"></Page>)
                 }
             </div>
 
             <div style={{display: albumSearch?"block":"none"}}>
                 {isLoading?
                     (<Loading></Loading>) :
-                    (<Page data={album}></Page>)
+                    (<Page data={album} category="album"></Page>)
                 }
             </div>
 

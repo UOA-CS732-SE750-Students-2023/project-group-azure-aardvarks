@@ -31,6 +31,7 @@ function RouterFunc() {
                 <Route path="/preference" element={<PlaylistContent link={"/style/preference"}/>} />
                 <Route path="/user/detail" element={<UserDetail />} />
                 <Route path="/search/:input" element={<Result />} />
+                <Route path="/album/:id" element={<Result />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
 

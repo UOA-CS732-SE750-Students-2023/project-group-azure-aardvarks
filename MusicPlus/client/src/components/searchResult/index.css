@@ -65,6 +65,12 @@
     75%{transform:translate(0, 160%)}
 }
 
+.page-link{
 
-
+}
+.link {
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+}
 
