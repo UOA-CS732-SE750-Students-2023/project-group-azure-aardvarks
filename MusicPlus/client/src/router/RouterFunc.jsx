@@ -21,6 +21,7 @@ function RouterFunc() {
     return (
         // <PlayerContext.Provider value={{ showPlayer, setShowPlayer,currentPlayList, setCurrentPlayList }}>
             <Routes >
+                <Route path="/" element={<HomeWithPlayerContext />}></Route>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route index path="/home" element={<HomeWithPlayerContext/>} exact/>
                 <Route path={"/login"} element={<Login/>}/>
