@@ -50,10 +50,10 @@ export default function AlbumContent(){
                         <img className="imgSize" src={album?album.picUrl:"a"} alt="My Image" />
                         <Col>
                             <Row><h1>{album?album.name:"a"}</h1></Row>
-                            <Row className="mt-4"><p>singer: {album?album.name:"a"}</p></Row>
+                            <Row className="mt-4"><p>singer: {album?album.artist.name:"a"}</p></Row>
                         </Col>
                     </Row>
-                    <Row className="mt-4">
+                    <Row className="mt-4" style={{overflow: "scroll", height: "50%"}}>
                         <ListGroup>
                             {song?song.map((s) => <ListGroup.Item key={s.id}>{s?s.name:"a"}</ListGroup.Item>):"test"}
                         </ListGroup>
