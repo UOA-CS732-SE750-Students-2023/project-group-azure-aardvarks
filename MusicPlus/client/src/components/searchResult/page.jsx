@@ -46,8 +46,8 @@ export default function Page({data, category}) {
                                             <span className="button-text">{item.name}</span>
                                         </button>
                                     </div>:
-                                    category==="song"?<Link to={"/song"} className="button_search">{item.name}</Link>:
-                                category==="singer"?<Link to={"/singer"} className="button_search">{item.name}</Link>:
+                                    category==="song"?<Link to={`/song/${item.id}`} className="button_search">{item.name}</Link>:
+                                category==="singer"?<Link to={`/singer/${item.id}`} className="button_search">{item.name}</Link>:
                                     <p>something wrong</p>}
                             </td>
                         </tr>
