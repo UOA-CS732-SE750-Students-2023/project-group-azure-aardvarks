@@ -16,6 +16,7 @@ import PlayerContext from "../utils/AppContextProvider.jsx"
 import UserDetail from "../components/LoginPage/UserDetail.jsx";
 import Result from "../components/searchResult/Result";
 import AlbumContent from "../components/Album/AlbumContent";
+import SingerContent from "../components/Singer/SingerContent";
 
 
 function RouterFunc() {
@@ -33,6 +34,7 @@ function RouterFunc() {
                 <Route path="/user/detail" element={<UserDetail />} />
                 <Route path="/search/:input" element={<Result />} />
                 <Route path="/album/:id" element={<AlbumContent />} />
+                <Route path="/singer/:id" element={<SingerContent />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
 
