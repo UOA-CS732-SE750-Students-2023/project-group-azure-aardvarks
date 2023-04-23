@@ -101,11 +101,6 @@ export default function SingerContent(){
                         <Col><button className="button" onClick={showSongButton}>song</button></Col>
                         <Col><button className="button" onClick={showAlbumButton}>Album</button></Col>
                     </Row>
-                    {/*<Row className="mt-4" style={{overflow: "scroll", height: "50%"}}>*/}
-                    {/*    <ListGroup>*/}
-                    {/*        {song?song.map((s) => <ListGroup.Item key={s.id}>{s?s.name:"a"}</ListGroup.Item>):"test"}*/}
-                    {/*    </ListGroup>*/}
-                    {/*</Row>*/}
                 </div>
             }
             <Row style={{display:showAlbum?"block":"none"}} className="mt-4">
