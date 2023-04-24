@@ -11,9 +11,11 @@ import PlayerContext, {
     TemporaryPlayListContext,
     UserContext
 } from "../utils/AppContextProvider.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 function SongList({songList}) {
+    const history = useNavigate();
     const { addToast } = useToast();
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
@@ -81,6 +83,13 @@ function SongList({songList}) {
 
     function handleAddToTemporaryList(song) {
         addToTemporaryPlaylist(song)
+    }
+    function handleGoToAlbum(album) {
+        history("/album/"+album.id)
+    }
+    function handleGoToSinger(singer) {
+        console.log(singer)
+        history("/singer/"+singer)
     }
 
     async function handleAddSongToMyPlayList(song, playListId) {
@@ -166,8 +175,8 @@ function SongList({songList}) {
                         <tr key={song._id}>
                             <td>{index + 1}</td>
                             <td>{song.name}</td>
-                            <td>{song.singer.map((singer, index) => (singer.name))}</td>
-                            <td>{song.album.name}</td>
+                            <td>{song.singer.map((singer, index) => (<div onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>
+                            <td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>
                             {/*<td>{song.style.name}</td>*/}
                             <td style={{width: 100}}>
                                 <DropdownButton
