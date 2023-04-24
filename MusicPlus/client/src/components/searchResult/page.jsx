@@ -1,10 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, {useState, useMemo, useContext} from 'react';
 import ReactPaginate from 'react-paginate';
 import './index.css';
 import "./button.scss"
 import {Link, useNavigate} from "react-router-dom";
+import SongList from "../SongList.jsx";
+import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
 
 export default function Page({data, category}) {
+    const { addToast } = useToast();
+    const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
+    const [isLoading, setIsLoading] = useState(false);
+
     const Navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -21,6 +27,42 @@ export default function Page({data, category}) {
         setCurrentPage(selected);
     };
 
+    async function handleAddToPlayer(song) {
+        try{
+            setIsLoading(true);
+            const lyricResponse = await fetch(
+                "http://127.0.0.1:3000/api/music/lyric/" + song.id
+            );
+            let lyricData = await lyricResponse.json();
+            console.log(song.id)
+            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song.id)
+            let songData = await songFile.blob()
+            songData = URL.createObjectURL(data)
+            let formattedSinger = ''
+            for (const i in song.singer) {
+                formattedSinger = song.singer[i].name + '/'
+            }
+            formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+            const musicDetail = {
+                _id: song._id,
+                name: song.name,
+                singer: formattedSinger,
+                cover: song.album.picUrl,
+                musicSrc: songData,
+                lyric: lyricData.data,
+                style: song.style
+            }
+            // setCurrentPlayList([...currentPlayList,musicDetail])
+            setCurrentPlayList(prevList => [...prevList, musicDetail])
+            setIsLoading(false);
+            addToast(song.name+' being added to the playlist!');
+        }catch (e){
+            console.log(e)
+            addToast("Song add error! We will fix it ASAP!")
+        }
+
+    }
+
     return (
         <div className="container">
             <div className="table-responsive">
@@ -30,7 +72,6 @@ export default function Page({data, category}) {
                         <td>ID</td>
                         <td>NAME</td>
                     </tr>
-
                     </thead>
                     <tbody>
                     {currentPageData.map((item) => (
@@ -46,9 +87,19 @@ export default function Page({data, category}) {
                                             <span className="button-text">{item.name}</span>
                                         </button>
                                     </div>:
-                                    category==="song"?<Link to={`/song/${item.id}`} className="button_search">{item.name}</Link>:
-                                category==="singer"?<Link to={`/singer/${item.id}`} className="button_search">{item.name}</Link>:
-                                    <p>something wrong</p>}
+                                category==="song"?
+                                    <div>
+                                        <Link to={`/song/${item.id}`} className="button_search">{item.name}</Link>
+                                        <button className="button_search" onClick={()=>handleAddToPlayer(item)}>play</button>
+                                    </div>:
+                                category==="singer"?
+                                    <div>
+                                        <Link to={`/singer/${item.id}`} className="button_search">{item.name}</Link>
+                                    </div>:
+                                    <div>
+                                        <p>something wrong</p>
+                                    </div>
+                                }
                             </td>
                         </tr>
                     ))}
