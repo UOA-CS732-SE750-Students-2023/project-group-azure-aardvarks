@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useParams} from "react-router-dom";
 import {Col, ListGroup, Row} from "react-bootstrap";
 import "./index.css"
 import Page from "./page";
@@ -22,6 +22,7 @@ export default function Result() {
     const [result, setResult] = useState(null)
     const [singer, setSinger] = useState(null)
     const [album, setAlbum] = useState(null)
+
 
     function clickSong(){
         setSongSearch(true)
@@ -47,20 +48,34 @@ export default function Result() {
 
     useEffect(() => {
         const extractedSearchTerm = extractSearchTermFromUrl(location);
-        console.log(extractedSearchTerm)
-        setSearchTerm(extractedSearchTerm);
+        // console.log(extractedSearchTerm)
+        const searchParams = new URLSearchParams(location.search);
+        const keyword = searchParams.get('keyword');
+
+        setSearchTerm(keyword);
         setShowPlayer(true);
 
         const getResult = async () => {
             try {
                 setIsLoading(true);
-                await axios.get(`${BACKEND_API}/api/search/search/${encodeURIComponent(extractedSearchTerm)}/${0}/${100}`).then(response => {
-                    setResult(response.data.data.song)
-                    setSinger(response.data.data.singer)
-                    setAlbum(response.data.data.album)
-                    console.log(response.data.data)
-                    setIsLoading(false);
-                });
+                // await axios.get(`${BACKEND_API}/api/search/search/${encodeURIComponent(extractedSearchTerm)}/${0}/${100}`).then(response => {
+                //     setResult(response.data.data.song)
+                //     setSinger(response.data.data.singer)
+                //     setAlbum(response.data.data.album)
+                //     // console.log(response.data.data.singer)
+                //     setIsLoading(false);
+                // });
+                await axios.get(`${BACKEND_API}/api/search?keyword=${keyword}&pageNum=${1}&pageSize=${20}`).then(
+                    (response)=>{
+                        setResult(response.data.data.song)
+                        setSinger(response.data.data.singer)
+                        setAlbum(response.data.data.album)
+                        // console.log(response.data.data.singer)
+                        setIsLoading(false);
+                    }
+                )
+                // console.log(result)
+                // setIsLoading(false);
             } catch (error) {
                 console.log(error);
                 addToast("search music error! Please contact us! We will fix it ASAP!")

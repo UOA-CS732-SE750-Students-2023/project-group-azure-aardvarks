@@ -21,16 +21,23 @@ export default function Search(){
         setInputValue(event.target.value);
     };
 
+    const handleSearch=()=>{
+        console.log(11)
+
+    }
+
     return(
         <>
             <div id="cover" className={"mt-4"}>
                 <form method="get">
                     <div className="tb">
                         <div className="td">
+                            {/*<input className={"input_style"} type="text" placeholder="Search" value={inputValue} onChange={handleInputChange}/>*/}
                             <input className={"input_style"} type="text" placeholder="Search" value={inputValue} onChange={handleInputChange}/>
                         </div>
                         <div className="td" id="s-cover">
-                            <button type="submit" className={"button_style"} onClick={() => {Navigate(`/search/${inputValue}`);}}>
+                            {/*<button type="submit" className={"button_style"} onClick={() => {Navigate(`/search/${inputValue}`);}}>*/}
+                            <button type="submit" className={"button_style"} onClick={() => {Navigate(`/search?keyword=${inputValue}`);}}>
                                 <div id="s-circle"></div>
                                 <span></span>
                             </button>
