@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import "./index.css"
 import {Link, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
-import {UserContext} from "../../utils/AppContextProvider.jsx";
+import {NotificationContext, UserContext} from "../../utils/AppContextProvider.jsx";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import Toast from "react-bootstrap/Toast";
@@ -14,13 +14,22 @@ import {Button} from "react-bootstrap";
 
 export default function Search(){
     const {userPlaylist} = useContext(UserContext);
+
     const Navigate = useNavigate();
     const [inputValue, setInputValue] = useState('');
-
+    const {addToast} = useContext(NotificationContext);
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
 
+    const handleSearch=()=>{
+        if (inputValue !== ''){
+            Navigate(`/search?keyword=${inputValue}`);
+        }
+        else{
+            addToast("your input can not be empty")
+        }
+    }
 
     return(
         <>
@@ -33,7 +42,7 @@ export default function Search(){
                         </div>
                         <div className="td" id="s-cover">
                             {/*<button type="submit" className={"button_style"} onClick={() => {Navigate(`/search/${inputValue}`);}}>*/}
-                            <button type="submit" className={"button_style"} onClick={() => {Navigate(`/search?keyword=${inputValue}`);}}>
+                            <button type="submit" className={"button_style"} onClick={handleSearch}>
                                 <div id="s-circle"></div>
                                 <span></span>
                             </button>
