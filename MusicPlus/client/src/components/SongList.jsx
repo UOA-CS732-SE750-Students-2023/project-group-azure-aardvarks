@@ -56,6 +56,7 @@ function SongList({songList}) {
             const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)
+
             let formattedSinger = ''
             for (const i in song.singer) {
                 formattedSinger = song.singer[i].name + '/'
@@ -72,6 +73,7 @@ function SongList({songList}) {
             }
             // setCurrentPlayList([...currentPlayList,musicDetail])
             setCurrentPlayList(prevList => [...prevList, musicDetail])
+
             setIsLoading(false);
             addToast(song.name+' being added to the playlist!');
         }catch (e){
@@ -93,8 +95,7 @@ function SongList({songList}) {
     }
 
     async function handleAddSongToMyPlayList(song, playListId) {
-        console.log(playListId)
-        console.log(song._id)
+
         try{
             const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
                 "_id":playListId,
@@ -175,7 +176,7 @@ function SongList({songList}) {
                         <tr key={song._id}>
                             <td>{index + 1}</td>
                             <td>{song.name}</td>
-                            <td>{song.singer.map((singer, index) => (<div onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>
+                            <td>{song.singer.map((singer, index) => (<div key={index} onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>
                             <td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>
                             {/*<td>{song.style.name}</td>*/}
                             <td style={{width: 100}}>

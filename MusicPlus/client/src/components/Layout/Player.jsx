@@ -1,7 +1,7 @@
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import "react-jinke-music-player/assets/index.css";
 import b from '../../static/b.mp3'
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import PlayerContext, {UserContext} from "../../utils/AppContextProvider.jsx";
 
 
@@ -11,13 +11,15 @@ import PlayerContext, {UserContext} from "../../utils/AppContextProvider.jsx";
 
 
 function Player() {
+    const [audioInstance, setAudioInstance] = useState(null);
+    const playerRef = useRef(null);
     // newPlaylist();
     const {userDetail, setUserDetail} = useContext(UserContext)
     const {currentPlayList,setCurrentPlayList } = useContext(PlayerContext)
 
     function handleAudioListChange(currentPlayId,audioLists,audioInfo){
         setCurrentPlayList(audioLists)
-        //console.log(audioLists)
+        playerRef.current.updatePlayIndex(0)
     }
     async function handleAudioEnded(currentPlayId, audioLists, audioInfo) {
         if (audioInfo.style) {
@@ -43,19 +45,24 @@ function Player() {
         }
 
     }
+
     return (
         <div className="App">
             {/*<LoadPlaylistButton setAudioLists={setAudioLists} />*/}
             <ReactJkMusicPlayer
+                getAudioInstance={(instance) => {
+                    setAudioInstance(instance);
+                }}
                 quietUpdate
                 clearPriorAudioLists
                 glassBg
                 audioLists={currentPlayList}
                 showMediaSession
                 preload = {true}
-                autoPlay={false}
+                autoPlay={true}
                 theme="auto"
                 showLyric={true}
+                ref={playerRef}
                 showDownload={false}
                 mode="full"
 
@@ -68,7 +75,40 @@ function Player() {
                     handleAudioEnded(currentPlayId,audioLists,audioInfo)
                 }}
             />
+            {/*{audioInstance && (*/}
+            {/*    <>*/}
+            {/*        <button onClick={() => audioInstance.play()}>play</button>*/}
+            {/*        <button onClick={() => audioInstance.pause()}>pause</button>*/}
+            {/*        <button onClick={playerRef.current.load}>reload</button>*/}
+            {/*        <button onClick={() => (audioInstance.currentTime = 40)}>*/}
+            {/*            change current play time*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => (audioInstance.playbackRate = 2)}>*/}
+            {/*            change play back rate*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => (audioInstance.volume = 0.2)}>*/}
+            {/*            change volume*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => audioInstance.destroy()}>*/}
+            {/*            destroy player*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => playerRef.audio.togglePlay}>toggle play</button>*/}
+            {/*        <button onClick={() => playerRef.current.audio.clear}>clear audio lists</button>*/}
+            {/*        <button onClick={() => playerRef.current.audio.playNext()}>play next</button>*/}
+            {/*        <button onClick={() => playerRef.current.audio.playPrev()}>play prev</button>*/}
+            {/*        <button onClick={() => playerRef.current.audio.playByIndex(1)}>*/}
+            {/*            play by index1*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => playerRef.current.audio.playByIndex(0)}>*/}
+            {/*            play by index0*/}
+            {/*        </button>*/}
+            {/*        <button onClick={() => playerRef.current.updatePlayIndex(1)}>*/}
+            {/*            update play index*/}
+            {/*        </button>*/}
+            {/*    </>*/}
+            {/*)}*/}
         </div>
+
     );
 }
 export default Player;
