@@ -73,6 +73,49 @@ router.get('/similarSongs/:id', async (req, res) => {
  * @param name required search music,
  * @param pageNum not required
  * @param pageSize not required
+ * @return {
+ *     "status": 1,
+ *     "code": 200,
+ *     "data": {
+ *         "song": [
+ *             {
+ *                 "name": "愿与愁",
+ *                 "id": 2041026502,
+ *                 "artists": [
+ *                     {
+ *                         "name": "林俊杰",
+ *                         "id": 3684
+ *                     }
+ *                 ],
+ *                 "album": {
+ *                     "name": "愿与愁",
+ *                     "id": 164109253
+ *                 }
+ *             }
+ *         ],
+ *         "singer": [
+ *             {
+ *                 "name": "林俊杰",
+ *                 "id": 52331015,
+ *                 "picUrl": "https://p2.music.126.net/yCvMMpNbyMGyUCQ9UDvnSQ==/109951167316708118.jpg"
+ *             }
+ *         ],
+ *         "playlist": [],
+ *         "album": [
+ *             {
+ *                 "name": "谢幕",
+ *                 "id": 162700227,
+ *                 "picUrl": "http://p4.music.126.net/vzoGQUawsbxwFLmKAAM4Mg==/109951168505296524.jpg",
+ *                 "artist": {
+ *                     "name": "林俊杰",
+ *                     "id": 3684,
+ *                     "picUrl": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg"
+ *                 },
+ *                 "size": 1
+ *             }
+ *         ]
+ *     }
+ * }
  */
 router.get('/', [check("keyword", "'keyword' field can not be empty'").notEmpty()], async (req, res) => {
     const errors = validationResult(req);
@@ -84,9 +127,9 @@ router.get('/', [check("keyword", "'keyword' field can not be empty'").notEmpty(
     try{
         const {pageNum=1, pageSize=20, keyword} =req.query
         const requests = [
-            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=1&offset=${pageNum*pageSize}&limit=${pageSize}`),
-            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=100&offset=${pageNum*pageSize}&limit=${pageSize}`),
-            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=10&offset=${pageNum*pageSize}&limit=${pageSize}`),
+            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=1&offset=${pageNum}&limit=${pageSize}`),
+            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=100&offset=${pageNum}&limit=${pageSize}`),
+            axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=10&offset=${pageNum}&limit=${pageSize}`),
         ]
         const searchResponse = await axios.all(requests)
         const songResponse =  searchResponse[0].data

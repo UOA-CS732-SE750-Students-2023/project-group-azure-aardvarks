@@ -21,10 +21,6 @@ export default function Search(){
         setInputValue(event.target.value);
     };
 
-    const handleSearch=()=>{
-        console.log(11)
-
-    }
 
     return(
         <>
