@@ -12,6 +12,7 @@ import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import {Spinner} from "react-bootstrap";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
+import PlaylistCover from "./PlaylistCover.jsx";
 
 
 
@@ -102,12 +103,13 @@ function PlaylistContent(props) {
             ) : (
                 <>
                     <div className={"playlist-body-cover"}>
-                        <img
-                            src={default_photo}
-                            width={171}
-                            height={180}
-                            className={"playlist-body-cover-img"}
-                        />
+                        {/*<img*/}
+                        {/*    src={playList.cover===''|| playList.cover === undefined ?default_photo:playList.cover}*/}
+                        {/*    width={171}*/}
+                        {/*    height={180}*/}
+                        {/*    className={"playlist-body-cover-img"}*/}
+                        {/*/>*/}
+                        <PlaylistCover playList={playList} width={250} height={250} />
                         <div className={"playlist-body-cover-info"}>
                             <div className={"playlist-body-cover-info-title"}>
                                 {playList.name}

@@ -10,3 +10,8 @@
     font-size: 45px;
     font-weight: bold;
 }
+.playlist{
+    display: grid;
+    align-content: space-around;
+    justify-content: center;
+}

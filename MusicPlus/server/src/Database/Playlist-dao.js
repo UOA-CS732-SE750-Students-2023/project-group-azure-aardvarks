@@ -28,6 +28,7 @@ async function retrievePlayListById(id) {
         "_id": list.owner._id,
         "username": list.owner.username,
         "email": list.owner.email,
+        "cover":list.owner.cover,
         "favoritePlayList": list.owner.favoritePlayList,
         "musicGenre": list.owner.musicGenre,
         "favoriteMusic": list.owner.favoriteMusic
@@ -37,6 +38,7 @@ async function retrievePlayListById(id) {
         "name":list.name,
         "private":list.private,
         "songs":list.songs,
+        "cover":list.cover,
         "createAt":formatDateTime(list.createAt),
         "updatedAt":formatDateTime(list.updatedAt),
         "owner": list.owner

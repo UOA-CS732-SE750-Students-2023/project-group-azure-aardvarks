@@ -10,10 +10,11 @@ import {BACKEND_API} from "../../utils/env.js";
 import Toast from "react-bootstrap/Toast";
 import { useNavigate } from 'react-router-dom';
 import {Button} from "react-bootstrap";
+import Playlist from "../Playlist/Playlist.jsx";
 
 
 export default function Search(){
-    const {userPlaylist} = useContext(UserContext);
+
 
     const Navigate = useNavigate();
     const [inputValue, setInputValue] = useState('');
@@ -63,14 +64,7 @@ export default function Search(){
             </Row>
             <hr/>
             <Row>
-                {userPlaylist.map((value, i)=>(
-                    <div className="wrap mt-4" key={i}>
-                        {/*<Link to={`/playlist/${value._id}`}><Button variant={"light"}>{value.name}</Button></Link>*/}
-                        <Button variant="light" type="button" onClick={() => {Navigate(`/playlist/${value._id}`);}}>
-                            {value.name}
-                        </Button>
-                    </div>
-                ))}
+                <Playlist/>
             </Row>
         </>
     )

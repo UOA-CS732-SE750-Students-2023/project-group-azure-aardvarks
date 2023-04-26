@@ -3,6 +3,7 @@ import Figure from 'react-bootstrap/Figure'
 import defaultPlayListImage from '../../../public/default_photo.png'
 import {Link} from "react-router-dom";
 import PlaylistContent from "./PlaylistContent.jsx";
+import default_photo from "../../../public/default_photo.png";
 
 
 /**
@@ -28,9 +29,10 @@ import PlaylistContent from "./PlaylistContent.jsx";
  * @returns {JSX.Element}
  * @constructor
  */
-function PlaylistCover({playList}){
+function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
     const [isHovered, setIsHovered] = useState(false);
     const [contentShow, setContentShow] = useState(false)
+
     let [figureCaption, setFigureCaption] = useState({
         playListName:'',
         authorName:''
@@ -60,18 +62,24 @@ function PlaylistCover({playList}){
             >
             <Figure>
                 <Figure.Image
-                    width={171}
-                    height={180}
-                    alt="171x180"
-                    src={defaultPlayListImage}
+                    width={width}
+                    height={height}
+                    alt="180x180"
+                    src={playList.cover===''|| playList.cover === undefined ?default_photo:playList.cover}
                     style={{borderRadius: 20}}
                 />
-                <Figure.Caption style={{textAlignLast: "center"}}>
-                    {figureCaption.playListName}
-                </Figure.Caption>
-                <Figure.Caption style={{textAlignLast: "center"}}>
-                     {figureCaption.authorName}
-                </Figure.Caption>
+                {showMiniInfo?(
+                    <>
+                        <Figure.Caption style={{textAlignLast: "center"}}>
+                            {figureCaption.playListName}
+                        </Figure.Caption>
+                        <Figure.Caption style={{textAlignLast: "center"}}>
+                            {figureCaption.authorName}
+                        </Figure.Caption>
+                    </>
+                    ):(
+                        <></>
+                    )}
             </Figure>
             </Link>
 

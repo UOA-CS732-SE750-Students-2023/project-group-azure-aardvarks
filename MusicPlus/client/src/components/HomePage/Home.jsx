@@ -57,8 +57,8 @@ class Home extends React.Component{
                         <hr/>
                         <div className={"container-content-recommendation"}>
                             {Object.values(this.state.playList).map((playlist) => (
-                                // <PlaylistCover key={playlist._id} playList={playlist}/>
-                                <AlbumCover key={playlist._id} playList={playlist}/>
+                                <PlaylistCover key={playlist._id} playList={playlist} showMiniInfo={true}/>
+                                // <AlbumCover key={playlist._id} playList={playlist}/>
                             ))}
                         </div>
                     </div>

@@ -70,11 +70,23 @@ export function UserProvider({ children }) {
         getMyPlayList()
     },[userDetail]) // Once user updated, the render the playlist again
 
+
+    const newUserPlaylist= async (playlist)=>{
+        await axios.post(`${BACKEND_API}/api/playlist/newPlayList`,playlist, {headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }})
+        const myPlayList = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${userDetail._id}`)
+        setUserPlaylist(myPlayList.data.data)
+    }
+
+
     const context = {
         userDetail,
         setUserDetail: setCookieUserDetail,
         userPlaylist,
-        setUserPlaylist
+        setUserPlaylist,
+        newUserPlaylist
     };
 
     return (
