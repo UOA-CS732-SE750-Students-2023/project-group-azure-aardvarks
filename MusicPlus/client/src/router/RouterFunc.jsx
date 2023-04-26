@@ -14,6 +14,10 @@ import PlaylistCover from "../components/Playlist/PlaylistCover.jsx";
 import PlaylistContent from "../components/Playlist/PlaylistContent.jsx";
 import PlayerContext from "../utils/AppContextProvider.jsx"
 import UserDetail from "../components/LoginPage/UserDetail.jsx";
+import Like from "../components/LikeAndCollection/Like.jsx";
+import Collection from "../components/LikeAndCollection/Collection.jsx";
+import NewPlaylistPage from "../components/Layout/NewPlaylistPage.jsx";
+
 
 function RouterFunc() {
     // const [showPlayer, setShowPlayer] = useState(false);
@@ -26,6 +30,9 @@ function RouterFunc() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path="/playlist/:id" element={<PlaylistContent link={"/playList/searchPlayListById"}/>} />
                 <Route path="/preference" element={<PlaylistContent link={"/style/preference"}/>} />
+                <Route path="/like" element={<Like/>} />
+                <Route path="/collection" element={<Collection/>} />
+                <Route path="/newplaylistpage" element={<NewPlaylistPage/>} />
                 <Route path="/user/detail" element={<UserDetail />} />
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
