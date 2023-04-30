@@ -4,19 +4,56 @@ import {Col, Row, Button, Modal, Card} from "react-bootstrap";
 import "./index.css"
 import LyricPart from "./LyricPart";
 import CommentPart from "./CommentPart";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
+import {UserContext} from "../../utils/AppContextProvider.jsx";
 
 export default function SongContent(){
     const [showModal, setShowModal] = useState(false);
     const [keyword, setKeyword] = useState("")
     const location = useLocation();
+    const {userDetail, setUserDetail} = useContext(UserContext)
+    const [count, setCount] = useState(0)
+    const [text, setText] = useState("");
+
+    const handleChange = (event) => {
+        // 获取 textarea 中的内容
+        const value = event.target.value;
+        setText(value)
+        console.log(text)
+    };
+
+
+
+    async function postComment(content){
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                }
+            };
+            await axios.post(`${BACKEND_API}/api/comment/new`,{
+                songId: keyword,
+                comment: content
+            },config).then(
+                (response)=>{
+                    console.log("taibangle")
+                }
+            )
+        } catch (error) {
+            console.log(error);
+        }
+        setCount(count+1)
+    }
+
 
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
-        const keyword = setKeyword(searchParams.get('keyword'));
+        setKeyword(searchParams.get('keyword'));
+
 
 
         // const getResult = async () => {
@@ -48,7 +85,7 @@ export default function SongContent(){
                     <LyricPart id={keyword}></LyricPart>
                 </Col>
                 <Col className="comment justify-content-md-center ms-4">
-                    <CommentPart></CommentPart>
+                    <CommentPart songId={keyword} num={count}></CommentPart>
                 </Col>
             </Row>
             <Row>
@@ -64,10 +101,10 @@ export default function SongContent(){
                         </Card.Header>
                         <Card.Body>
                             <Card.Title>Card标题</Card.Title>
-                            <textarea className="input mb-2"  rows={5}/>
+                            <textarea onChange={(event)=> handleChange(event)} className="input mb-2"  rows={5}/>
                             <Row className="justify-content-md-center">
                                 <Col md="auto">
-                                    <Button onClick={()=>postComment("good")}>submit</Button>
+                                    <Button onClick={()=>{postComment(text);setShowModal(false);}}>submit</Button>
                                 </Col>
                             </Row>
                         </Card.Body>
@@ -79,17 +116,3 @@ export default function SongContent(){
     )
 }
 
-async function postComment(content){
-    try {
-        await axios.post(`${BACKEND_API}/api/comment/new`,{
-            songId: "33166086",
-            comment: content
-        }).then(
-            (response)=>{
-                console.log("taibangle")
-            }
-        )
-    } catch (error) {
-        console.log(error);
-    }
-}
