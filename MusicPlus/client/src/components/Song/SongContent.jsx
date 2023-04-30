@@ -21,7 +21,6 @@ export default function SongContent(){
         // 获取 textarea 中的内容
         const value = event.target.value;
         setText(value)
-        console.log(text)
     };
 
 
