@@ -17,6 +17,7 @@ import UserDetail from "../components/LoginPage/UserDetail.jsx";
 import Result from "../components/searchResult/Result";
 import AlbumContent from "../components/Album/AlbumContent";
 import SingerContent from "../components/Singer/SingerContent";
+import SongContent from "../components/Song/SongContent";
 
 
 function RouterFunc() {
@@ -36,6 +37,8 @@ function RouterFunc() {
                 <Route path="/search" element={<Result />} />
                 <Route path="/album/:id" element={<AlbumContent />} />
                 <Route path="/singer/:id" element={<SingerContent />} />
+                <Route path="/song" element={<SongContent />} />
+
                 <Route path={"*"} element={<NotFount/>}/>
             </Routes>
 

@@ -90,7 +90,7 @@ export default function Page({data, category}) {
                                     </div>:
                                 category==="song"?
                                     <div>
-                                        <Link to={`/song/${item.id}`} className="button_search">{item.name}</Link>
+                                        <Link to={`/song/?keyword=${item.id}`} className="button_search">{item.name}</Link>
                                         <button className="button_search" onClick={()=>handleAddToPlayer(item)}>play</button>
                                     </div>:
                                 category==="singer"?

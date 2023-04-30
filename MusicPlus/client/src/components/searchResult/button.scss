@@ -8,12 +8,7 @@ $black: #282936;
   transition: $property $duration $ease;
 }
 
-button {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  border: 0;
+.button {
   vertical-align: middle;
   text-decoration: none;
   background: transparent;
