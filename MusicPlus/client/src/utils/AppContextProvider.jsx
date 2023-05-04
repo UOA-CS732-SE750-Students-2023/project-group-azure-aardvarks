@@ -8,6 +8,7 @@ import TemporaryPlayList from "../components/Playlist/TemporaryPlayList.jsx";
 import {audioStreamToBlob, fetchSongDetailsAsync, formatDateTime, formatSinger} from "./commentUtils.js";
 import {BACKEND_API} from "./env.js";
 import GlobalNotification from "../components/Notification/GlobalNotification.jsx";
+import {nanoid} from "nanoid";
 const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 // Manage the user's status
 export const UserContext = React.createContext({})
@@ -143,10 +144,17 @@ export function NotificationProvider({children}){
     // )
     const [toasts, setToasts] = useState([]);
 
-    const addToast = (message, options = {}) => {
+    // const addToast = (message, options = {}) => {
+    //     setToasts((prevToasts) => [
+    //         ...prevToasts,
+    //         { id: Date.now(), message, options },
+    //     ]);
+    // };
+
+    const addToast = (id=nanoid(), message, options = {}) => {
         setToasts((prevToasts) => [
             ...prevToasts,
-            { id: Date.now(), message, options },
+            { id:id, message, options },
         ]);
     };
 

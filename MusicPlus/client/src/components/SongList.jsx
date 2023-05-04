@@ -3,7 +3,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import {useToast} from "../utils/AppContextProvider.jsx";
 import Dropdown from 'react-bootstrap/Dropdown';
-import {DropdownButton, Spinner} from "react-bootstrap";
+import {DropdownButton, Modal, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {BACKEND_API} from "../utils/env.js";
 import PlayerContext, {
@@ -11,15 +11,18 @@ import PlayerContext, {
     TemporaryPlayListContext,
     UserContext
 } from "../utils/AppContextProvider.jsx";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+import {nanoid} from "nanoid";
 
 
 function SongList({songList}) {
     const history = useNavigate();
-    const { addToast } = useToast();
+    // const { addToast } = useToast();
+    const { addToast, removeToast} = useContext(NotificationContext)
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
-    const {show, setShow} = useContext(NotificationContext)
+    const [selectedSong, setSelectedSong] = useState();
+    const [show, setShow] = useState(false);
     const {
         removeTemporaryPlaylist,
         addToTemporaryPlaylist,
@@ -48,7 +51,9 @@ function SongList({songList}) {
         //     musicSrc:musicSrc
         // }
         try{
+            const tempId = nanoid();
             setIsLoading(true);
+            addToast(tempId,`Adding ${song.name} to my list, please wait !!!`, {"autohide":false})
             const lyricResponse = await fetch(
                 "http://127.0.0.1:3000/api/music/lyric/" + song._id
             );
@@ -75,7 +80,8 @@ function SongList({songList}) {
             setCurrentPlayList(prevList => [...prevList, musicDetail])
 
             setIsLoading(false);
-            addToast(song.name+' being added to the playlist!');
+            // addToast(song.name+' being added to the playlist!');
+            removeToast(tempId)
         }catch (e){
             console.log(e)
             addToast("Song error! We will fix it ASAP!")
@@ -90,8 +96,12 @@ function SongList({songList}) {
         history("/album/"+album.id)
     }
     function handleGoToSinger(singer) {
-        console.log(singer)
         history("/singer/"+singer)
+    }
+
+    function handleShowSingers(song){
+        setShow(true)
+        setSelectedSong(song)
     }
 
     async function handleAddSongToMyPlayList(song, playListId) {
@@ -115,53 +125,52 @@ function SongList({songList}) {
 
     return (
         <>
-            <div style={{paddingBottom: 15}}>
-                <DropdownButton
-                    align="end"
-                    title="+ Add"
-                    id="dropdown-menu-align-end"
-                    size={"sm"}
-                    variant="outline-secondary"
-                    style={{
-                        borderRadius: 25,
-                        borderColor: "gray"
-                    }}
-                >
-                    {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
-                    {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
-                    {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
-                    {userPlaylist.map((value, key) => (
-                        <div key={key}>
-                            <Dropdown.Item
-                                eventKey={`${key}`}
-                                onClick={() => {
-                                    for (let song in songList){
-                                        handleAddSongToMyPlayList(songList[song], value._id)
-                                    }
-                                }}
-                            >
-                                {value.name}
-                            </Dropdown.Item>
-                        </div>
+            {/*<div style={{paddingBottom: 15}}>*/}
+            {/*    <DropdownButton*/}
+            {/*        align="end"*/}
+            {/*        title="+ Add"*/}
+            {/*        id="dropdown-menu-align-end"*/}
+            {/*        size={"sm"}*/}
+            {/*        variant="outline-secondary"*/}
+            {/*        style={{*/}
+            {/*            borderRadius: 25,*/}
+            {/*            borderColor: "gray"*/}
+            {/*        }}*/}
+            {/*    >*/}
+            {/*        /!*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*!/*/}
+            {/*        /!*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*!/*/}
+            {/*        /!*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*!/*/}
+            {/*        {userPlaylist.map((value, key) => (*/}
+            {/*            <div key={key}>*/}
+            {/*                <Dropdown.Item*/}
+            {/*                    eventKey={`${key}`}*/}
+            {/*                    onClick={() => {*/}
+            {/*                        for (let song in songList){*/}
+            {/*                            handleAddSongToMyPlayList(songList[song], value._id)*/}
+            {/*                        }*/}
+            {/*                    }}*/}
+            {/*                >*/}
+            {/*                    {value.name}*/}
+            {/*                </Dropdown.Item>*/}
+            {/*            </div>*/}
 
-                    ))}
-                    <Dropdown.Divider/>
-                    <Dropdown.Item
-                        eventKey="4"
-                        onClick={() => {
-                            for (let song in songList){
-                                console.log(songList[song])
-                                handleAddToPlayer(songList[song])}
-                            }
-                        }
-                        //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
-                    >
-                        Current playlist
-                    </Dropdown.Item>
-                </DropdownButton>
-            </div>
+            {/*        ))}*/}
+            {/*        <Dropdown.Divider/>*/}
+            {/*        <Dropdown.Item*/}
+            {/*            eventKey="4"*/}
+            {/*            onClick={() => {*/}
+            {/*                for (let song in songList){*/}
+            {/*                    handleAddToPlayer(songList[song])}*/}
+            {/*                }*/}
+            {/*            }*/}
+            {/*            //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}*/}
+            {/*        >*/}
+            {/*            Current playlist*/}
+            {/*        </Dropdown.Item>*/}
+            {/*    </DropdownButton>*/}
+            {/*</div>*/}
             <div>
-                <Table striped bordered hover>
+                <Table striped bordered hover style={{cursor:"default"}}>
                     <thead>
                     <tr>
                         <th>#</th>
@@ -173,16 +182,19 @@ function SongList({songList}) {
                     </thead>
                     <tbody>
                     {songList.map((song, index) => (
-                        <tr key={song._id}>
+                        <tr key={song._id} >
                             <td>{index + 1}</td>
-                            <td>{song.name}</td>
-                            <td>{song.singer.map((singer, index) => (<div key={index} onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>
-                            <td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>
+                            {/*<td>{song.name}</td>*/}
+                            {/*<td>{song.singer.map((singer, index) => (<div key={index} onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>*/}
+                            {/*<td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>*/}
+                            <td onClick={()=>handleAddToPlayer(song)}>{song.name}</td>
+                            <td onClick={()=>handleAddToPlayer(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
+                            <td onClick={()=>handleAddToPlayer(song)}>{song.album.name}</td>
                             {/*<td>{song.style.name}</td>*/}
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
-                                    title="+ Add"
+                                    title="More"
                                     id="dropdown-menu-align-end"
                                     size={"sm"}
                                     variant="outline-secondary"
@@ -215,6 +227,25 @@ function SongList({songList}) {
                                     >
                                         Temporary playlist
                                     </Dropdown.Item>
+                                    <Dropdown.Divider/>
+                                    <Dropdown.Item
+                                        eventKey="6"
+
+                                    >
+                                        Song information
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        eventKey="7"
+                                        onClick={()=> handleShowSingers(song)}
+                                    >
+                                        Singer information
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        eventKey="8"
+                                        onClick={()=>handleGoToAlbum(song.album)}
+                                    >
+                                        Album information
+                                    </Dropdown.Item>
                                 </DropdownButton>
                             </td>
                         </tr>
@@ -222,14 +253,57 @@ function SongList({songList}) {
                     </tbody>
                 </Table>
             </div>
+            <div>
+                <SingerSelectionDialog show={show} onHide={() => setShow(false)} song={selectedSong}/>
+            </div>
             {isLoading && (
                 <div style={{}}>
-                    <Spinner animation="border" role="status">
+                    <Spinner
+                        animation="border"
+                        role="status"
+                    >
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                 </div>
+
             )}
         </>
+    )
+}
+
+function SingerSelectionDialog(props){
+    const history = useNavigate()
+    function handleGoToSinger(singer) {
+        // console.log(singer)
+        history("/singer/"+singer)
+    }
+
+    return (
+        {...props.song === undefined?(
+            <></>
+            ):(
+                <Modal
+                    {...props}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            {props.song.name}
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h3>Author</h3>
+                        {
+                            props.song.singer.map((value,key)=>(
+                                <Button key={key} onClick={()=>handleGoToSinger(value.id)}>{value.name}</Button>
+                            ))
+                        }
+                    </Modal.Body>
+
+                </Modal>
+            )}
 
     )
 }
