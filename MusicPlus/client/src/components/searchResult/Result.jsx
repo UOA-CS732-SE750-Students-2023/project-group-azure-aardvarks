@@ -8,6 +8,7 @@ import {Col, ListGroup, Row} from "react-bootstrap";
 import "./index.css"
 import Page from "./page";
 import Loading from "./Loading";
+import AlbumPage from "./AlbumPage";
 
 export default function Result() {
     const {setShowPlayer} = useContext(PlayerContext)
@@ -70,7 +71,7 @@ export default function Result() {
                         setResult(response.data.data.song)
                         setSinger(response.data.data.singer)
                         setAlbum(response.data.data.album)
-                        // console.log(response.data.data.singer)
+                        console.log(response.data.data.album)
                         setIsLoading(false);
                     }
                 )
@@ -88,6 +89,7 @@ export default function Result() {
 
     return (
         <Layout>
+            <Row><h1>SEARCHING: {new URLSearchParams(location.search).get('keyword')}</h1></Row>
             <Row className="mb-4">
                 <Col>
                     <div className="wrap mt-4">
@@ -124,7 +126,7 @@ export default function Result() {
             <div style={{display: albumSearch?"block":"none"}}>
                 {isLoading?
                     (<Loading></Loading>) :
-                    (<Page data={album} category="album"></Page>)
+                    (<AlbumPage data={album} category="album"></AlbumPage>)
                 }
             </div>
 

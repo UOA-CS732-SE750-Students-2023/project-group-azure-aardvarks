@@ -74,3 +74,37 @@
     font-weight: bold;
 }
 
+.song_list{
+
+}
+.song_list:hover {
+    background-color: #f5f5f5;
+}
+
+.singer_pic{
+    width: 20%;
+    border-radius: 30px;
+}
+.vertical_center{
+    display: flex;
+    align-items: center;
+}
+
+.four{
+    width:25%;
+    height:auto;
+    float:left;
+    display:inline
+}
+.album_pic{
+    width: 90%;
+    border-radius: 30px;
+}
+
+.albumNameSize{
+    font-size: 10px;
+}
+.albumartistSize{
+    font-size: 8px;
+    color: #797777;
+}
