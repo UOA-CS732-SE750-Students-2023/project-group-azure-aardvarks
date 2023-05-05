@@ -157,11 +157,7 @@ input[type="text"]::placeholder {
 
 .button {
     width: 240px;
-    height: 45px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
     background-color: #fff;
@@ -169,7 +165,6 @@ input[type="text"]::placeholder {
     border-radius: 45px;
     transition: all 0.3s ease 0s;
     cursor: pointer;
-    outline: none;
 }
 
 .button:hover {

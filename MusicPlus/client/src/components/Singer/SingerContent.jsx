@@ -8,6 +8,7 @@ import {Col, Row, ListGroup} from "react-bootstrap";
 import "./index.css"
 import Loading from "../searchResult/Loading.jsx";
 import Page from "../searchResult/page.jsx";
+import AlbumPage from "../searchResult/AlbumPage";
 
 
 export default function SingerContent(){
@@ -106,7 +107,7 @@ export default function SingerContent(){
             <Row style={{display:showAlbum?"block":"none"}} className="mt-4">
                 {albumLoad?
                     (<Loading></Loading>) :
-                    (<Page data={album?album:setAlbumLoad(true)} category="album"></Page>)
+                    (<AlbumPage data={album?album:setAlbumLoad(true)} category="album"></AlbumPage>)
                 }
             </Row>
 

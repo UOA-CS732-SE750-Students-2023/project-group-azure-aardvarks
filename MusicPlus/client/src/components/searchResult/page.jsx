@@ -78,9 +78,9 @@ export default function Page({data, category}) {
                         category === "song" ?
                             <thead>
                                 <tr>
-                                    <td>Song</td>
-                                    <td>Singer</td>
-                                    <td>Album</td>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Song</td>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Singer</td>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Album</td>
                                 </tr>
                             </thead> :
                             category === "singer" ?
