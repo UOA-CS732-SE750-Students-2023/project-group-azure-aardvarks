@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.3.5",
     "bootstrap": "^5.2.3",
+    "darkmode-js": "^1.5.7",
     "js-cookie": "^3.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.3",
