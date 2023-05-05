@@ -71,7 +71,7 @@ export default function Result() {
                         setResult(response.data.data.song)
                         setSinger(response.data.data.singer)
                         setAlbum(response.data.data.album)
-                        console.log(response.data.data.album)
+                        console.log(response.data.data.singer)
                         setIsLoading(false);
                     }
                 )

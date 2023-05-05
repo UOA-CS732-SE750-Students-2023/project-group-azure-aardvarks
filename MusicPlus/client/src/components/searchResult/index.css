@@ -80,6 +80,12 @@
 .song_list:hover {
     background-color: #f5f5f5;
 }
+.cancel{
+    display: none;
+}
+.song_list:hover .cancel{
+    display: block;
+}
 
 .singer_pic{
     width: 20%;
@@ -107,4 +113,20 @@
 .albumartistSize{
     font-size: 8px;
     color: #797777;
+}
+.singerNameSize{
+    font-size: 15px;
+}
+.songSize{
+    font-size: 16px;
+}
+.playerIconSize{
+    width: 30px;
+    align-items: center;
+}
+.changeMouse{
+
+}
+.changeMouse:hover{
+    cursor: pointer;
 }

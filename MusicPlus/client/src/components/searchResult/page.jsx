@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import SongList from "../SongList.jsx";
 import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
 import {Col, Row} from "react-bootstrap";
+import play from "../../assets/play.png"
 
 export default function Page({data, category}) {
     const {addToast} = useToast();
@@ -122,10 +123,19 @@ export default function Page({data, category}) {
                             );
                         } else if (category === "song") {
                             return (
-                                <tr key={item.id} className="song_list" onClick={() => handleAddToPlayer(item)}>
-                                    <td><p onClick={()=>Navigate(`/song/?keyword=${item.id}`)}>{item.name}</p></td>
-                                    <td><p onClick={()=>Navigate(`/singer/${item.artists[0].id}`)}>{item.artists[0].name}</p></td>
-                                    <td><p onClick={()=>Navigate(`/album/${item.album.id}`)}>{item.album.name}</p></td>
+                                <tr key={item.id} className="song_list" onDoubleClick={() => handleAddToPlayer(item)}>
+                                    <td>
+                                        <Row>
+                                            <Col>
+                                                <span className="songSize changeMouse" onClick={()=>Navigate(`/song/?keyword=${item.id}`)}>{item.name}</span>
+                                            </Col>
+                                            <Col>
+                                                <img onClick={() => handleAddToPlayer(item)} className="cancel playerIconSize changeMouse" src={play}></img>
+                                            </Col>
+                                        </Row>
+                                    </td>
+                                    <td><span className="changeMouse" onClick={()=>Navigate(`/singer/${item.artists[0].id}`)}>{item.artists[0].name}</span></td>
+                                    <td><span className="changeMouse" onClick={()=>Navigate(`/album/${item.album.id}`)}>{item.album.name}</span></td>
                                 </tr>
                             );
                         } else if (category === "singer") {
@@ -134,7 +144,7 @@ export default function Page({data, category}) {
                                     <td>
                                         <Row>
                                         <Col xs={10}><img className="singer_pic me-4" src={item.picUrl} alt="My Image" /></Col>
-                                        <Col className="vertical_center"><p>{item.name}</p></Col>
+                                        <Col className="vertical_center"><p className="singerNameSize">{item.name}</p></Col>
                                         </Row>
                                     </td>
                                 </tr>
