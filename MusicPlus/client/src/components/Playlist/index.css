@@ -15,3 +15,18 @@
     align-content: space-around;
     justify-content: center;
 }
+.container-content-recommendation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .container-content-recommendation > * {
+    flex: 1 1 25%;
+    margin-right: 1%;
+    margin-bottom: 20px;
+  }
+  
+  .container-content-recommendation > *:last-child {
+    margin-right: 0;
+  }
