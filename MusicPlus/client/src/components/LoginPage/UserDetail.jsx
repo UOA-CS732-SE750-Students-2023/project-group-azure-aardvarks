@@ -159,8 +159,8 @@ function UserDetail(){
     }
     return(
         <>
-            <Layout>
-                <h2>User Detail</h2>
+            {/* <Layout> */}
+                <h2>Update User Detail</h2>
                 <Container className="user-detail-container">
                     <Row>
                         {/* Basic Information */}
@@ -291,7 +291,7 @@ function UserDetail(){
                         </Col>
                     </Row>
                 </Container>
-            </Layout>
+            {/* </Layout> */}
         </>
     )
 }

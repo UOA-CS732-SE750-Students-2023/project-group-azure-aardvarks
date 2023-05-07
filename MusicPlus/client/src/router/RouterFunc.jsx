@@ -18,6 +18,7 @@ import Result from "../components/searchResult/Result";
 import AlbumContent from "../components/Album/AlbumContent";
 import SingerContent from "../components/Singer/SingerContent";
 import SongContent from "../components/Song/SongContent";
+import Profile from "../components/User/Profile.jsx";
 
 
 function RouterFunc() {
@@ -32,7 +33,8 @@ function RouterFunc() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path="/playlist/:id" element={<PlaylistContent link={"/playList/searchPlayListById"}/>} />
                 <Route path="/preference" element={<PlaylistContent link={"/style/preference"}/>} />
-                <Route path="/user/detail" element={<UserDetail />} />
+                {/* <Route path="/user/detail" element={<UserDetail />} /> */}
+                <Route path="/user/detail" element={<Profile />} />
                 {/*<Route path="/search/:input" element={<Result />} />*/}
                 <Route path="/search" element={<Result />} />
                 <Route path="/album/:id" element={<AlbumContent />} />
