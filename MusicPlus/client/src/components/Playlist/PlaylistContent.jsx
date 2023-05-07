@@ -17,7 +17,7 @@ import PlaylistCover from "./PlaylistCover.jsx";
 
 
 function PlaylistContent(props) {
-    const {userDetail, setUserDetail} = useContext(UserContext)
+    const {userDetail, setUserDetail, userPlaylist} = useContext(UserContext)
     const { addToast } = useToast();
     const { id } = useParams();
 
@@ -35,7 +35,6 @@ function PlaylistContent(props) {
     }, [setShowPlayer]);
 
     const getPlayList = async () => {
-
         try {
             let response
             if (props.link === "/playList/searchPlayListById"){
@@ -90,7 +89,7 @@ function PlaylistContent(props) {
         setLoadingSong(true)
         getPlayList();
 
-    }, [id, userDetail]);
+    }, [id, userDetail,userPlaylist]);
 
     useEffect(()=>{
         getSongList();
@@ -103,12 +102,6 @@ function PlaylistContent(props) {
             ) : (
                 <>
                     <div className={"playlist-body-cover"}>
-                        {/*<img*/}
-                        {/*    src={playList.cover===''|| playList.cover === undefined ?default_photo:playList.cover}*/}
-                        {/*    width={171}*/}
-                        {/*    height={180}*/}
-                        {/*    className={"playlist-body-cover-img"}*/}
-                        {/*/>*/}
                         <PlaylistCover playList={playList} width={250} height={250} />
                         <div className={"playlist-body-cover-info"}>
                             <div className={"playlist-body-cover-info-title"}>

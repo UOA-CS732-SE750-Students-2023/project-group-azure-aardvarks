@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Button, ButtonGroup, DropdownButton, Modal} from "react-bootstrap";
-import {UserContext} from "../../utils/AppContextProvider.jsx";
+import {NotificationContext, UserContext} from "../../utils/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import './index.css'
 import {Accordion} from "react-bootstrap";
@@ -12,11 +12,23 @@ import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import Dropdown from 'react-bootstrap/Dropdown';
 function Playlist(){
-    const {userPlaylist, userDetail} = useContext(UserContext);
+    const {userPlaylist, userDetail, deleteUserPlaylist} = useContext(UserContext);
+    const {addToast} = useContext(NotificationContext)
     const Navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
+    async function handleDeletePlaylist(playlist, position){
+        const url = window.location.href
+        const parts = url.split('/');
+        const lastPart = parts.pop();
+        if (userPlaylist[position]._id === lastPart){
+           Navigate('/home')
+        }
+        await deleteUserPlaylist(playlist._id) // redirect
+        addToast(`delete "${playlist.name}" successfully`)
 
+    }
+    useEffect(()=>{}, [userPlaylist])
     return (
         <>
             {userDetail.username===undefined?(<></>):(
@@ -56,7 +68,15 @@ function Playlist(){
                                             id="bg-vertical-dropdown-2"
                                             style={{width:"100%"}}
                                         >
-                                            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+                                            {userPlaylist.map((value, key)=>(
+                                                <Dropdown.Item
+                                                    eventKey="2"
+                                                    key={key}
+                                                    onClick={()=>handleDeletePlaylist(value, key)}
+                                                >
+                                                    {value.name}
+                                                </Dropdown.Item>
+                                            ))}
                                         </DropdownButton>
                                     </div>
                                 </div>

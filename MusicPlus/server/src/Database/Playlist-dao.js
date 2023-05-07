@@ -52,6 +52,14 @@ async function retrievePlayListByOwnerId(id) {
     let lists = await playList.find({owner:id});
     return await getSongInfo(lists);
 }
+async function retrievePlayListByOwnerIdPublicOnly(id) {
+    let lists = await playList.find({owner:id, private:false});
+    return await getSongInfo(lists);
+}
+async function retrievePlayListByOwnerIdPrivateOnly(id) {
+    let lists = await playList.find({owner:id, private:true});
+    return await getSongInfo(lists);
+}
 async function updatePlayList(playList1) {
 
     const dbPlayList = await playList.findOneAndUpdate({ _id: playList1._id }, playList1);
@@ -98,5 +106,7 @@ export {
     updatePlayList,
     deletePlayList,
     retrievePlayListByOwnerId,
-    retrievePlayListsListPublic,retrievePlayListByIdNoSongInfo
+    retrievePlayListsListPublic,retrievePlayListByIdNoSongInfo,
+    retrievePlayListByOwnerIdPublicOnly,
+    retrievePlayListByOwnerIdPrivateOnly
 }
