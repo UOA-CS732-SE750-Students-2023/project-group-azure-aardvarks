@@ -14,7 +14,12 @@ import PlayerContext, {
 import {Navigate, useNavigate} from "react-router-dom";
 import {nanoid} from "nanoid";
 
-
+/**
+ *
+ * @param songList EG [{_id: '1974443814', name: '我记得', singer: Array(1), album: {…}, style: {…}}]
+ * @return {JSX.Element}
+ * @constructor
+ */
 function SongList({songList}) {
     const history = useNavigate();
     // const { addToast } = useToast();
@@ -30,7 +35,7 @@ function SongList({songList}) {
         showTemporaryPlaylist
     } = useContext(TemporaryPlayListContext)
     const {userPlaylist, setUserPlaylist, userDetail} = useContext(UserContext)
-
+    console.log(songList)
     async function handleAddToPlayer(song) {
         // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
         // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
@@ -230,7 +235,6 @@ function SongList({songList}) {
                                     <Dropdown.Divider/>
                                     <Dropdown.Item
                                         eventKey="6"
-
                                     >
                                         Song information
                                     </Dropdown.Item>
