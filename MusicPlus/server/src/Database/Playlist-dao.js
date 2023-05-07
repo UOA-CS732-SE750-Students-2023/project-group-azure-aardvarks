@@ -39,6 +39,7 @@ async function retrievePlayListById(id) {
         "private":list.private,
         "songs":list.songs,
         "cover":list.cover,
+        'description':list.description,
         "createAt":formatDateTime(list.createAt),
         "updatedAt":formatDateTime(list.updatedAt),
         "owner": list.owner

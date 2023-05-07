@@ -13,6 +13,7 @@ import PlayerContext, {
 } from "../utils/AppContextProvider.jsx";
 import {Navigate, useNavigate} from "react-router-dom";
 import {nanoid} from "nanoid";
+import Form from 'react-bootstrap/Form';
 
 /**
  *
@@ -215,6 +216,7 @@ function SongList({songList}) {
                                 </DropdownButton>
                             </td>
                         </tr>
+
                     ))}
                     </tbody>
                 </Table>
@@ -240,7 +242,6 @@ function SongList({songList}) {
 function SingerSelectionDialog(props){
     const history = useNavigate()
     function handleGoToSinger(singer) {
-        // console.log(singer)
         history("/singer/"+singer)
     }
 
