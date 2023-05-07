@@ -22,7 +22,6 @@ import {nanoid} from "nanoid";
  */
 function SongList({songList}) {
     const history = useNavigate();
-    // const { addToast } = useToast();
     const { addToast, removeToast} = useContext(NotificationContext)
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
@@ -37,24 +36,6 @@ function SongList({songList}) {
     const {userPlaylist, setUserPlaylist, userDetail} = useContext(UserContext)
     console.log(songList)
     async function handleAddToPlayer(song) {
-        // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
-        // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
-        // let formattedSinger = ''
-        // for (const i in singerList) {
-        //     formattedSinger = singerList[i].name + '-'
-        // }
-        //
-        //
-        // const uint8Array = new Uint8Array(response.data);
-        // const blob = new Blob([uint8Array], {type: "audio/mp3"}); // convert Uint8Array to Blob with a mp3 type
-        // const musicSrc = URL.createObjectURL(blob); // use blob to create a temporary address, like ./xxx.mp3
-        //                                             // once you close your browser, the blob will destroy
-        //
-        // const musicDetail = {
-        //     name:name,
-        //     singer:formattedSinger,
-        //     musicSrc:musicSrc
-        // }
         try{
             const tempId = nanoid();
             setIsLoading(true);
@@ -130,50 +111,7 @@ function SongList({songList}) {
 
     return (
         <>
-            {/*<div style={{paddingBottom: 15}}>*/}
-            {/*    <DropdownButton*/}
-            {/*        align="end"*/}
-            {/*        title="+ Add"*/}
-            {/*        id="dropdown-menu-align-end"*/}
-            {/*        size={"sm"}*/}
-            {/*        variant="outline-secondary"*/}
-            {/*        style={{*/}
-            {/*            borderRadius: 25,*/}
-            {/*            borderColor: "gray"*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        /!*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*!/*/}
-            {/*        /!*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*!/*/}
-            {/*        /!*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*!/*/}
-            {/*        {userPlaylist.map((value, key) => (*/}
-            {/*            <div key={key}>*/}
-            {/*                <Dropdown.Item*/}
-            {/*                    eventKey={`${key}`}*/}
-            {/*                    onClick={() => {*/}
-            {/*                        for (let song in songList){*/}
-            {/*                            handleAddSongToMyPlayList(songList[song], value._id)*/}
-            {/*                        }*/}
-            {/*                    }}*/}
-            {/*                >*/}
-            {/*                    {value.name}*/}
-            {/*                </Dropdown.Item>*/}
-            {/*            </div>*/}
 
-            {/*        ))}*/}
-            {/*        <Dropdown.Divider/>*/}
-            {/*        <Dropdown.Item*/}
-            {/*            eventKey="4"*/}
-            {/*            onClick={() => {*/}
-            {/*                for (let song in songList){*/}
-            {/*                    handleAddToPlayer(songList[song])}*/}
-            {/*                }*/}
-            {/*            }*/}
-            {/*            //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}*/}
-            {/*        >*/}
-            {/*            Current playlist*/}
-            {/*        </Dropdown.Item>*/}
-            {/*    </DropdownButton>*/}
-            {/*</div>*/}
             <div>
                 <Table striped bordered hover style={{cursor:"default"}}>
                     <thead>
@@ -189,13 +127,9 @@ function SongList({songList}) {
                     {songList.map((song, index) => (
                         <tr key={song._id} >
                             <td>{index + 1}</td>
-                            {/*<td>{song.name}</td>*/}
-                            {/*<td>{song.singer.map((singer, index) => (<div key={index} onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>*/}
-                            {/*<td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>*/}
                             <td onClick={()=>handleAddToPlayer(song)}>{song.name}</td>
                             <td onClick={()=>handleAddToPlayer(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
                             <td onClick={()=>handleAddToPlayer(song)}>{song.album.name}</td>
-                            {/*<td>{song.style.name}</td>*/}
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
@@ -204,9 +138,6 @@ function SongList({songList}) {
                                     size={"sm"}
                                     variant="outline-secondary"
                                 >
-                                    {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
-                                    {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
-                                    {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
                                     {userPlaylist.map((value, key) => (
                                         <div key={key}>
                                             <Dropdown.Item
@@ -222,15 +153,14 @@ function SongList({songList}) {
                                     <Dropdown.Item
                                         eventKey="4"
                                         onClick={() => handleAddToPlayer(song)}
-                                        //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
                                     >
-                                        Current playlist
+                                        Current player
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         eventKey="5"
                                         onClick={() => handleAddToTemporaryList(song)}
                                     >
-                                        Temporary playlist
+                                        Temporary player
                                     </Dropdown.Item>
                                     <Dropdown.Divider/>
                                     <Dropdown.Item

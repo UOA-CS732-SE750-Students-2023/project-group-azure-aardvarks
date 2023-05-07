@@ -199,6 +199,4 @@ router.get('/random/:num',async (req, res)=>{
     }
 
 })
-
-
 export default router;

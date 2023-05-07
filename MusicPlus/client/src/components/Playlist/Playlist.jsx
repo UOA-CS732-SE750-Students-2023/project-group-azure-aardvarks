@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import {Button, ButtonGroup, DropdownButton, Modal} from "react-bootstrap";
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import './index.css'
@@ -10,6 +10,7 @@ import i from '../../../public/image.png'
 import InputGroup from 'react-bootstrap/InputGroup';
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
+import Dropdown from 'react-bootstrap/Dropdown';
 function Playlist(){
     const {userPlaylist, userDetail} = useContext(UserContext);
     const Navigate = useNavigate();
@@ -46,6 +47,17 @@ function Playlist(){
                                         >
                                             New Playlist
                                         </Button>
+                                    </div>
+                                    <hr/>
+                                    <div>
+                                        <DropdownButton
+                                            as={ButtonGroup}
+                                            title="delete"
+                                            id="bg-vertical-dropdown-2"
+                                            style={{width:"100%"}}
+                                        >
+                                            <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+                                        </DropdownButton>
                                     </div>
                                 </div>
                             </Accordion.Body>

@@ -141,7 +141,7 @@ router.delete('/delete/:commentId',auth,async (req, res)=>{
 
 /**
  * Edit a comment by a commentId
- * @route DELETE /api/comment/edit/:commentId
+ * @route Edit /api/comment/edit/:commentId
  * @Login required
  * @param newComment
  */
