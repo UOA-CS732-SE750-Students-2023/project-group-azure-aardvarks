@@ -5,16 +5,18 @@ import "./button.scss"
 import {Link, useNavigate} from "react-router-dom";
 import SongList from "../SongList.jsx";
 import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
+import {Col, Row} from "react-bootstrap";
+import play from "../../assets/play.png"
 
 export default function Page({data, category}) {
-    const { addToast } = useToast();
+    const {addToast} = useToast();
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const [isLoading, setIsLoading] = useState(false);
 
     const Navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0);
 
-    const PER_PAGE = 10;
+    const PER_PAGE = 12;
     const offset = currentPage * PER_PAGE;
 
     const currentPageData = useMemo(() => {
@@ -23,12 +25,12 @@ export default function Page({data, category}) {
 
     const pageCount = Math.ceil(data.length / PER_PAGE);
 
-    const handlePageClick = ({ selected }) => {
+    const handlePageClick = ({selected}) => {
         setCurrentPage(selected);
     };
 
     async function handleAddToPlayer(song) {
-        try{
+        try {
             setIsLoading(true);
             const lyricResponse = await fetch(
                 "http://127.0.0.1:3000/api/music/lyric/" + song.id
@@ -56,8 +58,8 @@ export default function Page({data, category}) {
             // setCurrentPlayList([...currentPlayList,musicDetail])
             setCurrentPlayList(prevList => [...prevList, musicDetail])
             setIsLoading(false);
-            addToast(song.name+' being added to the playlist!');
-        }catch (e){
+            addToast(song.name + ' being added to the playlist!');
+        } catch (e) {
             console.log(e)
             addToast("Song add error! We will fix it ASAP!")
         }
@@ -68,43 +70,98 @@ export default function Page({data, category}) {
         <div className="container">
             <div className="table-responsive">
                 <table className="table">
-                    <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>NAME</td>
-                    </tr>
-                    </thead>
+                    {category === "album" ?
+                        <thead>
+                            <tr>
+                            </tr>
+                        </thead> :
+                        category === "song" ?
+                            <thead>
+                                <tr>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Song</td>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Singer</td>
+                                    <td style={{fontSize: "25px",fontWeight:"bold"}}>Album</td>
+                                </tr>
+                            </thead> :
+                            category === "singer" ?
+                                <thead>
+                                    <tr>
+                                    </tr>
+                                </thead> :
+                                <div>
+                                    <p>something wrong</p>
+                                </div>
+                    }
+
+
                     <tbody>
-                    {currentPageData.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td className="mt-4">
-                                {category==="album"?
-                                    <div id="container">
-                                        <button className="learn-more" onClick={() => {Navigate(`/album/${item.id}`);}}>
-                                            <span className="circle" aria-hidden="true">
-                                                <span className="icon arrow"></span>
-                                            </span>
-                                            <span className="button-text">{item.name}</span>
-                                        </button>
-                                    </div>:
-                                category==="song"?
-                                    <div>
-                                        <Link to={`/song/?keyword=${item.id}`} className="button_search">{item.name}</Link>
-                                        <button className="button_search" onClick={()=>handleAddToPlayer(item)}>play</button>
-                                    </div>:
-                                category==="singer"?
-                                    <div>
-                                        <Link to={`/singer/${item.id}`} className="button_search">{item.name}</Link>
-                                    </div>:
-                                    <div>
+                    {currentPageData.map((item) => {
+                        if (category === "album") {
+                            return (
+                                <tr key={item.id} className="four mt-4">
+                                    <td>
+                                        <img onClick={() => {Navigate(`/album/${item.id}`);}}
+                                             className="singer_pic" src={item.picUrl} alt="My Image" />
+                                    </td>
+                                </tr>
+
+
+
+                                // <tr key={item.id}>
+                                //     <td>{item.id}</td>
+                                //     <td className="mt-4">
+                                //         <div id="container">
+                                //             <button className="learn-more" onClick={() => {Navigate(`/album/${item.id}`);}}>
+                                //             <span className="circle" aria-hidden="true">
+                                //               <span className="icon arrow"></span>
+                                //             </span>
+                                //                 <span className="button-text">{item.name}</span>
+                                //             </button>
+                                //         </div>
+                                //     </td>
+                                // </tr>
+                            );
+                        } else if (category === "song") {
+                            return (
+                                <tr key={item.id} className="song_list" onDoubleClick={() => handleAddToPlayer(item)}>
+                                    <td>
+                                        <Row>
+                                            <Col>
+                                                <span className="songSize changeMouse" onClick={()=>Navigate(`/song/?keyword=${item.id}`)}>{item.name}</span>
+                                            </Col>
+                                            <Col>
+                                                <img onClick={() => handleAddToPlayer(item)} className="cancel playerIconSize changeMouse" src={play}></img>
+                                            </Col>
+                                        </Row>
+                                    </td>
+                                    <td><span className="changeMouse" onClick={()=>Navigate(`/singer/${item.artists[0].id}`)}>{item.artists[0].name}</span></td>
+                                    <td><span className="changeMouse" onClick={()=>Navigate(`/album/${item.album.id}`)}>{item.album.name}</span></td>
+                                </tr>
+                            );
+                        } else if (category === "singer") {
+                            return (
+                                <tr key={item.id} className="song_list" onClick={()=>Navigate(`/singer/${item.id}`)}>
+                                    <td>
+                                        <Row>
+                                        <Col xs={10}><img className="singer_pic me-4" src={item.picUrl} alt="My Image" /></Col>
+                                        <Col className="vertical_center"><p className="singerNameSize">{item.name}</p></Col>
+                                        </Row>
+                                    </td>
+                                </tr>
+                            );
+                        } else {
+                            return (
+                                <tr key={item.id}>
+                                    <td>{item.id}</td>
+                                    <td className="mt-4">
                                         <p>something wrong</p>
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    ))}
+                                    </td>
+                                </tr>
+                            );
+                        }
+                    })}
                     </tbody>
+
                 </table>
             </div>
             <ReactPaginate

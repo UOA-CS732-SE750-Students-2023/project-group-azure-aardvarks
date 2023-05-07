@@ -6,6 +6,7 @@ import {BACKEND_API} from "../../utils/env.js";
 import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
 import {Col, Row, ListGroup} from "react-bootstrap";
 import "./index.css"
+import Page from "../searchResult/page";
 
 
 export default function AlbumContent(){
@@ -53,10 +54,11 @@ export default function AlbumContent(){
                             <Row className="mt-4"><p>singer: {album?album.artist.name:"a"}</p></Row>
                         </Col>
                     </Row>
-                    <Row className="mt-4" style={{overflow: "scroll", height: "50%"}}>
-                        <ListGroup>
-                            {song?song.map((s) => <ListGroup.Item key={s.id}>{s?s.name:"a"}</ListGroup.Item>):"test"}
-                        </ListGroup>
+                    <Row className="mt-4">
+                        {/*<ListGroup>*/}
+                        {/*    {song?song.map((s) => <ListGroup.Item key={s.id}>{s?s.name:"a"}</ListGroup.Item>):"test"}*/}
+                        {/*</ListGroup>*/}
+                        {song?<Page data={song} category={"song"}></Page>:"Album content song load error"}
                     </Row>
                 </div>
             }

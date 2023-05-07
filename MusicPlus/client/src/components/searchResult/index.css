@@ -74,3 +74,59 @@
     font-weight: bold;
 }
 
+.song_list{
+
+}
+.song_list:hover {
+    background-color: #f5f5f5;
+}
+.cancel{
+    display: none;
+}
+.song_list:hover .cancel{
+    display: block;
+}
+
+.singer_pic{
+    width: 20%;
+    border-radius: 30px;
+}
+.vertical_center{
+    display: flex;
+    align-items: center;
+}
+
+.four{
+    width:25%;
+    height:auto;
+    float:left;
+    display:inline
+}
+.album_pic{
+    width: 90%;
+    border-radius: 30px;
+}
+
+.albumNameSize{
+    font-size: 10px;
+}
+.albumartistSize{
+    font-size: 8px;
+    color: #797777;
+}
+.singerNameSize{
+    font-size: 15px;
+}
+.songSize{
+    font-size: 16px;
+}
+.playerIconSize{
+    width: 30px;
+    align-items: center;
+}
+.changeMouse{
+
+}
+.changeMouse:hover{
+    cursor: pointer;
+}
