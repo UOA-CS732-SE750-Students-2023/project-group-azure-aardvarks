@@ -1,7 +1,20 @@
 # Music Plus
-# File structure
-xxx
-# Configuration
+A music app which provides personalised recommendations based on a user's listening habits and preferences. It will also offer a social component, allowing users to connect and share music with friends.
+
+## Features
+* Personalised Song Recommendations
+* Great Streaming Quality
+* Add Songs to Favorite
+* Post comments of songs
+* Share playlist
+* Trending music
+* Support both mobile and PC users
+* No Subscription
+
+
+## Screenshots
+(...)
+## Configuration
 ```shell
 # backend server
 # step 1, create .env environment.  
@@ -16,7 +29,7 @@ cd ./Music Plus/server
 mkdir log
 vi access.log # create log file
 ```
-# Startup
+## Startup
 ```shell
 # Client
 cd ./Music Plus/client
