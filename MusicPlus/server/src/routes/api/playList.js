@@ -6,7 +6,11 @@ import {
     retrievePlayList,
     retrievePlayListById,
     retrievePlayListsList,
-    retrievePlayListByOwnerId, retrievePlayListsListPublic, updatePlayList, retrievePlayListByIdNoSongInfo
+    retrievePlayListByOwnerId,
+    retrievePlayListsListPublic,
+    updatePlayList,
+    retrievePlayListByIdNoSongInfo,
+    retrievePlayListByOwnerIdPublicOnly, retrievePlayListByOwnerIdPrivateOnly, deletePlayList
 } from "../../Database/playList-dao.js";
 import {formatDateTime, returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
@@ -79,6 +83,30 @@ router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
         console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
+
+/**
+ * @param type required ("public", "private" or "all")
+ * @param id required
+ */
+router.post('/search/owner/id', async (req, res) => {
+    try{
+        const {id, type} = req.body
+        if (type === "public"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerIdPublicOnly(id)) )
+        }else if (type === "private"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerIdPrivateOnly(id)) )
+        }
+        else if(type === "all"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
+        }else{
+            return res.status(501).json(returnMsg(0, 501,"Input error"));
+        }
+
+    }catch (e) {
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
+    }
+});
+
 router.post('/addSong', auth,async (req, res) => {
     //向歌单添加歌曲
     try{
@@ -112,7 +140,7 @@ router.post('/addSong', auth,async (req, res) => {
     }
 
 });
-router.delete('/deleteSong', auth,async (req, res) => {
+router.post('/deleteSong', auth,async (req, res) => {
     //删除歌单歌曲
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
@@ -199,4 +227,18 @@ router.get('/random/:num',async (req, res)=>{
     }
 
 })
+
+/**
+ * Delete a playlist by playlist's id
+ */
+router.delete('/delete/:id', auth,async (req, res)=>{
+    const { id } = req.params;
+    try{
+        await deletePlayList(id)
+        return res.send(returnMsg(0, 500, `delete ${id} successfully`))
+    }catch (e){
+        return res.send(returnMsg(0, 500, e))
+    }
+})
+
 export default router;

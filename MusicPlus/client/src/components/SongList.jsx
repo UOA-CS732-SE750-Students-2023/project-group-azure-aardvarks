@@ -13,6 +13,7 @@ import PlayerContext, {
 } from "../utils/AppContextProvider.jsx";
 import {Navigate, useNavigate} from "react-router-dom";
 import {nanoid} from "nanoid";
+import Form from 'react-bootstrap/Form';
 
 /**
  *
@@ -22,24 +23,31 @@ import {nanoid} from "nanoid";
  */
 function SongList({songList}) {
     const history = useNavigate();
-    const { addToast, removeToast} = useContext(NotificationContext)
+    const { addToast, removeToast} = useContext(NotificationContext);
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
+    const {userPlaylist, setUserPlaylist, userDetail,renewUserPlaylist} = useContext(UserContext);
+    const {
+        addToTemporaryPlaylist
+    } = useContext(TemporaryPlayListContext)
+
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
     const [selectedSong, setSelectedSong] = useState();
     const [show, setShow] = useState(false);
-    const {
-        removeTemporaryPlaylist,
-        addToTemporaryPlaylist,
-        addToCurrentPlaylist,
-        showTemporaryPlaylist
-    } = useContext(TemporaryPlayListContext)
-    const {userPlaylist, setUserPlaylist, userDetail} = useContext(UserContext)
-    console.log(songList)
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+    useEffect(()=>{
+        // check current playlist is yours or other users'
+        const url = window.location.href
+        const parts = url.split('/');
+        const lastPart = parts.pop();
+        setIsCurrentUser(userPlaylist.find(u=>u._id === lastPart) !== undefined);
+    },[])
+
     async function handleAddToPlayer(song) {
         try{
             const tempId = nanoid();
             setIsLoading(true);
-            addToast(tempId,`Adding ${song.name} to my list, please wait !!!`, {"autohide":false})
+            addToast(`Adding ${song.name} to my list, please wait !!!`,tempId, {"autohide":false})
             const lyricResponse = await fetch(
                 "http://127.0.0.1:3000/api/music/lyric/" + song._id
             );
@@ -88,6 +96,21 @@ function SongList({songList}) {
     function handleShowSingers(song){
         setShow(true)
         setSelectedSong(song)
+    }
+
+    async function handleDeleteSong(song){
+        const url = window.location.href
+        const parts = url.split('/');
+        const playListId = parts.pop();
+        await axios.post(`${BACKEND_API}/api/playList/deleteSong`, {
+            '_id':playListId,
+            "songs":[song._id]
+        }, {headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }})
+        await renewUserPlaylist()
+        addToast(`delete "${song.name}" successfully !!!`)
     }
 
     async function handleAddSongToMyPlayList(song, playListId) {
@@ -180,9 +203,20 @@ function SongList({songList}) {
                                     >
                                         Album information
                                     </Dropdown.Item>
+                                    { isCurrentUser===true ? (
+                                        <>
+                                            <Dropdown.Divider/>
+                                            <Dropdown.Item
+                                                eventKey="9"
+                                                onClick={()=>handleDeleteSong(song)}
+                                            >
+                                                Delete
+                                            </Dropdown.Item>
+                                    </>):(<></>)}
                                 </DropdownButton>
                             </td>
                         </tr>
+
                     ))}
                     </tbody>
                 </Table>
@@ -208,7 +242,6 @@ function SongList({songList}) {
 function SingerSelectionDialog(props){
     const history = useNavigate()
     function handleGoToSinger(singer) {
-        // console.log(singer)
         history("/singer/"+singer)
     }
 

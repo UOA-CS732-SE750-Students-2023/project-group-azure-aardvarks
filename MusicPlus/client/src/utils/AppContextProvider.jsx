@@ -9,6 +9,7 @@ import {audioStreamToBlob, fetchSongDetailsAsync, formatDateTime, formatSinger} 
 import {BACKEND_API} from "./env.js";
 import GlobalNotification from "../components/Notification/GlobalNotification.jsx";
 import {nanoid} from "nanoid";
+import playlist from "../components/Playlist/Playlist.jsx";
 const backendAPI = import.meta.env.VITE_BACKEND_BASE_URL;
 // Manage the user's status
 export const UserContext = React.createContext({})
@@ -71,7 +72,6 @@ export function UserProvider({ children }) {
         getMyPlayList()
     },[userDetail]) // Once user updated, the render the playlist again
 
-
     const newUserPlaylist= async (playlist)=>{
         await axios.post(`${BACKEND_API}/api/playlist/newPlayList`,playlist, {headers:{
                 'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
@@ -81,13 +81,38 @@ export function UserProvider({ children }) {
         setUserPlaylist(myPlayList.data.data)
     }
 
+    const renewUserPlaylist = async (playListId, song)=>{
+        const myPlayList = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${userDetail._id}`)
+        setUserPlaylist(myPlayList.data.data)
+    }
+
+    const deleteUserPlaylist = async (playlistId)=>{
+        await axios.delete(`${BACKEND_API}/api/playList/delete/${playlistId}`, {headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }})
+        const myPlayList = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${userDetail._id}`)
+        setUserPlaylist(myPlayList.data.data)
+    }
+
+    const updateUserPlaylist = async (playlist)=>{
+        await axios.put(`${BACKEND_API}/api/playList/changePlayListInfo`,playlist,{headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }})
+        const myPlayList = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${userDetail._id}`)
+        setUserPlaylist(myPlayList.data.data)
+    }
 
     const context = {
         userDetail,
         setUserDetail: setCookieUserDetail,
         userPlaylist,
         setUserPlaylist,
-        newUserPlaylist
+        newUserPlaylist,
+        deleteUserPlaylist,
+        renewUserPlaylist,
+        updateUserPlaylist
     };
 
     return (
@@ -151,7 +176,14 @@ export function NotificationProvider({children}){
     //     ]);
     // };
 
-    const addToast = (id=nanoid(), message, options = {}) => {
+    // const addToast = (id=nanoid(), message ,options = {}) => {
+    //     setToasts((prevToasts) => [
+    //         ...prevToasts,
+    //         { id:id, message, options },
+    //     ]);
+    // };
+
+    const addToast = ( message,id=nanoid(),options = {}) => {
         setToasts((prevToasts) => [
             ...prevToasts,
             { id:id, message, options },
