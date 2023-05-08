@@ -23,8 +23,10 @@ function AllPlayList({type="all", id="64366fc18a753d1f42b35d3b"}){
                 id : id,
                 type:type
             })
+            
             if (playListDetail.data.status === 1){
                 setPlayList(playListDetail.data.data)
+                
             }
         }
         getPlayList();
