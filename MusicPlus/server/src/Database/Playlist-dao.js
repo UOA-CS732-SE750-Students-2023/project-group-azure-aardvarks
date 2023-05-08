@@ -50,15 +50,15 @@ async function retrievePlayListByIdNoSongInfo(id) {
     return await playList.findById(id);
 }
 async function retrievePlayListByOwnerId(id) {
-    let lists = await playList.find({owner:id});
+    let lists = await playList.find({owner:id}).populate('owner');
     return await getSongInfo(lists);
 }
 async function retrievePlayListByOwnerIdPublicOnly(id) {
-    let lists = await playList.find({owner:id, private:false});
+    let lists = await playList.find({owner:id, private:false}).populate('owner');
     return await getSongInfo(lists);
 }
 async function retrievePlayListByOwnerIdPrivateOnly(id) {
-    let lists = await playList.find({owner:id, private:true});
+    let lists = await playList.find({owner:id, private:true}).populate('owner');
     return await getSongInfo(lists);
 }
 async function updatePlayList(playList1) {
