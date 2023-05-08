@@ -251,7 +251,7 @@ function UserDetail() {
                         setUserDetail({})
                         history("/home")
                         addToast('Log out successfully!');
-                    }}>Log out</Button>
+                    }}>Log Out</Button>
                 </div>
             </Form>
 
@@ -265,19 +265,19 @@ function UserDetail() {
                     }} />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>New password</Form.Label>
+                    <Form.Label>New Password</Form.Label>
                     <Form.Control type="password" onChange={(event) => {
                         setUserNewPassword(event.target.value);
                     }} />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>double check password</Form.Label>
+                    <Form.Label>Double Check Password</Form.Label>
                     <Form.Control type="password" onChange={(event) => {
                         setUserCheckNewPassword(event.target.value);
                     }} />
                 </Form.Group>
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-                <Button type="submit" onClick={(event) => changePassword(event)} style={{ marginTop: "1vh" }}>change password</Button>
+                <Button type="submit" onClick={(event) => changePassword(event)} style={{ marginTop: "1vh" }}>Change Password</Button>
             
                 </div>
                 
