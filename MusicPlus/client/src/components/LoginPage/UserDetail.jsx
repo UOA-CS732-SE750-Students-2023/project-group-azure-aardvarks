@@ -190,7 +190,7 @@ function UserDetail() {
                 <Form.Group>
                     <Form.Label>DOB</Form.Label>
                     <Form.Control type="date" value={userDOB} onChange={(event) => {
-                        setUserDOB(event.target.value); // 更新日期值
+                        setUserDOB(event.target.value); 
                     }} />
                 </Form.Group>
                 <Form.Group>

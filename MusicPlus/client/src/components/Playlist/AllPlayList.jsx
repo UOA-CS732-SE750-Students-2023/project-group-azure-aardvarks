@@ -23,8 +23,10 @@ function AllPlayList({type="public", id}){
                 id : id,
                 type:type
             })
+            
             if (playListDetail.data.status === 1){
                 setPlayList(playListDetail.data.data)
+                
             }
         }
         getPlayList();
