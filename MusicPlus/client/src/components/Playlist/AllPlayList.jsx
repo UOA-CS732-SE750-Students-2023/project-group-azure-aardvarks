@@ -12,9 +12,9 @@ import {UserContext} from "../../utils/AppContextProvider.jsx";
  * @return {JSX.Element}
  * @constructor
  */
-function AllPlayList({type="all", id="64366fc18a753d1f42b35d3b"}){
+function AllPlayList({type="public", id}){
     const [playList, setPlayList] = useState([])
-    const {userDetail} = useContext(UserContext)
+    const {userDetail,userPlaylist} = useContext(UserContext)
 
     useEffect(()=>{
         const getPlayList = async () => {
@@ -28,11 +28,11 @@ function AllPlayList({type="all", id="64366fc18a753d1f42b35d3b"}){
             }
         }
         getPlayList();
-    }, [userDetail._id])
+    }, [userDetail._id,userPlaylist])
     return (
-        <div className={"container-content-recommendation"}>
+        <div className={"my-profile-playlist-cover"}>
             {(playList).map((playlist) => (
-                <PlaylistCover key={playlist._id} playList={playlist} showMiniInfo={true}/>
+                <PlaylistCover key={playlist._id} playList={playlist} showMiniInfo={true} fixMiniInfo={true}/>
                 // <AlbumCover key={playlist._id} playList={playlist}/>
             ))}
         </div>

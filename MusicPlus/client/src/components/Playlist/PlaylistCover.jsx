@@ -29,7 +29,7 @@ import default_photo from "../../../public/default_photo.png";
  * @returns {JSX.Element}
  * @constructor
  */
-function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
+function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fixMiniInfo=false}){
     const [isHovered, setIsHovered] = useState(false);
     const [contentShow, setContentShow] = useState(false)
 
@@ -38,13 +38,17 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
         authorName:''
     });
     useEffect(()=>{
-        if (isHovered){
+        if (fixMiniInfo){
             setFigureCaption({playListName: playList.name, authorName: `Author: ${playList.owner.username}`})
-        }else {
-            setFigureCaption({
-                playListName:'',
-                authorName:''
-            })
+        }else{
+            if (isHovered){
+                setFigureCaption({playListName: playList.name, authorName: `Author: ${playList.owner.username}`})
+            }else {
+                setFigureCaption({
+                    playListName:'',
+                    authorName:''
+                })
+            }
         }
     }, [isHovered])
 
