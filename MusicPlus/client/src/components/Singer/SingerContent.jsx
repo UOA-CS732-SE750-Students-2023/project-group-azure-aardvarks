@@ -73,7 +73,7 @@ export default function SingerContent(){
             try {
                 await axios.get(`${BACKEND_API}/api/singer/songs/${extractedSearchTerm}/0/100`).then(response => {
                     setSong(response.data.data)
-                    console.log(response.data.data)
+                    // console.log(response.data.data)
                     setSongLoad(false)
                 });
 
