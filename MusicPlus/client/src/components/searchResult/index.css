@@ -86,6 +86,9 @@
 .song_list:hover .cancel{
     display: block;
 }
+.song_list:hover .more{
+    display: block;
+}
 
 .singer_pic{
     width: 20%;
@@ -129,4 +132,24 @@
 }
 .changeMouse:hover{
     cursor: pointer;
+}
+
+.more{
+    width: 30px;
+    height: 30px;
+    /*display: none;*/
+    /*transform-origin: center;*/
+    /*transform: scale(0.5);*/
+    /*background-image: url("../../assets/more.png");*/
+}
+.more:hover{
+
+}
+.dropdownButton{
+    background-color: white;
+}
+.custom-dropdown .dropdown-toggle::after {
+    display: none;
+}
+.dropdownTitle{
 }

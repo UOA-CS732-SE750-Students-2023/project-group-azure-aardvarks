@@ -4,13 +4,18 @@ import './index.css';
 import "./button.scss"
 import {Link, useNavigate} from "react-router-dom";
 import SongList from "../SongList.jsx";
-import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
-import {Col, Row} from "react-bootstrap";
+import PlayerContext, {UserContext, useToast} from "../../utils/AppContextProvider.jsx";
+import {Col, Row, Dropdown, ButtonGroup } from "react-bootstrap";
 import play from "../../assets/play.png"
+import more1 from "../../assets/more1.png"
+import axios from "axios";
+import {BACKEND_API} from "../../utils/env.js";
+
 
 export default function Page({data, category}) {
     const {addToast} = useToast();
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
+    const {userPlaylist, setUserPlaylist, userDetail,renewUserPlaylist} = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(false);
 
     const Navigate = useNavigate();
@@ -62,6 +67,26 @@ export default function Page({data, category}) {
         } catch (e) {
             console.log(e)
             addToast("Song add error! We will fix it ASAP!")
+        }
+
+    }
+
+    async function handleAddSongToMyPlayList(song, playListId) {
+        try{
+            const response = await axios.post(`${BACKEND_API}/api/playList/addSong`
+                , {
+                "_id":playListId,
+                "songs":[`${song.id}`]
+            }
+            , {headers:{
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                }}).catch((err)=>{
+                console.log(err)
+            })
+        }catch (e) {
+            console.log(e)
+            addToast("Something wrong! We will fix it ASAP!")
         }
 
     }
@@ -136,6 +161,27 @@ export default function Page({data, category}) {
                                     </td>
                                     <td><span className="changeMouse" onClick={()=>Navigate(`/singer/${item.artists[0].id}`)}>{item.artists[0].name}</span></td>
                                     <td><span className="changeMouse" onClick={()=>Navigate(`/album/${item.album.id}`)}>{item.album.name}</span></td>
+                                    <td>
+                                        <Dropdown as={ButtonGroup} className="custom-dropdown">
+                                            <Dropdown.Toggle variant="light" id="dropdown-basic" className="dropdownButton">
+                                                <img className="more changeMouse" src={more1}></img>
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item className="dropdownTitle">add to playlist</Dropdown.Item>
+                                                <Dropdown.Divider/>
+                                                {userPlaylist.map((value, key) => (
+                                                    <div key={key}>
+                                                        <Dropdown.Item
+                                                            eventKey={`${key}`}
+                                                            onClick={() => handleAddSongToMyPlayList(item, value._id)}
+                                                        >
+                                                            {value.name}
+                                                        </Dropdown.Item>
+                                                    </div>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </td>
                                 </tr>
                             );
                         } else if (category === "singer") {

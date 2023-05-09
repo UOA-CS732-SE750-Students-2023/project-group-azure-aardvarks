@@ -114,7 +114,6 @@ function SongList({songList}) {
     }
 
     async function handleAddSongToMyPlayList(song, playListId) {
-
         try{
             const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
                 "_id":playListId,
