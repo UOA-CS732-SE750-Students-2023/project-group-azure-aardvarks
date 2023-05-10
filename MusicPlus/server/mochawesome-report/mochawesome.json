@@ -1,0 +1,312 @@
+{
+  "stats": {
+    "suites": 5,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-05-10T04:41:38.642Z",
+    "end": "2023-05-10T04:41:38.652Z",
+    "duration": 10,
+    "testsRegistered": 8,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "9093103e-9165-4b9a-8017-efa27de22ad8",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4a4f7f22-7264-497b-87e9-06b33d86f50a",
+          "title": "Array",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\test.js",
+          "file": "\\test\\test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "791bb794-0573-45e7-9d05-7c3a0239a9cf",
+              "title": "#indexOf()",
+              "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\test.js",
+              "file": "\\test\\test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return -1 when the value is not present",
+                  "fullTitle": "Array #indexOf() should return -1 when the value is not present",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "assert.equal([1,2,3].indexOf(4), -1);",
+                  "err": {},
+                  "uuid": "e5fe41df-e6e1-4484-9c66-2cb121645101",
+                  "parentUUID": "791bb794-0573-45e7-9d05-7c3a0239a9cf",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "e5fe41df-e6e1-4484-9c66-2cb121645101"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "1862202d-7edb-4c3f-9433-d2ba1a85a95e",
+          "title": "Return Message",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
+          "file": "\\test\\unit\\utils\\commonUtils.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should contain message",
+              "fullTitle": "Return Message Should contain message",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(JSON.stringify(returnMsg(1,200,\"Success\")), JSON.stringify({\n    \"status\": 1,\n    \"code\": 200,\n    \"data\": \"Success\"\n}));",
+              "err": {},
+              "uuid": "eac213e4-2b71-4660-963e-f7fd4c446c31",
+              "parentUUID": "1862202d-7edb-4c3f-9433-d2ba1a85a95e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "eac213e4-2b71-4660-963e-f7fd4c446c31"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "24638f4a-bcf6-4c3f-bd62-1adf04113c0e",
+          "title": "Date Format",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
+          "file": "\\test\\unit\\utils\\commonUtils.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should contain message",
+              "fullTitle": "Date Format Should contain message",
+              "timedOut": false,
+              "duration": 4,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    formatDateTime(new Date()),\n    formatDateTime(new Date())\n);",
+              "err": {},
+              "uuid": "ab85039f-ef87-4c11-80c8-060c3ef4003a",
+              "parentUUID": "24638f4a-bcf6-4c3f-bd62-1adf04113c0e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ab85039f-ef87-4c11-80c8-060c3ef4003a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+          "title": "Paginator",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
+          "file": "\\test\\unit\\utils\\commonUtils.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Return the first page with page size 2",
+              "fullTitle": "Paginator Return the first page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(Paginator(2,1,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[1,2]})\n);",
+              "err": {},
+              "uuid": "229549b1-e88a-429c-9133-ad6758fa108b",
+              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the second page with page size 2",
+              "fullTitle": "Paginator Return the second page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(Paginator(2,2,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":2,\"length\":5,\"data\":[3,4]})\n);",
+              "err": {},
+              "uuid": "789167ca-7ee4-4754-a045-b086d651f9b8",
+              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the third page with page size 2",
+              "fullTitle": "Paginator Return the third page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(Paginator(2,3,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":3,\"length\":5,\"data\":[5]})\n);",
+              "err": {},
+              "uuid": "340921f4-50bc-430b-9980-2329808a3ca1",
+              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the fourth page with page size 2",
+              "fullTitle": "Paginator Return the fourth page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(Paginator(2,4,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":4,\"length\":5,\"data\":[]})\n);",
+              "err": {},
+              "uuid": "81893089-9b27-4417-83ba-7b332e4c3770",
+              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Callback: reverse value",
+              "fullTitle": "Paginator Callback: reverse value",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(Paginator(2,1,[1,2,3,4,5], (x)=>{x.reverse()})),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[2,1]})\n);",
+              "err": {},
+              "uuid": "3f8278c9-60c2-4c72-84f8-03911e385272",
+              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "229549b1-e88a-429c-9133-ad6758fa108b",
+            "789167ca-7ee4-4754-a045-b086d651f9b8",
+            "340921f4-50bc-430b-9980-2329808a3ca1",
+            "81893089-9b27-4417-83ba-7b332e4c3770",
+            "3f8278c9-60c2-4c72-84f8-03911e385272"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

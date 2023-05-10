@@ -10,7 +10,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 // Setup Express
-const app = express();
+export const app = express();
 const port = process.env.PORT ?? 3000;
 
 app.use(cors());
