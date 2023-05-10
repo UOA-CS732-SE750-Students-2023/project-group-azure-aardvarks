@@ -3,23 +3,30 @@ import Carousel from 'react-bootstrap/Carousel';
 import downloadImage from '../../../public/download.jpg';
 import code_structure from '../../../public/code_structure.png';
 import Layout from "../Layout/Layout.jsx";
-import { BACKEND_API } from "../../utils/env.js";
+import { BACKEND_API, NETEASY_API } from "../../utils/env.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
+
 function ActionSlide() {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
-    const { id } = useParams();
+    
     
 
     useEffect(() => {
-        fetch("http://localhost:4000/album/list?limit=5")
-            .then(response => response.json())
-            .then(data => setProducts(data.products))
-            .catch(error => console.error(error));
-    }, []);
+        async function fetchData() {
+          try {
+            const response = await fetch(`${NETEASY_API}/album/list?limit=5`);
+            const data = await response.json();
+            setProducts(data.products);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        fetchData();
+      }, []);
 
     const coverUrls = products.map(product => product.coverUrl);
     const albumIds = products.map(product => product.albumId);
@@ -37,7 +44,7 @@ function ActionSlide() {
                             style={{ maxWidth: '30%', maxHeight: '30%', cursor: 'pointer' }}
                             className="mx-auto d-block"
                             src={coverUrl}
-                            alt="First slide"
+                            alt="No picture"
                             onClick={() => handleImageClick(albumIds[index])}
 
                         />
