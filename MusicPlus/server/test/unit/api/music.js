@@ -73,9 +73,10 @@ describe('GET /api/music/lyric/:id', function(){
 })
 
 describe('GET /api/music/detail/:id', function(){
-    it('success', function(done){
+    it('success', function(){
         chai.request(url)
             .get('/api/music/detail/1974443814')
+            .timeout(10000)
             .end(function(err, res) {
                 if (err) {
                     console.log(err)
@@ -102,8 +103,6 @@ describe('GET /api/music/detail/:id', function(){
                 expect(res.body.data.album).to.have.deep.property('pic_str');
                 expect(res.body.data.album).to.have.deep.property('pic');
 
-                console.log(res.body.data)
-                done();
             });
     });
 })

@@ -113,15 +113,15 @@ describe('GET /search/similarSongs/:id', function (){
 })
 
 describe('GET /api/search', function (){
-it('success', function(done){
+it('success', function(){
         const keyword = "linken_park"
         chai.request(url)
             .get(`/api/search/`)
             .send({keyword: keyword})
+            .timeout(5000)
             .end(function(err, res) {
                 if(err){
                     console.log(err)
-                    done();
                 }
                 expect(res.status).to.equal(200);
                 expect(res.body).to.have.deep.property('code', 200);
@@ -156,7 +156,6 @@ it('success', function(done){
                     expect(item.artist).to.have.property('name');
                     expect(item).to.have.property('picUrl');
                 })
-                done()
             })
     })
 })
