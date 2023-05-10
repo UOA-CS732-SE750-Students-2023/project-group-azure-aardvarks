@@ -8,7 +8,7 @@ dotenv.config();
 
 const router = express.Router();
 
-async function getStyleSongs(styleId) {
+export async function getStyleSongs(styleId) {
     const response = await fetch(process.env.NeteaseCloudMusicApi + `/style/song?tagId=${styleId}&sort=0`);
     let data = await response.json();
     data = data.data.songs
