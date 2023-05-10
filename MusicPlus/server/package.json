@@ -5,8 +5,8 @@
   "main": "./src/server.js",
   "type": "module",
   "scripts": {
-    "test": "mocha test/**/*.js",
-    "mochawesome": "mocha  test/**/*.js --reporter mochawesome",
+    "test": "mocha test/**/*.js    -r babel-register",
+    "mochawesome": "mocha  test/**/*.js --reporter mochawesome -r babel-register",
     "server": "nodemon --experimental-specifier-resolution=node ./src/server.js",
     "start": "nodemon --exec babel-node ./src/server.js",
     "init-db": "node --experimental-specifier-resolution=node ./src/articles-data/init-db.js"
@@ -37,6 +37,8 @@
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "assert": "^2.0.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "mochawesome": "^7.1.3",

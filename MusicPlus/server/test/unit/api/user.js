@@ -1,65 +1,54 @@
-import * as assert from "assert";
 import axios from "axios";
 import * as dotenv from 'dotenv';
 import {imgBLOB} from "../../fakeData/img.js";
 import * as request from 'supertest'
 import chai from 'chai';
-
+import chaiHttp from "chai-http";
+chai.use(chaiHttp);
 dotenv.config()
-
 
 const expect = chai.expect;
 
 const fakeUser = {
-    "username" : "dxh00013ff0",
-    "password" : "duan002349",
-    "email" : "dxh000130@vip.126.com",
+    username: 'testuser',
+    email: 'testemail@example.com',
+    password: 'testpassword'
     // "avatar": imgBLOB
 }
-// describe('newUser', function (){
-//     describe('POST /newUser', function (){
-//         it('register success', function (done){
-//             request(process.env.NeteaseCloudMusicApi)
-//                 .post(`/api/user/newUser`)
-//                 .send(fakeUser)
-//                 .expect(200)
-//                 .end(function (err, res){
-//                     res.body.should.containEql({
-//                         message: 'User registered successful'
-//                     });
-//                     if (err) throw err;
-//                     done();
-//                 })
-//         });
-//         it('repeated registration failure.', function (done){
-//             request(process.env.NeteaseCloudMusicApi)
-//                 .post(`/api/user/newUser`)
-//                 .send(fakeUser)
-//                 .expect(500)
-//                 .end(function (err, res){
-//                     res.body.should.containEql({
-//                         err: 'REGISTER_FAILURE'
-//                     });
-//                     if (err) throw err;
-//                     done();
-//                 })
-//         })
-//     })
-// })
 
 
+describe('POST /api/user/newUser', function() {
+    it('Create user in User table', function(done) {
+        chai.request('http://127.0.0.1:3000')
+            .post('/api/user/newUser')
+            .send(fakeUser)
+            .end(function(err, res) {
+                expect(res.status).to.equal(201);
+                expect(res.body).to.have.property('code', 200);
+                expect(res.body).to.have.property('status', 1);
+                expect(res.body.data).to.have.deep.property('username', 'testuser');
+                expect(res.body.data).to.have.deep.property('email', 'testemail@example.com');
+                expect(res.body.data).to.have.property('password');
+                expect(res.body.data).to.have.property('favoritePlayList');
+                expect(res.body.data).to.have.property('musicGenre');
+                expect(res.body.data).to.have.property('favoriteMusic');
+                expect(res.body.data).to.have.property('createdAt');
+                expect(res.body.data).to.have.property('updatedAt');
+                done();
+            });
+    });
+    it('Exist user in User Table', function(done) {
+        chai.request('http://127.0.0.1:3000')
+            .post('/api/user/newUser')
+            .send(fakeUser)
+            .end(function(err, res) {
+                expect(res.body).to.have.property('code', 200);
+                expect(res.body).to.have.property('status', 1);
+                expect(res.body.data).to.have.deep.property('Error', 'Username unavailable!');
+                done();
+            });
+    });
+});
 
-describe('POST /newUser',  function (){
-    it('Success',  async function (){
-        const fakeUser = {
-            username: 'testuser',
-            email: 'testemail@example.com',
-            password: 'testpassword'
-        };
-        const temp = await axios.post(`${process.env.NeteaseCloudMusicApi}/api/user/newUser`,fakeUser)
-        console.log(temp)
-        assert.equal(
-            temp,1
-        )
-    })
-})
+
+// describe('GET /api/user/logIn')

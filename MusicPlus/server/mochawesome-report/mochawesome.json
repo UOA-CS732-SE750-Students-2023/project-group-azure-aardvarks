@@ -1,15 +1,15 @@
 {
   "stats": {
-    "suites": 5,
-    "tests": 8,
-    "passes": 8,
+    "suites": 9,
+    "tests": 17,
+    "passes": 16,
     "pending": 0,
-    "failures": 0,
-    "start": "2023-05-10T04:41:38.642Z",
-    "end": "2023-05-10T04:41:38.652Z",
-    "duration": 10,
-    "testsRegistered": 8,
-    "passPercent": 100,
+    "failures": 1,
+    "start": "2023-05-10T10:18:59.751Z",
+    "end": "2023-05-10T10:19:00.326Z",
+    "duration": 575,
+    "testsRegistered": 17,
+    "passPercent": 94.11764705882352,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "9093103e-9165-4b9a-8017-efa27de22ad8",
+      "uuid": "c7a5fdcf-c4e4-4371-8a20-42ec6adecb51",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "4a4f7f22-7264-497b-87e9-06b33d86f50a",
+          "uuid": "b04e888c-d8aa-412b-b92c-f96bd2d3813a",
           "title": "Array",
           "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\test.js",
           "file": "\\test\\test.js",
@@ -36,8 +36,8 @@
           "tests": [],
           "suites": [
             {
-              "uuid": "791bb794-0573-45e7-9d05-7c3a0239a9cf",
-              "title": "#indexOf()",
+              "uuid": "74c58515-b83e-4851-8146-cdb80b42ae19",
+              "title": "success test",
               "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\test.js",
               "file": "\\test\\test.js",
               "beforeHooks": [],
@@ -45,9 +45,9 @@
               "tests": [
                 {
                   "title": "should return -1 when the value is not present",
-                  "fullTitle": "Array #indexOf() should return -1 when the value is not present",
+                  "fullTitle": "Array success test should return -1 when the value is not present",
                   "timedOut": false,
-                  "duration": 1,
+                  "duration": 0,
                   "state": "passed",
                   "speed": "fast",
                   "pass": true,
@@ -56,20 +56,63 @@
                   "context": null,
                   "code": "assert.equal([1,2,3].indexOf(4), -1);",
                   "err": {},
-                  "uuid": "e5fe41df-e6e1-4484-9c66-2cb121645101",
-                  "parentUUID": "791bb794-0573-45e7-9d05-7c3a0239a9cf",
+                  "uuid": "32882db5-cda5-45b0-b4cd-0b1cb263c628",
+                  "parentUUID": "74c58515-b83e-4851-8146-cdb80b42ae19",
                   "isHook": false,
                   "skipped": false
                 }
               ],
               "suites": [],
               "passes": [
-                "e5fe41df-e6e1-4484-9c66-2cb121645101"
+                "32882db5-cda5-45b0-b4cd-0b1cb263c628"
               ],
               "failures": [],
               "pending": [],
               "skipped": [],
-              "duration": 1,
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "d46b20ab-2274-48c4-b655-dfe3b481533f",
+              "title": "failure test",
+              "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\test.js",
+              "file": "\\test\\test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return 0 when the value is not present",
+                  "fullTitle": "Array failure test should return 0 when the value is not present",
+                  "timedOut": false,
+                  "duration": 2,
+                  "state": "failed",
+                  "speed": null,
+                  "pass": false,
+                  "fail": true,
+                  "pending": false,
+                  "context": null,
+                  "code": "assert.equal([1, 2, 3].indexOf(1), 1);",
+                  "err": {
+                    "message": "AssertionError: 0 == 1",
+                    "estack": "AssertionError [ERR_ASSERTION] [ERR_ASSERTION]: 0 == 1\n    at Context.<anonymous> (file:///E:/CodePlace/university_of_auckland/compsci_732/workspace/group_project/project-group-azure-aardvarks/MusicPlus/server/test/test.js:11:20)\n    at processImmediate (node:internal/timers:476:21)",
+                    "diff": "- 0\n+ 1\n"
+                  },
+                  "uuid": "7b7e1418-46f7-45cd-a159-2c8c88215072",
+                  "parentUUID": "d46b20ab-2274-48c4-b655-dfe3b481533f",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [],
+              "failures": [
+                "7b7e1418-46f7-45cd-a159-2c8c88215072"
+              ],
+              "pending": [],
+              "skipped": [],
+              "duration": 2,
               "root": false,
               "rootEmpty": false,
               "_timeout": 2000
@@ -85,7 +128,46 @@
           "_timeout": 2000
         },
         {
-          "uuid": "1862202d-7edb-4c3f-9433-d2ba1a85a95e",
+          "uuid": "39cb312e-56d0-486d-bbb8-efea7e9d1f51",
+          "title": "POST /api/users",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\api\\user.js",
+          "file": "\\test\\unit\\api\\user.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should create a new user in the database",
+              "fullTitle": "POST /api/users should create a new user in the database",
+              "timedOut": false,
+              "duration": 33,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const fakeUser = {\n    username: 'testuser',\n    email: 'testemail@example.com',\n    password: 'testpassword'\n};\nchai.request('http://127.0.0.1:3000')\n    .post('/api/user/newUser')\n    .send(fakeUser)\n    .end(function(err, res) {\n        expect(res.status).to.equal(201);\n        done();\n    });",
+              "err": {},
+              "uuid": "b32ee887-de07-423d-a89a-38c1dbca1d83",
+              "parentUUID": "39cb312e-56d0-486d-bbb8-efea7e9d1f51",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b32ee887-de07-423d-a89a-38c1dbca1d83"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 33,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "9333704e-b2b7-46c7-8050-db4bf318af1e",
           "title": "Return Message",
           "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
           "file": "\\test\\unit\\utils\\commonUtils.js",
@@ -96,7 +178,7 @@
               "title": "Should contain message",
               "fullTitle": "Return Message Should contain message",
               "timedOut": false,
-              "duration": 1,
+              "duration": 0,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -105,26 +187,26 @@
               "context": null,
               "code": "assert.equal(JSON.stringify(returnMsg(1,200,\"Success\")), JSON.stringify({\n    \"status\": 1,\n    \"code\": 200,\n    \"data\": \"Success\"\n}));",
               "err": {},
-              "uuid": "eac213e4-2b71-4660-963e-f7fd4c446c31",
-              "parentUUID": "1862202d-7edb-4c3f-9433-d2ba1a85a95e",
+              "uuid": "adda853f-2357-4f45-b193-344b8a5fcd20",
+              "parentUUID": "9333704e-b2b7-46c7-8050-db4bf318af1e",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "eac213e4-2b71-4660-963e-f7fd4c446c31"
+            "adda853f-2357-4f45-b193-344b8a5fcd20"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 1,
+          "duration": 0,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
         },
         {
-          "uuid": "24638f4a-bcf6-4c3f-bd62-1adf04113c0e",
+          "uuid": "eecbc6cd-a8ca-4d03-8465-b049cb3ec9c8",
           "title": "Date Format",
           "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
           "file": "\\test\\unit\\utils\\commonUtils.js",
@@ -144,15 +226,15 @@
               "context": null,
               "code": "assert.equal(\n    formatDateTime(new Date()),\n    formatDateTime(new Date())\n);",
               "err": {},
-              "uuid": "ab85039f-ef87-4c11-80c8-060c3ef4003a",
-              "parentUUID": "24638f4a-bcf6-4c3f-bd62-1adf04113c0e",
+              "uuid": "d89ee3a9-112b-446c-9351-9852af98b35b",
+              "parentUUID": "eecbc6cd-a8ca-4d03-8465-b049cb3ec9c8",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "ab85039f-ef87-4c11-80c8-060c3ef4003a"
+            "d89ee3a9-112b-446c-9351-9852af98b35b"
           ],
           "failures": [],
           "pending": [],
@@ -163,7 +245,7 @@
           "_timeout": 2000
         },
         {
-          "uuid": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+          "uuid": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
           "title": "Paginator",
           "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
           "file": "\\test\\unit\\utils\\commonUtils.js",
@@ -183,8 +265,8 @@
               "context": null,
               "code": "assert.equal(\n    JSON.stringify(Paginator(2,1,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[1,2]})\n);",
               "err": {},
-              "uuid": "229549b1-e88a-429c-9133-ad6758fa108b",
-              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "uuid": "d716c619-b813-40f1-9294-192b7eab4408",
+              "parentUUID": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
               "isHook": false,
               "skipped": false
             },
@@ -201,8 +283,8 @@
               "context": null,
               "code": "assert.equal(\n    JSON.stringify(Paginator(2,2,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":2,\"length\":5,\"data\":[3,4]})\n);",
               "err": {},
-              "uuid": "789167ca-7ee4-4754-a045-b086d651f9b8",
-              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "uuid": "1c6fbd13-f98c-4661-b30d-1e561a75035f",
+              "parentUUID": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
               "isHook": false,
               "skipped": false
             },
@@ -219,8 +301,8 @@
               "context": null,
               "code": "assert.equal(\n    JSON.stringify(Paginator(2,3,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":3,\"length\":5,\"data\":[5]})\n);",
               "err": {},
-              "uuid": "340921f4-50bc-430b-9980-2329808a3ca1",
-              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "uuid": "22c17f12-e6f1-47e9-a964-cc3356a83ade",
+              "parentUUID": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
               "isHook": false,
               "skipped": false
             },
@@ -237,8 +319,8 @@
               "context": null,
               "code": "assert.equal(\n    JSON.stringify(Paginator(2,4,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":4,\"length\":5,\"data\":[]})\n);",
               "err": {},
-              "uuid": "81893089-9b27-4417-83ba-7b332e4c3770",
-              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "uuid": "e6749cf5-9130-4060-8bd7-5b674fea4dc5",
+              "parentUUID": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
               "isHook": false,
               "skipped": false
             },
@@ -255,24 +337,197 @@
               "context": null,
               "code": "assert.equal(\n    JSON.stringify(Paginator(2,1,[1,2,3,4,5], (x)=>{x.reverse()})),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[2,1]})\n);",
               "err": {},
-              "uuid": "3f8278c9-60c2-4c72-84f8-03911e385272",
-              "parentUUID": "46ae909f-48e1-48f3-899c-65ede5f3bc31",
+              "uuid": "b6553af6-52df-4ccd-b1ba-fe5d50a58819",
+              "parentUUID": "ff69761c-df2e-413c-9f5b-8f5f17cdd61a",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "229549b1-e88a-429c-9133-ad6758fa108b",
-            "789167ca-7ee4-4754-a045-b086d651f9b8",
-            "340921f4-50bc-430b-9980-2329808a3ca1",
-            "81893089-9b27-4417-83ba-7b332e4c3770",
-            "3f8278c9-60c2-4c72-84f8-03911e385272"
+            "d716c619-b813-40f1-9294-192b7eab4408",
+            "1c6fbd13-f98c-4661-b30d-1e561a75035f",
+            "22c17f12-e6f1-47e9-a964-cc3356a83ade",
+            "e6749cf5-9130-4060-8bd7-5b674fea4dc5",
+            "b6553af6-52df-4ccd-b1ba-fe5d50a58819"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
           "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+          "title": "Paginator Async",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\commonUtils.js",
+          "file": "\\test\\unit\\utils\\commonUtils.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Return the first page with page size 2",
+              "fullTitle": "Paginator Async Return the first page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(await PaginatorAsync(2,1,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[1,2]})\n);",
+              "err": {},
+              "uuid": "ce44e03b-c06f-486b-be92-cda6cc2e9fad",
+              "parentUUID": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the second page with page size 2",
+              "fullTitle": "Paginator Async Return the second page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(await PaginatorAsync(2,2,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":2,\"length\":5,\"data\":[3,4]})\n);",
+              "err": {},
+              "uuid": "e090ddec-6c8a-4f3c-84ca-d34f31d6f794",
+              "parentUUID": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the third page with page size 2",
+              "fullTitle": "Paginator Async Return the third page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(await PaginatorAsync(2,3,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":3,\"length\":5,\"data\":[5]})\n);",
+              "err": {},
+              "uuid": "3d877ca6-b7b4-40d0-801e-4fc5673c5998",
+              "parentUUID": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Return the fourth page with page size 2",
+              "fullTitle": "Paginator Async Return the fourth page with page size 2",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(await PaginatorAsync(2,4,[1,2,3,4,5])),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":4,\"length\":5,\"data\":[]})\n);",
+              "err": {},
+              "uuid": "e4dc981a-490c-4eab-800c-6fd9c4f68f77",
+              "parentUUID": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Callback: reverse value",
+              "fullTitle": "Paginator Async Callback: reverse value",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    JSON.stringify(await PaginatorAsync(2,1,[1,2,3,4,5], (x)=>{x.reverse()})),\n    JSON.stringify({\"pageSize\":2,\"currentPage\":1,\"length\":5,\"data\":[2,1]})\n);",
+              "err": {},
+              "uuid": "05c1ceed-82bd-4332-afbb-a97d219699ed",
+              "parentUUID": "6cc490cd-7940-4982-bdc3-337d404ec6e7",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ce44e03b-c06f-486b-be92-cda6cc2e9fad",
+            "e090ddec-6c8a-4f3c-84ca-d34f31d6f794",
+            "3d877ca6-b7b4-40d0-801e-4fc5673c5998",
+            "e4dc981a-490c-4eab-800c-6fd9c4f68f77",
+            "05c1ceed-82bd-4332-afbb-a97d219699ed"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "4ef105b6-79fe-4427-a4b5-c39a4aeb6e60",
+          "title": "Available song check",
+          "fullFile": "E:\\CodePlace\\university_of_auckland\\compsci_732\\workspace\\group_project\\project-group-azure-aardvarks\\MusicPlus\\server\\test\\unit\\utils\\validSongAvailable.js",
+          "file": "\\test\\unit\\utils\\validSongAvailable.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "invalid song",
+              "fullTitle": "Available song check invalid song",
+              "timedOut": false,
+              "duration": 290,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    await vaildSongAvailable(6731),\n    \"Song ID Error!\"\n);",
+              "err": {},
+              "uuid": "2c6e9db0-861a-423c-9865-3b33aae3ffb7",
+              "parentUUID": "4ef105b6-79fe-4427-a4b5-c39a4aeb6e60",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "valid song",
+              "fullTitle": "Available song check valid song",
+              "timedOut": false,
+              "duration": 233,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "assert.equal(\n    await vaildSongAvailable(33894312),\n    true\n);",
+              "err": {},
+              "uuid": "881b490c-c5b5-4a04-a20c-bf1ccc159ae5",
+              "parentUUID": "4ef105b6-79fe-4427-a4b5-c39a4aeb6e60",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2c6e9db0-861a-423c-9865-3b33aae3ffb7",
+            "881b490c-c5b5-4a04-a20c-bf1ccc159ae5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 523,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
