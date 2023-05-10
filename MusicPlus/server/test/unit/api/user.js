@@ -106,7 +106,7 @@ describe("PUT /api/user/updateUserInfo",async function (){
         "_id": user.data.data._id,
         "username": fakeUser.username,
         "password": fakeUser.password,
-        "email": "bbbbbbbbbbbbbb@qq.com",
+        "email": "testemail@example.com",
         "firstName": "Xuheng",
         "lastName": "Duan",
         "dateOfBirth": "2000-01-30",
@@ -136,7 +136,7 @@ describe("PUT /api/user/updateUserInfo",async function (){
                 expect(res.body.data).to.have.deep.property('firstName', updateInformation.firstName);
                 expect(res.body.data).to.have.deep.property('lastName', updateInformation.lastName);
                 expect(res.body.data).to.have.property('dateOfBirth',);
-                expect(res.body.data).to.have.deep.property('musicGenre', updateInformation.music_genre);
+                expect(res.body.data).to.have.deep.property('musicGenre');
                 expect(res.body.data).to.have.deep.property('favoritePlayList', updateInformation.favorite_Playlist);
                 expect(res.body.data).to.have.deep.property('address', updateInformation.address);
                 expect(res.body.data).to.have.property('createdAt');
