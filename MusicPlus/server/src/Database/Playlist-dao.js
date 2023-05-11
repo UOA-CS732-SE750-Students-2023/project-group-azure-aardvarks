@@ -39,6 +39,7 @@ async function retrievePlayListById(id) {
         "private":list.private,
         "songs":list.songs,
         "cover":list.cover,
+        'description':list.description,
         "createAt":formatDateTime(list.createAt),
         "updatedAt":formatDateTime(list.updatedAt),
         "owner": list.owner
@@ -49,7 +50,15 @@ async function retrievePlayListByIdNoSongInfo(id) {
     return await playList.findById(id);
 }
 async function retrievePlayListByOwnerId(id) {
-    let lists = await playList.find({owner:id});
+    let lists = await playList.find({owner:id}).populate('owner');
+    return await getSongInfo(lists);
+}
+async function retrievePlayListByOwnerIdPublicOnly(id) {
+    let lists = await playList.find({owner:id, private:false}).populate('owner');
+    return await getSongInfo(lists);
+}
+async function retrievePlayListByOwnerIdPrivateOnly(id) {
+    let lists = await playList.find({owner:id, private:true}).populate('owner');
     return await getSongInfo(lists);
 }
 async function updatePlayList(playList1) {
@@ -88,6 +97,8 @@ async function getSongInfo(playLists){
     return result
 }
 
+
+
 export {
     createPlayList,
     retrievePlayListById,
@@ -96,5 +107,7 @@ export {
     updatePlayList,
     deletePlayList,
     retrievePlayListByOwnerId,
-    retrievePlayListsListPublic,retrievePlayListByIdNoSongInfo
+    retrievePlayListsListPublic,retrievePlayListByIdNoSongInfo,
+    retrievePlayListByOwnerIdPublicOnly,
+    retrievePlayListByOwnerIdPrivateOnly
 }

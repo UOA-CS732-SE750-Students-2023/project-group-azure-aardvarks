@@ -4,13 +4,66 @@ import './index.css';
 import "./button.scss"
 import {Link, useNavigate} from "react-router-dom";
 import SongList from "../SongList.jsx";
-import PlayerContext, {useToast} from "../../utils/AppContextProvider.jsx";
-import {Col, Row} from "react-bootstrap";
+import PlayerContext, {UserContext, useToast} from "../../utils/AppContextProvider.jsx";
+import {Col, Row, Dropdown, ButtonGroup } from "react-bootstrap";
 import play from "../../assets/play.png"
+import more1 from "../../assets/more1.png"
+import axios from "axios";
+import {BACKEND_API} from "../../utils/env.js";
+
 
 export default function Page({data, category}) {
+    console.log(data)
+    if (data===undefined && category === "song"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "artists": [
+                    {
+                        "name": "",
+                        "id": ""
+                    }
+                ],
+                "album": {
+                    "name": "",
+                    "id": ""
+                }
+            }
+        ]
+    }
+    if (data===undefined && category === "album"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "picUrl": "",
+                "artist": {
+                    "name": "",
+                    "id": "",
+                    "picUrl": ""
+                },
+                "size": ""
+            }
+        ]
+    }
+    if (data===undefined && category === "singer"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "picUrl": ""
+            }
+        ]
+    }
+    let check_empty = false
+    if (data[0].id === "" || data[0].id === undefined){
+        check_empty = true
+    }
+
     const {addToast} = useToast();
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
+    const {userPlaylist, setUserPlaylist, userDetail,renewUserPlaylist} = useContext(UserContext);
     const [isLoading, setIsLoading] = useState(false);
 
     const Navigate = useNavigate();
@@ -31,14 +84,14 @@ export default function Page({data, category}) {
 
     async function handleAddToPlayer(song) {
         try {
+            const response = await axios.get(`http://127.0.0.1:3000/api/music/detail/${song.id}`);
+            console.log(response.data.data.style)
             setIsLoading(true);
             const lyricResponse = await fetch(
-                "http://127.0.0.1:3000/api/music/lyric/" + song.id
+                `${BACKEND_API}/api/music/lyric/` + song.id
             );
             let lyricData = await lyricResponse.json();
-            console.log(song)
-            console.log(lyricData.data)
-            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song.id)
+            const songFile = await fetch(`${BACKEND_API}/api/music/play/` + song.id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)
             let formattedSinger = ''
@@ -46,14 +99,15 @@ export default function Page({data, category}) {
                 formattedSinger = song.artists[i].name + '/'
             }
             formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+            console.log(song)
             const musicDetail = {
-                _id: song._id,
+                _id: song.id.toString(),
                 name: song.name,
                 singer: formattedSinger,
-                cover: song.album.picUrl,
+                cover: response.data.data.album.picUrl,
                 musicSrc: songData,
                 lyric: lyricData.data,
-                style: song.style
+                style: response.data.data.style
             }
             // setCurrentPlayList([...currentPlayList,musicDetail])
             setCurrentPlayList(prevList => [...prevList, musicDetail])
@@ -66,8 +120,29 @@ export default function Page({data, category}) {
 
     }
 
+    async function handleAddSongToMyPlayList(song, playListId) {
+        try{
+            const response = await axios.post(`${BACKEND_API}/api/playList/addSong`
+                , {
+                "_id":playListId,
+                "songs":[`${song.id}`]
+            }
+            , {headers:{
+                    'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                    'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                }}).catch((err)=>{
+                console.log(err)
+            })
+        }catch (e) {
+            console.log(e)
+            addToast("Something wrong! We will fix it ASAP!")
+        }
+
+    }
+
     return (
         <div className="container">
+            {check_empty?<h1>no result</h1>:
             <div className="table-responsive">
                 <table className="table">
                     {category === "album" ?
@@ -136,6 +211,27 @@ export default function Page({data, category}) {
                                     </td>
                                     <td><span className="changeMouse" onClick={()=>Navigate(`/singer/${item.artists[0].id}`)}>{item.artists[0].name}</span></td>
                                     <td><span className="changeMouse" onClick={()=>Navigate(`/album/${item.album.id}`)}>{item.album.name}</span></td>
+                                    <td>
+                                        <Dropdown as={ButtonGroup} className="custom-dropdown">
+                                            <Dropdown.Toggle variant="light" id="dropdown-basic" className="dropdownButton">
+                                                <img className="more changeMouse" src={more1}></img>
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item className="dropdownTitle">add to playlist</Dropdown.Item>
+                                                <Dropdown.Divider/>
+                                                {userPlaylist.map((value, key) => (
+                                                    <div key={key}>
+                                                        <Dropdown.Item
+                                                            eventKey={`${key}`}
+                                                            onClick={() => handleAddSongToMyPlayList(item, value._id)}
+                                                        >
+                                                            {value.name}
+                                                        </Dropdown.Item>
+                                                    </div>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </td>
                                 </tr>
                             );
                         } else if (category === "singer") {
@@ -163,7 +259,7 @@ export default function Page({data, category}) {
                     </tbody>
 
                 </table>
-            </div>
+            </div>}
             <ReactPaginate
                 previousLabel="Previous"
                 nextLabel="Next"

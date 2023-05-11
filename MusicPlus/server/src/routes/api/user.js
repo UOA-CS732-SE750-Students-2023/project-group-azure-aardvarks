@@ -48,7 +48,7 @@ router.get('/logIn',auth, async (req, res) => { //登录
 });
 router.put('/updateUserInfo', auth, async (req,res) => { //更改个人信息，用户只能更改自己的信息
     try{
-        const vaild = retrieveUserById(req.user_id)
+        const vaild = await retrieveUserById(req.user_id)
         if (!new ObjectId(req.user_id).equals(req.body._id) && req.body.password !== vaild.password && req.body.username !== vaild.username){
             res.setHeader('WWW-Authenticate', 'Basic realm="Authorization Required"');
             res.status(401).json(returnMsg(0, 401, 'Authorization Required'));

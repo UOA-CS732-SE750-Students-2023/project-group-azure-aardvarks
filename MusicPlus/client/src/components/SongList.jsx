@@ -13,6 +13,7 @@ import PlayerContext, {
 } from "../utils/AppContextProvider.jsx";
 import {Navigate, useNavigate} from "react-router-dom";
 import {nanoid} from "nanoid";
+import Form from 'react-bootstrap/Form';
 
 /**
  *
@@ -22,48 +23,36 @@ import {nanoid} from "nanoid";
  */
 function SongList({songList}) {
     const history = useNavigate();
-    // const { addToast } = useToast();
-    const { addToast, removeToast} = useContext(NotificationContext)
+    const { addToast, removeToast} = useContext(NotificationContext);
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
+    const {userPlaylist, setUserPlaylist, userDetail,renewUserPlaylist} = useContext(UserContext);
+    const {
+        addToTemporaryPlaylist
+    } = useContext(TemporaryPlayListContext)
+
     const [isLoading, setIsLoading] = useState(false); // Add isLoading state
     const [selectedSong, setSelectedSong] = useState();
     const [show, setShow] = useState(false);
-    const {
-        removeTemporaryPlaylist,
-        addToTemporaryPlaylist,
-        addToCurrentPlaylist,
-        showTemporaryPlaylist
-    } = useContext(TemporaryPlayListContext)
-    const {userPlaylist, setUserPlaylist, userDetail} = useContext(UserContext)
-    console.log(songList)
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+    useEffect(()=>{
+        // check current playlist is yours or other users'
+        const url = window.location.href
+        const parts = url.split('/');
+        const lastPart = parts.pop();
+        setIsCurrentUser(userPlaylist.find(u=>u._id === lastPart) !== undefined);
+    },[])
+
     async function handleAddToPlayer(song) {
-        // use { responseType: 'arraybuffer' } to get the AUDIO STREAM binary data from XMLHttpRequest
-        // const response = await axios.get(`${BACKEND_API}/api/music/play/${id}`, { responseType: 'arraybuffer' })
-        // let formattedSinger = ''
-        // for (const i in singerList) {
-        //     formattedSinger = singerList[i].name + '-'
-        // }
-        //
-        //
-        // const uint8Array = new Uint8Array(response.data);
-        // const blob = new Blob([uint8Array], {type: "audio/mp3"}); // convert Uint8Array to Blob with a mp3 type
-        // const musicSrc = URL.createObjectURL(blob); // use blob to create a temporary address, like ./xxx.mp3
-        //                                             // once you close your browser, the blob will destroy
-        //
-        // const musicDetail = {
-        //     name:name,
-        //     singer:formattedSinger,
-        //     musicSrc:musicSrc
-        // }
         try{
             const tempId = nanoid();
             setIsLoading(true);
-            addToast(tempId,`Adding ${song.name} to my list, please wait !!!`, {"autohide":false})
+            addToast(`Adding ${song.name} to my list, please wait !!!`,tempId, {"autohide":false})
             const lyricResponse = await fetch(
-                "http://127.0.0.1:3000/api/music/lyric/" + song._id
+                `${BACKEND_API}/api/music/lyric/` + song._id
             );
             let lyricData = await lyricResponse.json();
-            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
+            const songFile = await fetch(`${BACKEND_API}/api/music/play/` + song._id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)
 
@@ -72,6 +61,7 @@ function SongList({songList}) {
                 formattedSinger = song.singer[i].name + '/'
             }
             formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+
             const musicDetail = {
                 _id: song._id,
                 name: song.name,
@@ -109,8 +99,22 @@ function SongList({songList}) {
         setSelectedSong(song)
     }
 
-    async function handleAddSongToMyPlayList(song, playListId) {
+    async function handleDeleteSong(song){
+        const url = window.location.href
+        const parts = url.split('/');
+        const playListId = parts.pop();
+        await axios.post(`${BACKEND_API}/api/playList/deleteSong`, {
+            '_id':playListId,
+            "songs":[song._id]
+        }, {headers:{
+                'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+            }})
+        await renewUserPlaylist()
+        addToast(`delete "${song.name}" successfully !!!`)
+    }
 
+    async function handleAddSongToMyPlayList(song, playListId) {
         try{
             const response = await axios.post(`${BACKEND_API}/api/playList/addSong`, {
                 "_id":playListId,
@@ -128,52 +132,13 @@ function SongList({songList}) {
 
     }
 
+    async function handleGoToSongInfo(song){
+        history("/song/?keyword="+song._id)
+    }
+
     return (
         <>
-            {/*<div style={{paddingBottom: 15}}>*/}
-            {/*    <DropdownButton*/}
-            {/*        align="end"*/}
-            {/*        title="+ Add"*/}
-            {/*        id="dropdown-menu-align-end"*/}
-            {/*        size={"sm"}*/}
-            {/*        variant="outline-secondary"*/}
-            {/*        style={{*/}
-            {/*            borderRadius: 25,*/}
-            {/*            borderColor: "gray"*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        /!*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*!/*/}
-            {/*        /!*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*!/*/}
-            {/*        /!*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*!/*/}
-            {/*        {userPlaylist.map((value, key) => (*/}
-            {/*            <div key={key}>*/}
-            {/*                <Dropdown.Item*/}
-            {/*                    eventKey={`${key}`}*/}
-            {/*                    onClick={() => {*/}
-            {/*                        for (let song in songList){*/}
-            {/*                            handleAddSongToMyPlayList(songList[song], value._id)*/}
-            {/*                        }*/}
-            {/*                    }}*/}
-            {/*                >*/}
-            {/*                    {value.name}*/}
-            {/*                </Dropdown.Item>*/}
-            {/*            </div>*/}
 
-            {/*        ))}*/}
-            {/*        <Dropdown.Divider/>*/}
-            {/*        <Dropdown.Item*/}
-            {/*            eventKey="4"*/}
-            {/*            onClick={() => {*/}
-            {/*                for (let song in songList){*/}
-            {/*                    handleAddToPlayer(songList[song])}*/}
-            {/*                }*/}
-            {/*            }*/}
-            {/*            //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}*/}
-            {/*        >*/}
-            {/*            Current playlist*/}
-            {/*        </Dropdown.Item>*/}
-            {/*    </DropdownButton>*/}
-            {/*</div>*/}
             <div>
                 <Table striped bordered hover style={{cursor:"default"}}>
                     <thead>
@@ -189,13 +154,9 @@ function SongList({songList}) {
                     {songList.map((song, index) => (
                         <tr key={song._id} >
                             <td>{index + 1}</td>
-                            {/*<td>{song.name}</td>*/}
-                            {/*<td>{song.singer.map((singer, index) => (<div key={index} onClick={() => handleGoToSinger(singer.id)}>{singer.name}</div>))}</td>*/}
-                            {/*<td onClick={() => handleGoToAlbum(song.album)}>{song.album.name}</td>*/}
                             <td onClick={()=>handleAddToPlayer(song)}>{song.name}</td>
                             <td onClick={()=>handleAddToPlayer(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
                             <td onClick={()=>handleAddToPlayer(song)}>{song.album.name}</td>
-                            {/*<td>{song.style.name}</td>*/}
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
@@ -204,9 +165,6 @@ function SongList({songList}) {
                                     size={"sm"}
                                     variant="outline-secondary"
                                 >
-                                    {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
-                                    {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
-                                    {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
                                     {userPlaylist.map((value, key) => (
                                         <div key={key}>
                                             <Dropdown.Item
@@ -222,19 +180,19 @@ function SongList({songList}) {
                                     <Dropdown.Item
                                         eventKey="4"
                                         onClick={() => handleAddToPlayer(song)}
-                                        //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
                                     >
-                                        Current playlist
+                                        Current player
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         eventKey="5"
                                         onClick={() => handleAddToTemporaryList(song)}
                                     >
-                                        Temporary playlist
+                                        Temporary player
                                     </Dropdown.Item>
                                     <Dropdown.Divider/>
                                     <Dropdown.Item
                                         eventKey="6"
+                                        onClick={()=>handleGoToSongInfo(song)}
                                     >
                                         Song information
                                     </Dropdown.Item>
@@ -250,9 +208,20 @@ function SongList({songList}) {
                                     >
                                         Album information
                                     </Dropdown.Item>
+                                    { isCurrentUser===true ? (
+                                        <>
+                                            <Dropdown.Divider/>
+                                            <Dropdown.Item
+                                                eventKey="9"
+                                                onClick={()=>handleDeleteSong(song)}
+                                            >
+                                                Delete
+                                            </Dropdown.Item>
+                                    </>):(<></>)}
                                 </DropdownButton>
                             </td>
                         </tr>
+
                     ))}
                     </tbody>
                 </Table>
@@ -278,7 +247,6 @@ function SongList({songList}) {
 function SingerSelectionDialog(props){
     const history = useNavigate()
     function handleGoToSinger(singer) {
-        // console.log(singer)
         history("/singer/"+singer)
     }
 

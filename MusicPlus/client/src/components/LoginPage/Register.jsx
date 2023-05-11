@@ -7,6 +7,7 @@ import "./Register.css";
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import './LoginForm.css';
 import {RiArrowGoBackFill} from "react-icons/ri";
+import {BACKEND_API} from "../../utils/env.js";
 
 function Register(){
     const { addToast } = useToast();
@@ -38,7 +39,7 @@ function Register(){
         setIsValidUsername(await validateUsername(username));
     }
     async function validateUsername(username){
-        const response = await fetch("http://127.0.0.1:3000/api/user/validUsername/"+username)
+        const response = await fetch(`${BACKEND_API}/api/user/validUsername/`+username)
         let result = await response.json()
         return result.data
     }
@@ -51,7 +52,7 @@ function Register(){
         e.preventDefault();
         if (isValidEmail && isValidUsername && isValidPassword) {
             try {
-                const response = await fetch("http://127.0.0.1:3000/api/user/newUser", {
+                const response = await fetch(`${BACKEND_API}/api/user/newUser`, {
                     method: 'POST', // 指定请求方法为POST
                     headers: {
                         'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON

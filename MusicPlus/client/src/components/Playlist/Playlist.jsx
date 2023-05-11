@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Button, Modal} from "react-bootstrap";
-import {UserContext} from "../../utils/AppContextProvider.jsx";
+import {Button, ButtonGroup, DropdownButton, Modal} from "react-bootstrap";
+import {NotificationContext, UserContext} from "../../utils/AppContextProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import './index.css'
 import {Accordion} from "react-bootstrap";
@@ -10,17 +10,52 @@ import i from '../../../public/image.png'
 import InputGroup from 'react-bootstrap/InputGroup';
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
+import Dropdown from 'react-bootstrap/Dropdown';
+import PlaylistTemplate from "./PlaylistTemplate.jsx";
 function Playlist(){
-    const {userPlaylist, userDetail} = useContext(UserContext);
+    const {userPlaylist, userDetail, deleteUserPlaylist} = useContext(UserContext);
+    const {addToast} = useContext(NotificationContext)
     const Navigate = useNavigate();
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
+    const [showNewPlaylist, setShowNewPlaylist] = useState(false);
+    const [showEditPlaylist, setShowEditPlaylist] = useState(false);
+    const [currentPlaylistName, setCurrentPlaylistName] = useState('');
+    const [currentPlaylistId, setCurrentPlaylistId] = useState('');
+    const [currentPlaylistPrivate, setCurrentPlaylistPrivate] = useState();
+    const [currentPlaylistDescription, setCurrentPlaylistDescription] = useState('');
+    const [currentPlaylistCover, setCurrentPlaylistCover] = useState('');
+    const handleShowEditPlaylist = () => setShowEditPlaylist(true);
+    const handleShowNewPlaylist = () => setShowNewPlaylist(true);
+    async function handleDeletePlaylist(playlist, position){
+        const url = window.location.href
+        const parts = url.split('/');
+        const lastPart = parts.pop();
+        if (userPlaylist[position]._id === lastPart){
+           Navigate('/home')
+        }
+        await deleteUserPlaylist(playlist._id) // redirect
+        addToast(`delete "${playlist.name}" successfully`)
+    }
+    async function handleEditPlaylist(playlist, key){
+        setCurrentPlaylistName(playlist.name)
+        if (playlist.private !== undefined){
+            setCurrentPlaylistPrivate(playlist.private.toString())
+        }else {
+            setCurrentPlaylistPrivate(playlist.private)
+        }
 
+        setCurrentPlaylistId(playlist._id)
+        setCurrentPlaylistDescription(playlist.description)
+        setCurrentPlaylistCover(playlist.cover)
+        handleShowEditPlaylist()
+    }
+
+    useEffect(()=>{}, [userPlaylist])
     return (
         <>
+        <div>
             {userDetail.username===undefined?(<></>):(
                 <div className={"playlist"}>
-                    <Accordion defaultActiveKey={['0']} alwaysOpen>
+                    <Accordion defaultActiveKey={['0']} alwaysOpen className={'playlist-container'}>
                         <Accordion.Item eventKey="0">
                             <Accordion.Header><b>My playlists</b></Accordion.Header>
                             <Accordion.Body>
@@ -42,138 +77,129 @@ function Playlist(){
                                     <div>
                                         <Button
                                             variant="light"
-                                            onClick={handleShow}
+                                            onClick={handleShowNewPlaylist}
+                                            style={{width:"100%"}}
                                         >
                                             New Playlist
                                         </Button>
                                     </div>
+                                    {/*<hr/>*/}
+                                    {/*<div>*/}
+                                    {/*    <DropdownButton*/}
+                                    {/*        as={ButtonGroup}*/}
+                                    {/*        title="delete"*/}
+                                    {/*        id="bg-vertical-dropdown-2"*/}
+                                    {/*        style={{width:"100%"}}*/}
+                                    {/*    >*/}
+                                    {/*        {userPlaylist.map((value, key)=>(*/}
+                                    {/*            <Dropdown.Item*/}
+                                    {/*                eventKey="2"*/}
+                                    {/*                key={key}*/}
+                                    {/*                onClick={()=>handleDeletePlaylist(value, key)}*/}
+                                    {/*            >*/}
+                                    {/*                {value.name}*/}
+                                    {/*            </Dropdown.Item>*/}
+                                    {/*        ))}*/}
+                                    {/*    </DropdownButton>*/}
+                                    {/*</div>*/}
+                                    {/*<hr/>*/}
+                                    {/*<div>*/}
+                                    {/*    <DropdownButton*/}
+                                    {/*        as={ButtonGroup}*/}
+                                    {/*        title="edit"*/}
+                                    {/*        id="bg-vertical-dropdown-2"*/}
+                                    {/*        style={{width:"100%"}}*/}
+                                    {/*    >*/}
+                                    {/*        {userPlaylist.map((value, key)=>(*/}
+                                    {/*            <Dropdown.Item*/}
+                                    {/*                eventKey="2"*/}
+                                    {/*                key={key}*/}
+                                    {/*                onClick={()=>handleEditPlaylist(value, key)}*/}
+                                    {/*            >*/}
+                                    {/*                {value.name}*/}
+                                    {/*            </Dropdown.Item>*/}
+                                    {/*        ))}*/}
+                                    {/*    </DropdownButton>*/}
+                                    {/*</div>*/}
                                 </div>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
 
                     <PlaylistTemplate
-                        show={show}
-                        onClose={()=>setShow(false)}
+                        show={showNewPlaylist}
+                        onClose={()=>setShowNewPlaylist(false)}
+                        type={"new"}
                     />
                 </div>
             )}
-        </>
-    )
-}
-function PlaylistTemplate(props){
-    const [cover, setCover] = useState('')
-    const [isPrivate, setIsPrivate] = useState(false)
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const {userDetail, newUserPlaylist} = useContext(UserContext)
+        </div>
+        <br/>
+        <div>
+            {userDetail.username===undefined?(<></>):(
+                <div className={"playlist"}>
+                    <Accordion defaultActiveKey={['0']} alwaysOpen  className={'playlist-container'}>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header><b>Setting</b></Accordion.Header>
+                            <Accordion.Body>
+                                <div>
+                                    <DropdownButton
+                                        as={ButtonGroup}
+                                        title="delete"
+                                        id="bg-vertical-dropdown-2"
+                                        style={{width:"100%"}}
+                                        variant="light"
+                                    >
+                                        {userPlaylist.map((value, key)=>(
+                                            <Dropdown.Item
+                                                eventKey="2"
+                                                key={key}
+                                                onClick={()=>handleDeletePlaylist(value, key)}
+                                            >
+                                                {value.name}
+                                            </Dropdown.Item>
+                                        ))}
+                                    </DropdownButton>
+                                </div>
+                                <hr/>
+                                <div>
+                                    <DropdownButton
+                                        as={ButtonGroup}
+                                        title="edit"
+                                        id="bg-vertical-dropdown-2"
+                                        variant="light"
+                                        style={{width:"100%"}}
+                                    >
+                                        {userPlaylist.map((value, key)=>(
+                                            <Dropdown.Item
+                                                eventKey="3"
+                                                key={key}
+                                                onClick={()=>handleEditPlaylist(value, key)}
+                                            >
+                                                {value.name}
+                                            </Dropdown.Item>
+                                        ))}
+                                    </DropdownButton>
+                                </div>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
 
-    function handleFileSelect(e) {
-        const file = e.target.files[0];
-        const maxFileSize = 5 * 1024 * 1024; // 5MB
+                    <PlaylistTemplate
+                        show={showEditPlaylist}
 
-        if (file.size > maxFileSize) {
-            alert('The image size exceeds the 5MB limit.');
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-
-            setCover(e.target.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-
-    const handleNewPlaylist = async (cover) =>{
-        const playlist = {
-            name:name===''?"Unnamed":name,
-            private:isPrivate,
-            description:description,
-            cover:cover
-        }
-        await newUserPlaylist(playlist)
-        setCover(defaultImg)
-        props.onClose();
-    }
-    return (
-        <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-            backdrop={"static"}
-            animation={true}
-        >
-            <Modal.Header >
-                <Modal.Title id="contained-modal-title-vcenter">
-                    {/*Add a playlist*/}
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <div
-                    style={{
-                        display:"flex",
-                        flexDirection:"row",
-                        padding: 50
-                }}>
-                    <img
-                        alt={"img not found"}
-                        src={cover===''?defaultImg:cover}
-                        width={300}
-                        height={300}
-                        style={{
-                            boxShadow: "6px 3px 15px #b9b5b5",
-                            borderRadius: 30
-                        }}
-                        onClick={() => document.getElementById("playlistCover").click()}
+                        onClose={()=>setShowEditPlaylist(false)}
+                        currentplaylistname={currentPlaylistName}
+                        _id={currentPlaylistId}
+                        currentplaylistprivate={currentPlaylistPrivate}
+                        currentplaylistdescription={currentPlaylistDescription}
+                        currentCover={currentPlaylistCover}
+                        type={"edit"}
                     />
-                    <input
-                        type="file"
-                        id="playlistCover"
-                        style={{ display: "none" }}
-                        onChange={handleFileSelect}
-                    />
-                    <div style={{alignSelf:"center", padding:50}}>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Control
-                                    placeholder="Name"
-                                    size={"lg"}
-                                    style={{border:"white"}}
-                                    value={name}
-                                    onChange={
-                                        (e)=>{setName(e.target.value)}
-                                    }
-                                />
-                            </Form.Group>
-                            <hr/>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" >
-                                <Form.Control
-                                    as="textarea"
-                                    placeholder={"description"}
-                                    style={{border:"white"}}
-                                    value={description}
-                                    onChange={
-                                        (e)=>{setDescription(e.target.value)}
-                                    }
-                                />
-                            </Form.Group>
-                            <Form.Check
-                                type="switch"
-                                label={"private"}
-                                onClick={()=>{setIsPrivate(true)}}
-                            />
-                        </Form>
-                    </div>
                 </div>
-                {/*<hr/>*/}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="danger" onClick={props.onClose}>Cancel</Button>
-                <Button onClick={()=>{handleNewPlaylist(cover)}}>New</Button>
-            </Modal.Footer>
-        </Modal>
+            )}
+        </div>
+        </>
     )
 }
 

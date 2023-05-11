@@ -7,7 +7,8 @@ import CommentPart from "./CommentPart";
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
-import {UserContext} from "../../utils/AppContextProvider.jsx";
+import PlayerContext, {UserContext, useToast} from "../../utils/AppContextProvider.jsx";
+import Player from "../Layout/Player.jsx";
 
 export default function SongContent(){
     const [showModal, setShowModal] = useState(false);
@@ -16,7 +17,7 @@ export default function SongContent(){
     const {userDetail, setUserDetail} = useContext(UserContext)
     const [count, setCount] = useState(0)
     const [text, setText] = useState("");
-
+    const { setShowPlayer } = useContext(PlayerContext);
     const handleChange = (event) => {
         // 获取 textarea 中的内容
         const value = event.target.value;
@@ -47,6 +48,12 @@ export default function SongContent(){
         setCount(count+1)
     }
 
+    useEffect(() => {
+        setShowPlayer(true);
+        return () => {
+            setShowPlayer(false);
+        };
+    }, [setShowPlayer]);
 
 
     useEffect(() => {
@@ -112,6 +119,7 @@ export default function SongContent(){
                 </Modal>
             </Row>
         </Layout>
+
     )
 }
 

@@ -4,6 +4,9 @@ import defaultPlayListImage from '../../../public/default_photo.png'
 import {Link} from "react-router-dom";
 import PlaylistContent from "./PlaylistContent.jsx";
 import default_photo from "../../../public/default_photo.png";
+import songList from "../SongList";
+import axios from "axios";
+import {BACKEND_API} from "../../utils/env.js";
 
 
 /**
@@ -29,28 +32,64 @@ import default_photo from "../../../public/default_photo.png";
  * @returns {JSX.Element}
  * @constructor
  */
-function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
+function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fixMiniInfo=false}){
     const [isHovered, setIsHovered] = useState(false);
     const [contentShow, setContentShow] = useState(false)
+    const [picUrl, setPicUrl] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     let [figureCaption, setFigureCaption] = useState({
         playListName:'',
         authorName:''
     });
     useEffect(()=>{
-        if (isHovered){
+        if (fixMiniInfo){
             setFigureCaption({playListName: playList.name, authorName: `Author: ${playList.owner.username}`})
-        }else {
-            setFigureCaption({
-                playListName:'',
-                authorName:''
-            })
+        }else{
+            if (isHovered){
+                setFigureCaption({playListName: playList.name, authorName: `Author: ${playList.owner.username}`})
+            }else {
+                setFigureCaption({
+                    playListName:'',
+                    authorName:''
+                })
+            }
         }
+
     }, [isHovered])
+
+    useEffect(()=>{
+        // console.log(playList.songs)
+
+        const getAlbumPicUrl = async () => {
+            setLoading(true)
+            try {
+                if (playList.songs.length !== 0){
+                    await axios.get(`${BACKEND_API}/api/music/detail/${playList.songs[playList.songs.length-1]}`).then(response => {
+                        // console.log(response.data.data.album.picUrl)
+                        setPicUrl(response.data.data.album.picUrl)
+                        setLoading(false)
+                    });
+                }
+
+            } catch (error) {
+                console.log(error);
+                setLoading(false)
+            }
+        };
+        if (playList.songs.length === 0){
+            setPicUrl(defaultPlayListImage)
+            setLoading(false)
+        }else{
+            getAlbumPicUrl()
+        }
+    },[])
 
     function openPlaylistContent(){
         setContentShow(true)
     }
+
+
 
     return (
         <div style={{padding:35}}>
@@ -65,7 +104,12 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
                     width={width}
                     height={height}
                     alt="180x180"
-                    src={playList.cover===''|| playList.cover === undefined ?default_photo:playList.cover}
+                    src={(playList.cover===''|| playList.cover === undefined) ?
+                        (playList.songs.length === 0)?
+                                default_photo:
+                                picUrl
+
+                        :playList.cover}
                     style={{borderRadius: 20}}
                 />
                 {showMiniInfo?(
@@ -82,6 +126,7 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false}){
                     )}
             </Figure>
             </Link>
+            {/*<img src={picUrl}/>*/}
 
             {/*<PlaylistContent*/}
             {/*    show={contentShow}*/}

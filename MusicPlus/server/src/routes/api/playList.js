@@ -6,7 +6,11 @@ import {
     retrievePlayList,
     retrievePlayListById,
     retrievePlayListsList,
-    retrievePlayListByOwnerId, retrievePlayListsListPublic, updatePlayList, retrievePlayListByIdNoSongInfo
+    retrievePlayListByOwnerId,
+    retrievePlayListsListPublic,
+    updatePlayList,
+    retrievePlayListByIdNoSongInfo,
+    retrievePlayListByOwnerIdPublicOnly, retrievePlayListByOwnerIdPrivateOnly, deletePlayList
 } from "../../Database/playList-dao.js";
 import {formatDateTime, returnMsg} from "../../utils/commonUtils.js"
 import mongoose from 'mongoose';
@@ -74,11 +78,36 @@ router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
     //根据ownerid搜索（忽略public）
     try{
         const { id } = req.params;
-        return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
+        let result = await retrievePlayListByOwnerId(id)
+        return res.json(returnMsg(1, HTTP_OK, result) )
     }catch (e) {
         console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
 });
+
+/**
+ * @param type required ("public", "private" or "all")
+ * @param id required
+ */
+router.post('/search/owner/id', async (req, res) => {
+    try{
+        const {id, type} = req.body
+        if (type === "public"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerIdPublicOnly(id)) )
+        }else if (type === "private"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerIdPrivateOnly(id)) )
+        }
+        else if(type === "all"){
+            return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
+        }else{
+            return res.status(501).json(returnMsg(0, 501,"Input error"));
+        }
+
+    }catch (e) {
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
+    }
+});
+
 router.post('/addSong', auth,async (req, res) => {
     //向歌单添加歌曲
     try{
@@ -112,7 +141,7 @@ router.post('/addSong', auth,async (req, res) => {
     }
 
 });
-router.delete('/deleteSong', auth,async (req, res) => {
+router.post('/deleteSong', auth,async (req, res) => {
     //删除歌单歌曲
     try{
         let playList = await retrievePlayListByIdNoSongInfo(new ObjectId(req.body._id))
@@ -145,6 +174,8 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
             if (new ObjectId(req.user_id).equals(playList.owner)){
                 playList.name = req.body.name;
                 playList.private = req.body.private;
+                playList.description = req.body.description;
+                playList.cover = req.body.cover
                 const afterChange = await updatePlayList(playList)
                 if (afterChange !== null) return res.status(HTTP_OK).header('Location', `/api/playList/${afterChange._id}`).json(returnMsg(1, HTTP_OK, await retrievePlayListById(afterChange._id)));
 
@@ -200,5 +231,29 @@ router.get('/random/:num',async (req, res)=>{
 
 })
 
+/**
+ * Delete a playlist by playlist's id
+ */
+router.delete('/delete/:id', auth,async (req, res)=>{
+    const { id } = req.params;
+    try{
+        await deletePlayList(id)
+        return res.send(returnMsg(0, 500, `delete ${id} successfully`))
+    }catch (e){
+        return res.send(returnMsg(0, 500, e))
+    }
+})
+
+
+router.get('/user/:id',async (req, res)=>{
+    try{
+        const { id } = req.params;
+        let lists = await playList.find({owner:id}).populate('owner');
+        return res.send(returnMsg(1, 200, lists))
+    } catch (e) {
+        console.log(e);
+        return res.status(501).json(returnMsg(0, 501, e));
+    }
+});
 
 export default router;
