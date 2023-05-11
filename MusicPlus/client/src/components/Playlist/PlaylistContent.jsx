@@ -29,19 +29,22 @@ function PlaylistContent(props) {
     const navigate = useNavigate();
 
     useEffect(  () => {
-        const url = window.location.href
-        const parts = url.split('/');
-        const lastPart = parts.pop();
-        const fetchData = async () =>{
-            const res = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${lastPart}`).catch(
-                (e)=>{
-                    console.log(e)
-                    navigate('/home')
-                }
-            )
+        if(props.link !== "/style/preference"){
+            const url = window.location.href
+            const parts = url.split('/');
+            const lastPart = parts.pop();
+            const fetchData = async () =>{
+                const res = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${lastPart}`).catch(
+                    (e)=>{
+                        console.log(e)
+                        navigate('/home')
+                    }
+                )
 
+            }
+            fetchData()
         }
-        fetchData()
+
         // check current playlist is yours or other users'
         // setIsCurrentUser(userPlaylist.find(u => u._id === lastPart) !== undefined);
     },[])

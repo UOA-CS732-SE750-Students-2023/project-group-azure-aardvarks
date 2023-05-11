@@ -58,7 +58,9 @@ router.get('/preference', auth,async (req, res) => {
             //result.push(data.sort(() => 0.5 - Math.random()).slice(0, 2));
             const temp = data.sort(() => 0.5 - Math.random()).slice(0, 2)
             for (const t in temp){
-                result.push(temp[t])
+                if (!result.includes(temp[t])) {
+                    result.push(temp[t]);
+                }
             }
         }
         let list = {

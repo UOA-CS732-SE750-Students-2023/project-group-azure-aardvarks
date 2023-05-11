@@ -57,7 +57,7 @@ export default function Page({data, category}) {
         ]
     }
     let check_empty = false
-    if (data[0].id === "" || data[0].id === undefined){
+    if (data[0] === undefined || data[0].id === "" || data[0].id === undefined){
         check_empty = true
     }
 

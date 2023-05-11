@@ -78,9 +78,14 @@ router.get('/detail/:id', async (req, res) => {
         const styleResponse = await fetch(process.env.NeteaseCloudMusicApi+'/song/wiki/summary?id='+id);
         const stylrData = await styleResponse.json();
         console.log(stylrData)
-        let style = stylrData.data.blocks[1].creatives[0].resources[0].uiElement.mainTitle.title.split("-")[1]
-        let styleTagId = stylrData.data.blocks[1].creatives[0].resources[0].uiElement.mainTitle.action.clickAction.targetUrl
-        styleTagId = styleTagId.substring(styleTagId.indexOf("tagId=")+6)
+        let style = "null"
+        let styleTagId = "null"
+        if (stylrData.data.blocks[1].creatives[0].resources[0]){
+            style = stylrData.data.blocks[1].creatives[0].resources[0].uiElement.mainTitle.title.split("-")[1]
+            styleTagId = stylrData.data.blocks[1].creatives[0].resources[0].uiElement.mainTitle.action.clickAction.targetUrl
+            styleTagId = styleTagId.substring(styleTagId.indexOf("tagId=")+6)
+        }
+
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/detail?ids='+id);
         const data = await response.json();
         let name = data.songs[0].name

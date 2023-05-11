@@ -32,20 +32,23 @@ function Player() {
 
         if (audioInfo.style) {
             try {
-                const response = await fetch(`${BACKEND_API}/api/style/setPreference/`+audioInfo.style.id, {
-                    method: 'POST', // 指定请求方法为POST
-                    headers: {
-                        'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
-                        'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
-                    }
-                });
+                if (audioInfo.style.id !== "null" && audioInfo.style.id !== null){
+                    const response = await fetch(`${BACKEND_API}/api/style/setPreference/`+audioInfo.style.id, {
+                        method: 'POST', // 指定请求方法为POST
+                        headers: {
+                            'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
+                            'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)
+                        }
+                    });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
+                    setUserDetail(responseData.data)
                 }
 
-                const responseData = await response.json(); // 假设服务器返回的是JSON格式数据
-                setUserDetail(responseData.data)
 
             } catch (error) {
                 console.error('Error posting data:', error);
