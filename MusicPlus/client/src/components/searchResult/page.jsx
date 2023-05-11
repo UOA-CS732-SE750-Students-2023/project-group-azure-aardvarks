@@ -13,6 +13,7 @@ import {BACKEND_API} from "../../utils/env.js";
 
 
 export default function Page({data, category}) {
+    console.log(data)
     if (data===undefined && category === "song"){
         data = [
             {
@@ -56,7 +57,7 @@ export default function Page({data, category}) {
         ]
     }
     let check_empty = false
-    if (data[0].id === ""){
+    if (data[0].id === "" || data[0].id === undefined){
         check_empty = true
     }
 

@@ -38,3 +38,22 @@ mongoose.connect(process.env.DB_URL, { useNewUrlParser: true })
     .then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
 
 //app.listen(port, () => console.log(`App server listening on port ${port}!`));
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Make the "public" folder available statically
+app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), 'public')));
+
+// Serve up the frontend's "dist" directory, if we're running in production mode.
+if (process.env.NODE_ENV === 'production') {
+    console.log('Running in production!');
+
+    // Make all files in that folder public
+    app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), '../../client/dist')));
+
+    // If we get any GET request we can't process using one of the server routes, serve up index.html by default.
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(path.dirname(fileURLToPath(import.meta.url)), '../../client/dist/index.html'));
+    });
+}
