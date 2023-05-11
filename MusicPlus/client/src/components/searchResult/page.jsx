@@ -41,8 +41,6 @@ export default function Page({data, category}) {
                 "http://127.0.0.1:3000/api/music/lyric/" + song.id
             );
             let lyricData = await lyricResponse.json();
-            console.log(song)
-            console.log(lyricData.data)
             const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song.id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)

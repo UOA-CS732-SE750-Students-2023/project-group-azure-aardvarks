@@ -14,6 +14,10 @@ router.get('/play/:id', async (req, res) => {
         const { id } = req.params;
         const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/url/v1?id='+id+"&level=standard");
         const data = await response.json();
+        if (data.data[0].url === null){
+            res.status(400).json(returnMsg(0, 400, 'Error fetching the audio file'));
+            return;
+        }
         const musicFileResponse = await fetch(data.data[0].url);
         if (!musicFileResponse.ok) {
             res.status(musicFileResponse.status).json(returnMsg(0, musicFileResponse.status, 'Error fetching the audio file'));
