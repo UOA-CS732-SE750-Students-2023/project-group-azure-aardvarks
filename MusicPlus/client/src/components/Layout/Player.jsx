@@ -19,6 +19,7 @@ function Player() {
     const {currentPlayList,setCurrentPlayList } = useContext(PlayerContext)
 
     function handleAudioListChange(currentPlayId,audioLists,audioInfo){
+        console.log(audioLists)
         setCurrentPlayList(audioLists)
         if (audioLists){
             if (audioLists.length === 1){
@@ -29,6 +30,7 @@ function Player() {
 
     }
     async function handleAudioEnded(currentPlayId, audioLists, audioInfo) {
+
         if (audioInfo.style) {
             try {
                 const response = await fetch(`${BACKEND_API}/api/style/setPreference/`+audioInfo.style.id, {
