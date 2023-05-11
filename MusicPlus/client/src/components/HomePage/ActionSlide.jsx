@@ -15,9 +15,9 @@ function ActionSlide() {
     useEffect(() => {
         async function fetchData() {
           try {
-            const response = await fetch(`${NETEASY_API}/style/album?tagId=1032`);
+            const response = await fetch(`${BACKEND_API}/api/playList/randomEnglish`);
             const data = await response.json();
-            setProducts(data.data.albums);
+            setProducts(data.data.data.albums);
           } catch (error) {
             console.error(error);
           }
