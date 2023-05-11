@@ -3,6 +3,7 @@ import "react-jinke-music-player/assets/index.css";
 import b from '../../static/b.mp3'
 import {useContext, useEffect, useRef, useState} from "react";
 import PlayerContext, {UserContext} from "../../utils/AppContextProvider.jsx";
+import {BACKEND_API} from "../../utils/env.js";
 
 
 
@@ -30,7 +31,7 @@ function Player() {
     async function handleAudioEnded(currentPlayId, audioLists, audioInfo) {
         if (audioInfo.style) {
             try {
-                const response = await fetch("http://127.0.0.1:3000/api/style/setPreference/"+audioInfo.style.id, {
+                const response = await fetch(`${BACKEND_API}/api/style/setPreference/`+audioInfo.style.id, {
                     method: 'POST', // 指定请求方法为POST
                     headers: {
                         'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON

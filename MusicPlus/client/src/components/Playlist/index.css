@@ -18,6 +18,7 @@
     display: grid;
     align-content: space-around;
     justify-content: center;
+    padding-bottom: 30px;
 }
 .container-content-recommendation {
     display: flex;
@@ -38,4 +39,7 @@ margin-right: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+}
+.playlist-container{
+    width: 240px;
 }

@@ -49,10 +49,10 @@ function SongList({songList}) {
             setIsLoading(true);
             addToast(`Adding ${song.name} to my list, please wait !!!`,tempId, {"autohide":false})
             const lyricResponse = await fetch(
-                "http://127.0.0.1:3000/api/music/lyric/" + song._id
+                `${BACKEND_API}/api/music/lyric/` + song._id
             );
             let lyricData = await lyricResponse.json();
-            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song._id)
+            const songFile = await fetch(`${BACKEND_API}/api/music/play/` + song._id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)
 

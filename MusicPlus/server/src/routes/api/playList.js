@@ -173,6 +173,7 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
             if (new ObjectId(req.user_id).equals(playList.owner)){
                 playList.name = req.body.name;
                 playList.private = req.body.private;
+                playList.description = req.body.description;
                 const afterChange = await updatePlayList(playList)
                 if (afterChange !== null) return res.status(HTTP_OK).header('Location', `/api/playList/${afterChange._id}`).json(returnMsg(1, HTTP_OK, await retrievePlayListById(afterChange._id)));
 

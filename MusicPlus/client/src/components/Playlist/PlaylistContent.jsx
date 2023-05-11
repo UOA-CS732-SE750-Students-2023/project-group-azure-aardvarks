@@ -30,7 +30,7 @@ function PlaylistContent(props) {
     const {setShowPlayer} = useContext(PlayerContext);
     const [songList, setSongList] = useState([]);
     const [loadingSong, setLoadingSong] = useState(true);
-    const [isCurrentUser, setIsCurrentUser] = useState(false);
+    // const [isCurrentUser, setIsCurrentUser] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const navigate = useNavigate();
 
@@ -45,11 +45,11 @@ function PlaylistContent(props) {
                     navigate('/home')
                 }
             )
-            console.log(res)
+
         }
         fetchData()
         // check current playlist is yours or other users'
-        setIsCurrentUser(userPlaylist.find(u => u._id === lastPart) !== undefined);
+        // setIsCurrentUser(userPlaylist.find(u => u._id === lastPart) !== undefined);
     },[])
 
     useEffect(() => {
@@ -77,6 +77,7 @@ function PlaylistContent(props) {
 
             }
             setPlayList(response.data.data);
+            console.log(playList)
             setLoading(false)
         } catch (error) {
             console.log(error);
@@ -85,9 +86,12 @@ function PlaylistContent(props) {
     };
 
     const getSongList = async () => {
+
         if (playList.songs) {
             const promises = playList.songs.map(async (songId) => {
+
                 try {
+
                     const response = await axios.get(`${BACKEND_API}/api/music/detail/${songId}`);
                     const result = {
                         "_id": songId,
@@ -97,6 +101,7 @@ function PlaylistContent(props) {
                         "style": response.data.data.style
                     }
                     return result
+
                 } catch (err) {
                     console.log(err);
                     addToast("Something wrong! We will fix it ASAP!")
@@ -108,6 +113,10 @@ function PlaylistContent(props) {
 
             setLoadingSong(false);
         }
+
+
+
+
     };
 
     useEffect(() => {
@@ -140,11 +149,11 @@ function PlaylistContent(props) {
                             <div className={"playlist-body-cover-info-description"}>
                                 {playList.description}
                             </div>
-                            {isCurrentUser === true ? (
-                                <div>
-                                    <Button onClick={()=>setIsEditMode(true)}>EDIT</Button>
-                                </div>
-                            ) : (<></>)}
+                            {/*{isCurrentUser === true ? (*/}
+                            {/*    <div>*/}
+                            {/*        <Button onClick={()=>setIsEditMode(true)}>EDIT</Button>*/}
+                            {/*    </div>*/}
+                            {/*) : (<></>)}*/}
                         </div>
                     </div>
 
@@ -163,15 +172,7 @@ function PlaylistContent(props) {
             {/*<PlaylistTe show={isEditMode}*/}
             {/*            onClose={()=>setIsEditMode(false)}*/}
             {/*/>*/}
-            <PlaylistTemplate
-                show={isEditMode}
-                onClose={()=>setIsEditMode(false)}
-                cover={playList.cover}
-                description={playList.description}
-                name={playList.name}
-                private={playList.private ? "private":"public"}
-                type={'edit'}
-            />
+
         </Layout>
     );
 }

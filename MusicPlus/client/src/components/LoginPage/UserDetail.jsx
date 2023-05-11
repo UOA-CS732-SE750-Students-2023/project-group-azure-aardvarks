@@ -9,6 +9,7 @@ import { useToast } from "../../utils/AppContextProvider.jsx";
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import {BACKEND_API} from "../../utils/env.js";
 
 
 
@@ -76,7 +77,7 @@ function UserDetail() {
     async function changeUserInfo(event) {
         event.preventDefault();
         try {
-            const response = await fetch("http://127.0.0.1:3000/api/user/updateUserInfo", {
+            const response = await fetch(`${BACKEND_API}/api/user/updateUserInfo`, {
                 method: 'PUT', // 指定请求方法为POST
                 headers: {
                     'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
@@ -113,7 +114,7 @@ function UserDetail() {
         event.preventDefault();
         if (userNewPassword === userCheckNewPassword) {
             try {
-                const response = await fetch("http://127.0.0.1:3000/api/user/changePassword", {
+                const response = await fetch(`${BACKEND_API}/api/user/changePassword`, {
                     method: 'PUT', // 指定请求方法为POST
                     headers: {
                         'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON

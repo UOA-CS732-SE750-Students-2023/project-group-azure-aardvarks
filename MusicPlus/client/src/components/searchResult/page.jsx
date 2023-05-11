@@ -38,10 +38,10 @@ export default function Page({data, category}) {
         try {
             setIsLoading(true);
             const lyricResponse = await fetch(
-                "http://127.0.0.1:3000/api/music/lyric/" + song.id
+                `${BACKEND_API}/api/music/lyric/` + song.id
             );
             let lyricData = await lyricResponse.json();
-            const songFile = await fetch("http://127.0.0.1:3000/api/music/play/" + song.id)
+            const songFile = await fetch(`${BACKEND_API}/api/music/play/` + song.id)
             let songData = await songFile.blob()
             songData = URL.createObjectURL(songData)
             let formattedSinger = ''

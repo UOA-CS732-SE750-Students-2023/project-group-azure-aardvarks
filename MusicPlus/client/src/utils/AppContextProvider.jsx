@@ -96,6 +96,7 @@ export function UserProvider({ children }) {
     }
 
     const updateUserPlaylist = async (playlist)=>{
+        console.log(playlist)
         await axios.put(`${BACKEND_API}/api/playList/changePlayListInfo`,playlist,{headers:{
                 'Content-Type': 'application/json', // 设置请求头，指定数据类型为JSON
                 'Authorization': 'Basic ' + btoa(`${userDetail.username}:${userDetail.password}`)

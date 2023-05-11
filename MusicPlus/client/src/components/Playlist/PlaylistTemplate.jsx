@@ -6,8 +6,6 @@ import Form from "react-bootstrap/Form";
 
 /**
  *  required "type", type="new" or type="edit"
- *  not required "cover","private", "name", "description"
- *  eg: <PlaylistTemplate type="new" cover="xxxx" private="public" name="xxx" description="xxx">
  * @param props
  * @return {JSX.Element}
  * @constructor
@@ -35,6 +33,7 @@ function PlaylistTemplate(props){
             setCover(e.target.result);
         };
         reader.readAsDataURL(file);
+        console.log(file)
     }
 
 
@@ -46,6 +45,24 @@ function PlaylistTemplate(props){
             cover:cover
         }
         await newUserPlaylist(playlist)
+        setCover(defaultImg)
+        props.onClose();
+    }
+    const handleEditPlaylist = async (cover, playlistId) =>{
+        const playlist = {
+            _id:playlistId,
+            private:isPrivate
+        }
+        if(name!==''){
+            playlist.name = name
+        }
+        if(description!==''){
+            playlist.description = description
+        }
+        if(cover!==''){
+            playlist.cover = cover
+        }
+        await updateUserPlaylist(playlist)
         setCover(defaultImg)
         props.onClose();
     }
@@ -62,7 +79,7 @@ function PlaylistTemplate(props){
         >
             <Modal.Header >
                 <Modal.Title id="contained-modal-title-vcenter">
-                    {/*Add a playlist*/}
+                    {props.type}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -93,7 +110,7 @@ function PlaylistTemplate(props){
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Control
-                                    placeholder={props.name !== undefined?props.name:"Name"}
+                                    placeholder={props.currentplaylistname !== undefined?props.currentplaylistname:"Playlist Name"}
                                     size={"lg"}
                                     style={{border:"white"}}
                                     value={name}
@@ -106,7 +123,7 @@ function PlaylistTemplate(props){
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1" >
                                 <Form.Control
                                     as="textarea"
-                                    placeholder={props.description !== undefined?props.description:"New description"}
+                                    placeholder={props.currentplaylistdescription !== undefined?props.currentplaylistdescription:"Description"}
                                     style={{border:"white"}}
                                     value={description}
                                     onChange={
@@ -114,11 +131,19 @@ function PlaylistTemplate(props){
                                     }
                                 />
                             </Form.Group>
-                            <Form.Check
-                                type="switch"
-                                label={"private"}
-                                onClick={()=>{setIsPrivate(true)}}
-                            />
+                            {/*<Form.Check*/}
+                            {/*    type="switch"*/}
+                            {/*    label={"private"}*/}
+                            {/*    onClick={()=>{setIsPrivate(true)}}*/}
+                            {/*/>*/}
+                            <Form.Select
+                                size="sm"
+                                defaultValue={props.currentplaylistprivate !== undefined?props.currentplaylistprivate?"private":"public":"public"}
+                                onChange={(e)=>{setIsPrivate(e.target.value === "private")}}
+                            >
+                                <option key={'public'}>public</option>
+                                <option key={'private'} >private</option>
+                            </Form.Select>
                         </Form>
                     </div>
                 </div>
@@ -127,6 +152,7 @@ function PlaylistTemplate(props){
             <Modal.Footer>
                 <Button variant="danger" onClick={props.onClose}>Cancel</Button>
                 { props.type === 'new'? (<Button onClick={()=>{handleNewPlaylist(cover)}}>New</Button>):(<></>)}
+                { props.type === 'edit'? (<Button onClick={()=>{handleEditPlaylist(cover, props._id)}}>Update</Button>):(<></>)}
             </Modal.Footer>
         </Modal>
     )
