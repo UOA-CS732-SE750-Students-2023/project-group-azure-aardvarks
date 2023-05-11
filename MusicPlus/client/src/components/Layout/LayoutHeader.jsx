@@ -3,7 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Card} from "react-bootstrap";
-import CardTest from '../../../public/download.jpg'
+// import CardTest from '../../assets/download.jpg'
+import CardTest from '../../assets/download.jpg'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import user from "../../static/user.jpg"
 import {useContext} from "react";

@@ -4,12 +4,6 @@ import {NotificationContext, UserContext} from "../../utils/AppContextProvider.j
 import {useNavigate} from "react-router-dom";
 import './index.css'
 import {Accordion} from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import defaultImg from '../../../public/default_photo.png'
-import i from '../../../public/image.png'
-import InputGroup from 'react-bootstrap/InputGroup';
-import axios from "axios";
-import {BACKEND_API} from "../../utils/env.js";
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlaylistTemplate from "./PlaylistTemplate.jsx";
 function Playlist(){

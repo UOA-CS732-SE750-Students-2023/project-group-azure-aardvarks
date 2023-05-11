@@ -1,6 +1,5 @@
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import "react-jinke-music-player/assets/index.css";
-import b from '../../static/b.mp3'
 import {useContext, useEffect, useRef, useState} from "react";
 import PlayerContext, {UserContext} from "../../utils/AppContextProvider.jsx";
 import {BACKEND_API} from "../../utils/env.js";

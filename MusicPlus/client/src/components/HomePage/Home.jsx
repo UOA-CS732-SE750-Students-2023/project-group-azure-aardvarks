@@ -1,15 +1,11 @@
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import Layout from "../Layout/Layout.jsx";
-import Carousel from "react-bootstrap/Carousel";
-import downloadImage from "../../../public/download.jpg";
-import code_structure from "../../../public/code_structure.png";
 import ActionSlide from "./ActionSlide.jsx";
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import PlaylistCover from "../Playlist/PlaylistCover.jsx";
 import "./index.css"
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
-import {AlbumCover} from "../Album/AlbumCover.jsx";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
 
 

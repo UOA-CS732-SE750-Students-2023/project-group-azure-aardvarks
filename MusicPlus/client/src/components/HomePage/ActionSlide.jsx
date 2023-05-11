@@ -1,12 +1,8 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
-import downloadImage from '../../../public/download.jpg';
-import code_structure from '../../../public/code_structure.png';
-import Layout from "../Layout/Layout.jsx";
 import { BACKEND_API, NETEASY_API } from "../../utils/env.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import './MyCarousel.css';
 
 

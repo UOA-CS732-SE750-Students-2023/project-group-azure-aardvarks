@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Figure from 'react-bootstrap/Figure'
-import defaultPlayListImage from '../../../public/default_photo.png'
+// import defaultPlayListImage from '../../../public/default_photo.png'
+import defaultPlayListImage from '../../assets/default_photo.png'
 import {Link} from "react-router-dom";
 import PlaylistContent from "./PlaylistContent.jsx";
-import default_photo from "../../../public/default_photo.png";
-import songList from "../SongList";
+// import default_photo from "../../../public/default_photo.png";
+import default_photo from '../../assets/default_photo.png'
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 

@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../utils/AppContextProvider.jsx";
-import defaultImg from "../../../public/default_photo.png";
+// import defaultImg from "../../../public/default_photo.png";
+import defaultImg from "../../assets/default_photo.png"
 import {Button, Modal} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 

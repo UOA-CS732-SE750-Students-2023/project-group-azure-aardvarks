@@ -2,13 +2,13 @@ import express from 'express';
 
 const router = express.Router();
 
-import User from './user';
+import User from './user.js';
 router.use('/user', User);
 
-import music from './music';
+import music from './music.js';
 router.use('/music', music);
 
-import playList from './playList';
+import playList from './playList.js';
 router.use('/playList', playList);
 
 import comment from './comment.js'

@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import {formatDateTime, returnMsg} from "../../utils/commonUtils.js";
 import express from "express";
 import {retrievePlayList} from "../../Database/Playlist-dao.js";
-import {check, validationResult} from "express-validator/check";
+
 import axios from "axios";
 
 dotenv.config();
@@ -117,13 +117,7 @@ router.get('/similarSongs/:id', async (req, res) => {
  *     }
  * }
  */
-router.get('/', [check("keyword", "'keyword' field can not be empty'").notEmpty()], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()){
-        return res.send(
-            returnMsg(0,400,errors.array())
-        )
-    }
+router.get('/' , async (req, res) => {
     try{
         const {pageNum=1, pageSize=20, keyword} =req.query
         const requests = [

@@ -1,6 +1,4 @@
 import React, {useContext, useEffect, useState} from "react";
-
-import default_photo from '../../../public/default_photo.png'
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import './index.css'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
@@ -13,10 +11,6 @@ import {BACKEND_API} from "../../utils/env.js";
 import {Modal, Spinner} from "react-bootstrap";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
 import PlaylistCover from "./PlaylistCover.jsx";
-import Button from "react-bootstrap/Button";
-import defaultImg from "../../../public/default_photo.png";
-import Form from "react-bootstrap/Form";
-import PlaylistTemplate from "./PlaylistTemplate.jsx";
 
 
 

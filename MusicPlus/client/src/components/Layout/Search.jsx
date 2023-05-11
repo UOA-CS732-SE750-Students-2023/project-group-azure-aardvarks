@@ -1,15 +1,9 @@
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import "./index.css"
 import {Link, useParams} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
 import {NotificationContext, UserContext} from "../../utils/AppContextProvider.jsx";
-import axios from "axios";
-import {BACKEND_API} from "../../utils/env.js";
-import Toast from "react-bootstrap/Toast";
 import { useNavigate } from 'react-router-dom';
-import {Button} from "react-bootstrap";
 import Playlist from "../Playlist/Playlist.jsx";
 
 
