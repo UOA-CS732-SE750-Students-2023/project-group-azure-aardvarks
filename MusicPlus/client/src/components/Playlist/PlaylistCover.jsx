@@ -55,6 +55,12 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fix
                 })
             }
         }
+
+    }, [isHovered])
+
+    useEffect(()=>{
+        // console.log(playList.songs)
+
         const getAlbumPicUrl = async () => {
             setLoading(true)
             try {
@@ -68,8 +74,13 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fix
                 console.log(error);
             }
         };
-        getAlbumPicUrl()
-    }, [isHovered])
+        if (playList.songs.length === 0){
+            setPicUrl(defaultPlayListImage)
+            setLoading(false)
+        }else{
+            getAlbumPicUrl()
+        }
+    },[])
 
     function openPlaylistContent(){
         setContentShow(true)

@@ -78,7 +78,8 @@ router.get('/searchPlayListByOwnerId/:id', async (req, res) => {
     //根据ownerid搜索（忽略public）
     try{
         const { id } = req.params;
-        return res.json(returnMsg(1, HTTP_OK, await retrievePlayListByOwnerId(id)) )
+        let result = await retrievePlayListByOwnerId(id)
+        return res.json(returnMsg(1, HTTP_OK, result) )
     }catch (e) {
         console.log(e);return res.status(501).json(returnMsg(0, 501,e));
     }
@@ -241,5 +242,17 @@ router.delete('/delete/:id', auth,async (req, res)=>{
         return res.send(returnMsg(0, 500, e))
     }
 })
+
+
+router.get('/user/:id',async (req, res)=>{
+    try{
+        const { id } = req.params;
+        let lists = await playList.find({owner:id}).populate('owner');
+        return res.send(returnMsg(1, 200, lists))
+    } catch (e) {
+        console.log(e);
+        return res.status(501).json(returnMsg(0, 501, e));
+    }
+});
 
 export default router;

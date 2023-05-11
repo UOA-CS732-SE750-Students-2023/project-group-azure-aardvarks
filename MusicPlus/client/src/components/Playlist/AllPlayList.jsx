@@ -19,8 +19,9 @@ function AllPlayList({type="public", id}){
     useEffect(()=>{
         const getPlayList = async () => {
             try {
-                const playListDetail = await axios.get(`${BACKEND_API}/api/playList/all`);
+                const playListDetail = await axios.get(`${BACKEND_API}/api/playList/user/${id}`);
                 if (playListDetail.data.status === 1) {
+                    // if (playListDetail.data.data.cover === undefined) { playListDetail.cover = ''}
                     setPlayList(playListDetail.data.data);
                 }
             } catch (e) {
