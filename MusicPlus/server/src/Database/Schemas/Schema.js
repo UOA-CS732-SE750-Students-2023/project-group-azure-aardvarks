@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import axios from "axios";
-import fs from "fs";
+import fs from 'fs'
 import open from 'open'
+import axios from "axios";
+import * as dotenv from 'dotenv';
 
 const Schema = mongoose.Schema;
-
 
 const CookieSchema = new mongoose.Schema({
     key: String,
@@ -64,7 +64,7 @@ export async function login() {
     let timeoutId;
     const cache = "cache"
     const cookieData = await CookieModel.findOne({ key: cache });
-   // console.log(cookieData)
+    // console.log(cookieData)
     if (!cookieData){
         const newCookie = new CookieModel({
             key: cache,
