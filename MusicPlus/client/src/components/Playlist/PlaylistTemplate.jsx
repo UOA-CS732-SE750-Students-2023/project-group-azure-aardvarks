@@ -19,7 +19,6 @@ function PlaylistTemplate(props){
     const {userDetail, newUserPlaylist,updateUserPlaylist} = useContext(UserContext)
 
 
-
     function handleFileSelect(e) {
         const file = e.target.files[0];
         const maxFileSize = 5 * 1024 * 1024; // 5MB
@@ -30,7 +29,6 @@ function PlaylistTemplate(props){
         }
         const reader = new FileReader();
         reader.onload = (e) => {
-
             setCover(e.target.result);
         };
         reader.readAsDataURL(file);
@@ -46,7 +44,11 @@ function PlaylistTemplate(props){
             cover:cover
         }
         await newUserPlaylist(playlist)
-        setCover(defaultImg)
+        if (cover !== ""){
+            setCover(cover)
+        }else{
+            setCover(defaultImg)
+        }
         props.onClose();
     }
     const handleEditPlaylist = async (cover, playlistId) =>{
@@ -97,7 +99,7 @@ function PlaylistTemplate(props){
                     }}>
                     <img
                         alt={"img not found"}
-                        src={props.currentCover===undefined?defaultImg:props.currentCover}
+                        src={props.currentcover===undefined?cover===""?defaultImg:cover:props.currentcover}
                         width={300}
                         height={300}
                         style={{
@@ -144,7 +146,7 @@ function PlaylistTemplate(props){
                             {/*/>*/}
                             <Form.Select
                                 size="sm"
-                                defaultValue={props.currentplaylistprivate !== undefined?props.currentplaylistprivate==="false"?"private":"public":"public"}
+                                defaultValue={props.currentplaylistprivate !== undefined?props.currentplaylistprivate==="true"?"private":"public":"public"}
                                 onChange={(e)=>{setIsPrivate(e.target.value === "private")}}
                             >
                                 <option key={'public'}>public</option>
