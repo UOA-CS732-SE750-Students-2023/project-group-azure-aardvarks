@@ -31,13 +31,16 @@ vi access.log # create log file
 ```
 ## Startup
 ```shell
+# Server
+cd ./NeteaseCloudMusicApi
+npm install
+node app.js
+cd ./MusicPlus/server
+npm install
+npm server  # localhost:3000 in default
+
 # Client
 cd ./Music Plus/client
 npm install 
 npm run dev
-
-# Server
-cd ./Music Plus/server
-npm install
-npm server  # localhost:3000 in default
 ```
