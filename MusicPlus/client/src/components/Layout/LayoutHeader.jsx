@@ -16,35 +16,29 @@ function LayoutHeader() {
     const {userDetail, setUserDetail} = useContext(UserContext)
 
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        
+        <Navbar collapseOnSelect expand="lg" style={{ backgroundColor: "#32A67E" }}>
+
             <Container>
-                <Navbar.Brand href="./#/home">Music Plus</Navbar.Brand>
+                <Navbar.Brand style={{fontSize: "1.7em" ,color: "white"}} href="./#/home">Music Plus</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="./#/home">Home</Nav.Link>
-                        
-                    </Nav>
-
-
-                </Navbar.Collapse>
                 <div style={{display: "flex"}}>
                     {userDetail._id === undefined ? (
                         <span style={{color:"white"}} onClick={() => Navigate("/login")}>
                     Log in
                     </span>
                     ) : (
-                        <span style={{color:"white"}} onClick={() => Navigate("/user/detail")}>
-                    {userDetail.username}
+                        <span style={{ color: "white", marginRight: "10px", fontSize: "1.6em" }} onClick={() => Navigate("/user/detail")}>
+                     Welcome! {userDetail.username}
                     </span>
                     )}
 
                     {userDetail._id !== undefined ? (
                         <Card style={{ width: '35px', marginLeft: "0.5vh"}}>
                             {userDetail.avatar === "" || !userDetail.avatar? (
-                                <Card.Img variant="top" src={user} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
+                                <Card.Img variant="top"style={{ width: "40px", height: "40px" }} src={user} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
                             ):(
-                                <Card.Img variant="top" src={userDetail.avatar} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
+                                <Card.Img variant="top"style={{ width: "40px", height: "40px" }} src={userDetail.avatar} alt={"img not found"}  onClick={() => Navigate("/user/detail")}/>
                             )}
 
                         </Card>
@@ -57,6 +51,7 @@ function LayoutHeader() {
 
             </Container>
         </Navbar>
+        
     );
 }
 
