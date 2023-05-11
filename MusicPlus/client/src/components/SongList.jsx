@@ -131,6 +131,10 @@ function SongList({songList}) {
 
     }
 
+    async function handleGoToSongInfo(song){
+        history("/song/?keyword="+song._id)
+    }
+
     return (
         <>
 
@@ -187,6 +191,7 @@ function SongList({songList}) {
                                     <Dropdown.Divider/>
                                     <Dropdown.Item
                                         eventKey="6"
+                                        onClick={()=>handleGoToSongInfo(song)}
                                     >
                                         Song information
                                     </Dropdown.Item>
