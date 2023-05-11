@@ -1,45 +1,60 @@
-.playlist-body-cover{
+.playlist-body-cover {
     display: flex;
     flex-direction: row;
     /*padding: 40px;*/
 }
-.playlist-body-cover-img{
+
+.playlist-body-cover-img {
     margin-right: 70px;
 }
-.playlist-body-cover-info{
+
+.playlist-body-cover-info {
     padding-top: 35px;
 
 }
-.playlist-body-cover-info-title{
+
+.playlist-body-cover-info-title {
     font-size: 45px;
     font-weight: bold;
 }
-.playlist{
+
+.playlist {
     display: grid;
     align-content: space-around;
     justify-content: center;
     padding-bottom: 30px;
 }
+
 .container-content-recommendation {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-  }
-  
-.container-content-recommendation > * {
-flex: 1 1 25%;
-margin-right: 1%;
-margin-bottom: 20px;
 }
 
-.container-content-recommendation > *:last-child {
-margin-right: 0;
+.container-content-recommendation>* {
+    flex: 1 1 25%;
+    margin-right: 1%;
+    margin-bottom: 20px;
 }
-.my-profile-playlist-cover{
+
+.container-content-recommendation>*:last-child {
+    margin-right: 0;
+}
+
+.my-profile-playlist-cover {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
 }
-.playlist-container{
+
+.playlist-container {
     width: 240px;
+}
+
+.playlist-container .accordion {
+    background-color: #31c27c;
+}
+
+.playlist-container .accordion .btn {
+    color: #31c27c;
 }

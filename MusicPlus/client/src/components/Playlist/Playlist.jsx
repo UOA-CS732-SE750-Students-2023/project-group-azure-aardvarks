@@ -37,12 +37,7 @@ function Playlist(){
     }
     async function handleEditPlaylist(playlist, key){
         setCurrentPlaylistName(playlist.name)
-        if (playlist.private !== undefined){
-            setCurrentPlaylistPrivate(playlist.private.toString())
-        }else {
-            setCurrentPlaylistPrivate(playlist.private)
-        }
-
+        setCurrentPlaylistPrivate(playlist.private)
         setCurrentPlaylistId(playlist._id)
         setCurrentPlaylistDescription(playlist.description)
         setCurrentPlaylistCover(playlist.cover)
@@ -54,8 +49,8 @@ function Playlist(){
         <>
         <div>
             {userDetail.username===undefined?(<></>):(
-                <div className={"playlist"}>
-                    <Accordion defaultActiveKey={['0']} alwaysOpen className={'playlist-container'}>
+                <div className={"playlist"} >
+                    <Accordion defaultActiveKey={['0']} alwaysOpen className={'playlist-container'} >
                         <Accordion.Item eventKey="0">
                             <Accordion.Header><b>My playlists</b></Accordion.Header>
                             <Accordion.Body>
@@ -193,7 +188,7 @@ function Playlist(){
                         _id={currentPlaylistId}
                         currentplaylistprivate={currentPlaylistPrivate}
                         currentplaylistdescription={currentPlaylistDescription}
-                        currentCover={currentPlaylistCover}
+                        // currentCover={currentPlaylistCover}
                         type={"edit"}
                     />
                 </div>
