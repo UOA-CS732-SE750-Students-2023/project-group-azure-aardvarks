@@ -4,6 +4,7 @@ import open from 'open'
 import axios from "axios";
 import * as dotenv from 'dotenv';
 
+
 const Schema = mongoose.Schema;
 
 const CookieSchema = new mongoose.Schema({
@@ -89,7 +90,7 @@ export async function login() {
         timer = setInterval(async () => {
             const statusRes = await checkStatus(key)
             if (statusRes.code === 800) {
-                alert('二维码已过期,请重新获取')
+                console.log('二维码已过期,请重新获取')
                 clearInterval(timer)
             }
             if (statusRes.code === 803) {

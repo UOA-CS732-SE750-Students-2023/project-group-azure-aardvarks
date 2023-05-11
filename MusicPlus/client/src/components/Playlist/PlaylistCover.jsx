@@ -64,11 +64,16 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fix
         const getAlbumPicUrl = async () => {
             setLoading(true)
             try {
-                await axios.get(`${BACKEND_API}/api/music/detail/${playList.songs[playList.songs.length-1]}`).then(response => {
-                    console.log(response.data.data.album.picUrl)
-                    setPicUrl(response.data.data.album.picUrl)
+                if (playList.songs.length !== 0){
+                    await axios.get(`${BACKEND_API}/api/music/detail/${playList.songs[playList.songs.length-1]}`).then(response => {
+                        console.log(response.data.data.album.picUrl)
+                        setPicUrl(response.data.data.album.picUrl)
+                        setLoading(false)
+                    });
+                }
+                else {
                     setLoading(false)
-                });
+                }
 
             } catch (error) {
                 console.log(error);
@@ -103,8 +108,6 @@ function PlaylistCover({playList, width=200, height=200, showMiniInfo=false, fix
                     height={height}
                     alt="180x180"
                     src={playList.cover===''|| playList.cover === undefined ?
-                        playList.songs[0]?
-                            picUrl:
                             default_photo
                         :playList.cover}
                     style={{borderRadius: 20}}

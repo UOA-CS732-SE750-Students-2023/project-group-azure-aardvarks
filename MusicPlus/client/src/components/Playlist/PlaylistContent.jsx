@@ -86,7 +86,6 @@ function PlaylistContent(props) {
     };
 
     const getSongList = async () => {
-        console.log(playList.songs.length)
         if (playList.songs) {
             if (playList.songs.length !== 0){
                 const promises = playList.songs.map(async (songId) => {
@@ -112,6 +111,8 @@ function PlaylistContent(props) {
                 const results = await Promise.all(promises);
                 setSongList(results.filter((item) => item !== null));
 
+                setLoadingSong(false);
+                }else {
                 setLoadingSong(false);
             }
             }

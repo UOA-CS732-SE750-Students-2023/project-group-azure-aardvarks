@@ -13,6 +13,53 @@ import {BACKEND_API} from "../../utils/env.js";
 
 
 export default function Page({data, category}) {
+    if (data===undefined && category === "song"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "artists": [
+                    {
+                        "name": "",
+                        "id": ""
+                    }
+                ],
+                "album": {
+                    "name": "",
+                    "id": ""
+                }
+            }
+        ]
+    }
+    if (data===undefined && category === "album"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "picUrl": "",
+                "artist": {
+                    "name": "",
+                    "id": "",
+                    "picUrl": ""
+                },
+                "size": ""
+            }
+        ]
+    }
+    if (data===undefined && category === "singer"){
+        data = [
+            {
+                "name": "",
+                "id": "",
+                "picUrl": ""
+            }
+        ]
+    }
+    let check_empty = false
+    if (data[0].id === ""){
+        check_empty = true
+    }
+
     const {addToast} = useToast();
     const {currentPlayList, setCurrentPlayList} = useContext(PlayerContext);
     const {userPlaylist, setUserPlaylist, userDetail,renewUserPlaylist} = useContext(UserContext);
@@ -94,6 +141,7 @@ export default function Page({data, category}) {
 
     return (
         <div className="container">
+            {check_empty?<h1>no result</h1>:
             <div className="table-responsive">
                 <table className="table">
                     {category === "album" ?
@@ -210,7 +258,7 @@ export default function Page({data, category}) {
                     </tbody>
 
                 </table>
-            </div>
+            </div>}
             <ReactPaginate
                 previousLabel="Previous"
                 nextLabel="Next"
