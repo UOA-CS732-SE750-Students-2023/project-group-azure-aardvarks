@@ -7,6 +7,7 @@ import { BACKEND_API, NETEASY_API } from "../../utils/env.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import './MyCarousel.css';
 
 
 function ActionSlide() {
@@ -40,14 +41,20 @@ function ActionSlide() {
             <Carousel variant={"dark"}>
                 {coverUrls.map((coverUrl, index) => (
                     <Carousel.Item interval={2000} key={index}>
-                        <img
-                            style={{ maxWidth: '30%', maxHeight: '30%', cursor: 'pointer' }}
-                            className="mx-auto d-block"
-                            src={coverUrl}
-                            alt="No picture"
-                            onClick={() => handleImageClick(albumIds[index])}
+                        <div className="carousel-image-container" onClick={() => handleImageClick(albumIds[index])}>
+                            <img
+                                className="d-block blur-image "
+                                src={coverUrl}
+                                alt="No picture"
+                            />
+                            <img
+                                style={{ maxWidth: '30%', maxHeight: '30%', cursor: 'pointer', objectFit: 'cover', zIndex: 100, position: "relative"}}
+                                className="mx-auto d-block "
+                                src={coverUrl}
+                                alt="No picture"
+                            />
+                        </div>
 
-                        />
                     </Carousel.Item>
 
                 ))}
