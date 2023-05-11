@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import axios from "axios";
 import fs from "fs";
+import open from 'open'
 
 const Schema = mongoose.Schema;
 
