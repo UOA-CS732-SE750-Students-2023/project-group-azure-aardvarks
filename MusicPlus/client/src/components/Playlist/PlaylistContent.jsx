@@ -86,33 +86,36 @@ function PlaylistContent(props) {
     };
 
     const getSongList = async () => {
-
+        console.log(playList.songs.length)
         if (playList.songs) {
-            const promises = playList.songs.map(async (songId) => {
+            if (playList.songs.length !== 0){
+                const promises = playList.songs.map(async (songId) => {
 
-                try {
+                    try {
 
-                    const response = await axios.get(`${BACKEND_API}/api/music/detail/${songId}`);
-                    const result = {
-                        "_id": songId,
-                        "name": response.data.data.name,
-                        "singer": response.data.data.singer,
-                        "album": response.data.data.album,
-                        "style": response.data.data.style
+                        const response = await axios.get(`${BACKEND_API}/api/music/detail/${songId}`);
+                        const result = {
+                            "_id": songId,
+                            "name": response.data.data.name,
+                            "singer": response.data.data.singer,
+                            "album": response.data.data.album,
+                            "style": response.data.data.style
+                        }
+                        return result
+
+                    } catch (err) {
+                        console.log(err);
+                        addToast("Something wrong! We will fix it ASAP!")
+                        return null;
                     }
-                    return result
+                })
+                const results = await Promise.all(promises);
+                setSongList(results.filter((item) => item !== null));
 
-                } catch (err) {
-                    console.log(err);
-                    addToast("Something wrong! We will fix it ASAP!")
-                    return null;
-                }
-            })
-            const results = await Promise.all(promises);
-            setSongList(results.filter((item) => item !== null));
+                setLoadingSong(false);
+            }
+            }
 
-            setLoadingSong(false);
-        }
 
 
 

@@ -61,6 +61,7 @@ function SongList({songList}) {
                 formattedSinger = song.singer[i].name + '/'
             }
             formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+
             const musicDetail = {
                 _id: song._id,
                 name: song.name,

@@ -1,6 +1,123 @@
 import mongoose from 'mongoose';
+import fs from 'fs'
+import open from 'open'
+import axios from "axios";
+import * as dotenv from 'dotenv';
 
 const Schema = mongoose.Schema;
+
+const CookieSchema = new mongoose.Schema({
+    key: String,
+    cookie: String,
+});
+function saveImg(data) {
+    let base64Data = data.replace(/^data:image\/\w+;base64,/, "");
+
+// 将 base64 数据解码
+    let dataBuffer = Buffer.from(base64Data, 'base64');
+
+// 写入到文件
+    fs.writeFile('image.png', dataBuffer, function(err) {
+        if(err){
+            console.error(err);
+        }else{
+            console.log("写入成功！");
+            // 文件写入成功后打开
+            open('image.png');
+        }
+    });
+}
+
+export const CookieModel = mongoose.model('Cookie', CookieSchema);
+
+async function checkStatus(key) {
+    const res = await axios({
+        url: process.env.NeteaseCloudMusicApi+`/login/qr/check?key=${key}&timestamp=${Date.now()}`,
+    })
+    return res.data
+}
+
+async function getLoginStatus(key) {
+    const cookieData = await CookieModel.findOne({ key: key });
+    const res = await axios({
+        url: process.env.NeteaseCloudMusicApi+`/login/status?timestamp=${Date.now()}`,
+        method: 'post',
+        data: {
+            cookie: cookieData ? cookieData.cookie : '',
+        },
+    })
+    return res.data
+}
+async function logout(key) {
+    const cookieData = await CookieModel.findOne({ key: key });
+    const res = await axios({
+        url: process.env.NeteaseCloudMusicApi+`/logout?timestamp=${Date.now()}`,
+        method: 'post',
+        data: {
+            cookie: cookieData ? cookieData.cookie : '',
+        },
+    })
+    return res.data
+}
+export async function login() {
+    let timer;
+    let timeoutId;
+    const cache = "cache"
+    const cookieData = await CookieModel.findOne({ key: cache });
+    // console.log(cookieData)
+    if (!cookieData){
+        const newCookie = new CookieModel({
+            key: cache,
+            cookie: ''
+        });
+        await newCookie.save()
+    }
+    let loginStatus = await getLoginStatus(cache);
+    if (loginStatus.data.account.status === -10){
+        const res = await axios({
+            url: process.env.NeteaseCloudMusicApi+`/login/qr/key?timestamp=${Date.now()}`,
+        })
+        const key = res.data.data.unikey
+        const res2 = await axios({
+            url: process.env.NeteaseCloudMusicApi+`/login/qr/create?key=${key}&qrimg=true&timestamp=${Date.now()}`,
+        })
+        saveImg(res2.data.data.qrimg)
+        timeoutId = setTimeout(() => {
+            console.log('五分钟内未登录，取消循环');
+            clearInterval(timer);
+        }, 5 * 60 * 1000);
+        timer = setInterval(async () => {
+            const statusRes = await checkStatus(key)
+            if (statusRes.code === 800) {
+                alert('二维码已过期,请重新获取')
+                clearInterval(timer)
+            }
+            if (statusRes.code === 803) {
+                clearTimeout(timeoutId);
+                clearInterval(timer)
+                console.log('授权登录成功')
+                await CookieModel.findOneAndUpdate(
+                    { key: cache }, // 匹配条件
+                    { cookie: statusRes.cookie }, // 更新的字段和值
+                    { new: true } // 选项：返回更新后的文档
+                )
+                loginStatus = await getLoginStatus(cache)
+                console.log("登陆状态有效， 用户名：" + loginStatus.data.profile.nickname)
+                return statusRes.cookie
+                // Update the cookie in the database
+
+            }
+        }, 3000)
+
+    }
+    else {
+        console.log("登陆状态有效， 用户名：" + loginStatus.data.profile.nickname)
+        return cookieData
+    }
+
+}
+login()
+
 
 /**
  * Generate the schema for your data.

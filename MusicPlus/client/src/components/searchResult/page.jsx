@@ -36,6 +36,8 @@ export default function Page({data, category}) {
 
     async function handleAddToPlayer(song) {
         try {
+            const response = await axios.get(`http://127.0.0.1:3000/api/music/detail/${song.id}`);
+            console.log(response.data.data.style)
             setIsLoading(true);
             const lyricResponse = await fetch(
                 `${BACKEND_API}/api/music/lyric/` + song.id
@@ -49,14 +51,15 @@ export default function Page({data, category}) {
                 formattedSinger = song.artists[i].name + '/'
             }
             formattedSinger = formattedSinger.substring(0, formattedSinger.length - 1)
+            console.log(song)
             const musicDetail = {
-                _id: song._id,
+                _id: song.id.toString(),
                 name: song.name,
                 singer: formattedSinger,
-                cover: song.album.picUrl,
+                cover: response.data.data.album.picUrl,
                 musicSrc: songData,
                 lyric: lyricData.data,
-                style: song.style
+                style: response.data.data.style
             }
             // setCurrentPlayList([...currentPlayList,musicDetail])
             setCurrentPlayList(prevList => [...prevList, musicDetail])
