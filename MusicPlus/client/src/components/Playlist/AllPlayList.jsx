@@ -18,17 +18,15 @@ function AllPlayList({type="public", id}){
 
     useEffect(()=>{
         const getPlayList = async () => {
-            // const playListDetail = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${id}`)
-            const playListDetail = await axios.post(`${BACKEND_API}/api/playList/search/owner/id`,{
-                id : id,
-                type:type
-            })
-            
-            if (playListDetail.data.status === 1){
-                setPlayList(playListDetail.data.data)
-                
+            try {
+                const playListDetail = await axios.get(`${BACKEND_API}/api/playList/all`);
+                if (playListDetail.data.status === 1) {
+                    setPlayList(playListDetail.data.data);
+                }
+            } catch (e) {
+                console.log(e);
             }
-        }
+        };
         getPlayList();
     }, [userDetail._id,userPlaylist])
     return (

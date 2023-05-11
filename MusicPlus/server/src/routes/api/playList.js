@@ -191,6 +191,31 @@ router.put('/changePlayListInfo', auth,async (req, res) => {
 /**
  * Take a number of public playlist randomly. takes min(num, playList.length)
  */
+router.get('/all',async (req, res)=>{
+    try{
+        const pipeline = []
+        pipeline.push({
+            $match:{
+                private:false
+            }
+        })
+
+        const result = await playList.aggregate(pipeline)
+
+        for (const resultKey in result) {
+            const author = await retrieveUserBaseProfile(result[resultKey].owner)
+            result[resultKey].owner = author
+            result[resultKey].createdAt = formatDateTime(result[resultKey].createdAt)
+            result[resultKey].updatedAt = formatDateTime(result[resultKey].updatedAt)
+        }
+
+        return res.send(returnMsg(1, 200, result))
+    }catch (e) {
+        console.log(e);return res.status(501).json(returnMsg(0, 501,e));
+    }
+
+})
+
 router.get('/random/:num',async (req, res)=>{
     try{
         let {num} = req.params
