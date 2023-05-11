@@ -6,7 +6,7 @@ import {Card} from "react-bootstrap";
 import CardTest from '../../../public/download.jpg'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
 import user from "../../static/user.jpg"
-import {useContext} from "react";
+import React, {useContext} from "react";
 
 import {useNavigate} from "react-router-dom";
 
@@ -18,13 +18,17 @@ function LayoutHeader() {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="./#/home">Music Plus</Navbar.Brand>
+                <div className="musicLogo">
+                    <span className="letter-m">M</span>
+                    <span className="letter-u">u</span>
+                    <span className="letter-s">s</span>
+                    <span className="letter-i">i</span>
+                    <span className="letter-c">c</span>
+                    <span className="letter-plus">+</span>
+                </div>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="./#/home">Home</Nav.Link>
-                        
-                    </Nav>
+
 
 
                 </Navbar.Collapse>

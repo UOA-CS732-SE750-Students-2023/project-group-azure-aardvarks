@@ -36,6 +36,7 @@ const Home = () => {
         <>
             <Layout>
                 <h2>Explore</h2>
+
                 <hr />
                 <div className={"container-home"}>
                     <div className={"container-content-actionSlide"}>
