@@ -46,7 +46,7 @@ const Home = () => {
                     <hr />
                     <div className={"container-content-recommendation"}>
                         {Object.values(playList).map((playlist) => (
-                            <PlaylistCover key={playlist._id} playList={playlist} showMiniInfo={true} />
+                            <PlaylistCover key={playlist._id} playList={playlist} showMiniInfo={true}fixMiniInfo={true} />
                             // <AlbumCover key={playlist._id} playList={playlist}/>
                         ))}
                     </div>
