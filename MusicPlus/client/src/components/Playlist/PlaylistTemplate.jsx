@@ -63,7 +63,12 @@ function PlaylistTemplate(props){
             playlist.cover = cover
         }
         await updateUserPlaylist(playlist)
-        setCover(defaultImg)
+        if (cover !== ""){
+            setCover(cover)
+        }else{
+            setCover(defaultImg)
+        }
+
         props.onClose();
     }
 
@@ -91,7 +96,7 @@ function PlaylistTemplate(props){
                     }}>
                     <img
                         alt={"img not found"}
-                        src={cover===''?defaultImg:cover}
+                        src={props.currentCover===undefined?defaultImg:props.currentCover}
                         width={300}
                         height={300}
                         style={{
@@ -138,7 +143,7 @@ function PlaylistTemplate(props){
                             {/*/>*/}
                             <Form.Select
                                 size="sm"
-                                defaultValue={props.currentplaylistprivate !== undefined?props.currentplaylistprivate?"private":"public":"public"}
+                                defaultValue={props.currentplaylistprivate !== undefined?props.currentplaylistprivate==="false"?"private":"public":"public"}
                                 onChange={(e)=>{setIsPrivate(e.target.value === "private")}}
                             >
                                 <option key={'public'}>public</option>
