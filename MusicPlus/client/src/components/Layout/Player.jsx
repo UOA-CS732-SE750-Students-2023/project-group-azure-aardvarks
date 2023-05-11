@@ -18,6 +18,7 @@ function Player() {
     const {currentPlayList,setCurrentPlayList } = useContext(PlayerContext)
 
     function handleAudioListChange(currentPlayId,audioLists,audioInfo){
+        console.log(audioLists)
         setCurrentPlayList(audioLists)
         if (audioLists){
             if (audioLists.length === 1){
@@ -28,6 +29,7 @@ function Player() {
 
     }
     async function handleAudioEnded(currentPlayId, audioLists, audioInfo) {
+
         if (audioInfo.style) {
             try {
                 const response = await fetch("http://127.0.0.1:3000/api/style/setPreference/"+audioInfo.style.id, {
