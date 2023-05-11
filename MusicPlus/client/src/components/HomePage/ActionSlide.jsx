@@ -12,15 +12,15 @@ import { useParams } from 'react-router-dom';
 function ActionSlide() {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
-    
-    
+
+
 
     useEffect(() => {
         async function fetchData() {
           try {
-            const response = await fetch(`${NETEASY_API}/album/list?limit=5`);
+            const response = await fetch(`${NETEASY_API}/style/album?tagId=1032`);
             const data = await response.json();
-            setProducts(data.products);
+            setProducts(data.data.albums);
           } catch (error) {
             console.error(error);
           }
@@ -28,8 +28,8 @@ function ActionSlide() {
         fetchData();
       }, []);
 
-    const coverUrls = products.map(product => product.coverUrl);
-    const albumIds = products.map(product => product.albumId);
+    const coverUrls = products.map(product => product.picUrl);
+    const albumIds = products.map(product => product.id);
 
     const handleImageClick = (albumId) => {
         navigate(`/album/${albumId}`);

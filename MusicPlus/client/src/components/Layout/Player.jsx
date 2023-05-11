@@ -19,7 +19,13 @@ function Player() {
 
     function handleAudioListChange(currentPlayId,audioLists,audioInfo){
         setCurrentPlayList(audioLists)
-        playerRef.current.updatePlayIndex(0)
+        if (audioLists){
+            if (audioLists.length === 1){
+                playerRef.current.updatePlayIndex(0)
+            }
+        }
+
+
     }
     async function handleAudioEnded(currentPlayId, audioLists, audioInfo) {
         if (audioInfo.style) {
