@@ -1,0 +1,3 @@
+[submodule "NeteaseCloudMusicApi4000"]
+	path = NeteaseCloudMusicApi
+	url = https://github.com/dxh000130/NeteaseCloudMusicApi.git
