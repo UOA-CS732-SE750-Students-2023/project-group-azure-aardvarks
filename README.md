@@ -34,6 +34,7 @@ vi access.log # create log file
 # Server
 cd ./NeteaseCloudMusicApi
 npm install
+node app.js
 cd ../MusicPlus/server
 npm install
 npm server  # localhost:3000 in default
