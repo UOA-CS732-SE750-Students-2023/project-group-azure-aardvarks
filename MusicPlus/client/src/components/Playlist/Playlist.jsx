@@ -37,11 +37,18 @@ function Playlist(){
     }
     async function handleEditPlaylist(playlist, key){
         setCurrentPlaylistName(playlist.name)
-        setCurrentPlaylistPrivate(playlist.private)
+        if (playlist.private === undefined){
+            setCurrentPlaylistPrivate(playlist.private)
+        }else{
+            setCurrentPlaylistPrivate(playlist.private.toString())
+        }
+
         setCurrentPlaylistId(playlist._id)
         setCurrentPlaylistDescription(playlist.description)
         setCurrentPlaylistCover(playlist.cover)
         handleShowEditPlaylist()
+        console.log("description\n"+playlist)
+        console.log(userPlaylist)
     }
 
     useEffect(()=>{}, [userPlaylist])
@@ -188,7 +195,7 @@ function Playlist(){
                         _id={currentPlaylistId}
                         currentplaylistprivate={currentPlaylistPrivate}
                         currentplaylistdescription={currentPlaylistDescription}
-                        // currentCover={currentPlaylistCover}
+                        currentcover={currentPlaylistCover}
                         type={"edit"}
                     />
                 </div>
