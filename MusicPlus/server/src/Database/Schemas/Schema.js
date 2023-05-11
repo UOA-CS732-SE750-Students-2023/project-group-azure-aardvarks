@@ -4,6 +4,7 @@ import open from 'open'
 import axios from "axios";
 import * as dotenv from 'dotenv';
 
+
 const Schema = mongoose.Schema;
 
 const CookieSchema = new mongoose.Schema({
