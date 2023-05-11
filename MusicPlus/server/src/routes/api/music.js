@@ -4,6 +4,8 @@ import { pipeline } from 'stream';
 import { promisify } from 'util';
 import * as dotenv from 'dotenv';
 import {returnMsg} from "../../utils/commonUtils.js";
+import axios from "axios";
+import {CookieModel, login} from "../../Database/Schemas/Schema.js";
 dotenv.config();
 
 const router = express.Router();
@@ -12,8 +14,18 @@ router.get('/play/:id', async (req, res) => {
     //播放音乐
     try{
         const { id } = req.params;
-        const response = await fetch(process.env.NeteaseCloudMusicApi+'/song/url/v1?id='+id+"&level=standard");
-        const data = await response.json();
+        const cookies = await login()
+        //console.log(cookies.cookie)
+        const res1 = await axios({
+            url: process.env.NeteaseCloudMusicApi+'/song/url/v1?id='+id+"&level=standard",
+            method: 'post',
+            data: {
+                cookie: cookies ? cookies.cookie : '',
+            },
+        })
+        //console.log(res.data.data[0].url);
+        const data = res1.data;
+        console.log(data)
         if (data.data[0].url === null){
             res.status(400).json(returnMsg(0, 400, 'Error fetching the audio file'));
             return;

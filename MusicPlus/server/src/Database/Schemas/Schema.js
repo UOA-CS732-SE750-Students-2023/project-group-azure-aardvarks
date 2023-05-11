@@ -28,7 +28,7 @@ function saveImg(data) {
     });
 }
 
-const CookieModel = mongoose.model('Cookie', CookieSchema);
+export const CookieModel = mongoose.model('Cookie', CookieSchema);
 
 async function checkStatus(key) {
     const res = await axios({
@@ -48,8 +48,18 @@ async function getLoginStatus(key) {
     })
     return res.data
 }
-
-async function login() {
+async function logout(key) {
+    const cookieData = await CookieModel.findOne({ key: key });
+    const res = await axios({
+        url: process.env.NeteaseCloudMusicApi+`/logout?timestamp=${Date.now()}`,
+        method: 'post',
+        data: {
+            cookie: cookieData ? cookieData.cookie : '',
+        },
+    })
+    return res.data
+}
+export async function login() {
     let timer;
     let timeoutId;
     const cache = "cache"
@@ -63,7 +73,6 @@ async function login() {
         await newCookie.save()
     }
     let loginStatus = await getLoginStatus(cache);
-
     if (loginStatus.data.account.status === -10){
         const res = await axios({
             url: process.env.NeteaseCloudMusicApi+`/login/qr/key?timestamp=${Date.now()}`,
@@ -92,16 +101,18 @@ async function login() {
                     { cookie: statusRes.cookie }, // 更新的字段和值
                     { new: true } // 选项：返回更新后的文档
                 )
-                //await CookieModel.updateOne({ cache }, { cache: statusRes.cookie }, { upsert: true });
                 loginStatus = await getLoginStatus(cache)
                 console.log("登陆状态有效， 用户名：" + loginStatus.data.profile.nickname)
+                return statusRes.cookie
                 // Update the cookie in the database
 
             }
         }, 3000)
+
     }
     else {
         console.log("登陆状态有效， 用户名：" + loginStatus.data.profile.nickname)
+        return cookieData
     }
 
 }
