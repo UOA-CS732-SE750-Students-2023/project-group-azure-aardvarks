@@ -84,7 +84,7 @@ export default function Page({data, category}) {
 
     async function handleAddToPlayer(song) {
         try {
-            const response = await axios.get(`http://127.0.0.1:3000/api/music/detail/${song.id}`);
+            const response = await axios.get(`${BACKEND_API}/api/music/detail/${song.id}`);
             console.log(response.data.data.style)
             setIsLoading(true);
             const lyricResponse = await fetch(
