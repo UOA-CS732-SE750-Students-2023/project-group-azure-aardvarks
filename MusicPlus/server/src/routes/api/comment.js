@@ -1,6 +1,6 @@
 import express from "express";
 import {Paginator, PaginatorAsync, returnMsg} from '../../utils/commonUtils.js'
-import { check, validationResult } from 'express-validator/check';
+
 import {Comments, Replies} from "../../Database/Schemas/commentSchema.js";
 import {getReplies, postComment} from "../../Database/commentDao.js";
 import {auth} from "../../middleware/auth.js";
@@ -18,17 +18,10 @@ const router = express.Router()
  *  @param songId string,  require
  *  @param commentId string,  require
  */
-router.post('/new', [auth, [
-    check('songId', "'songId' field is required").notEmpty(),
-    check('comment', "'comment' field is required").notEmpty(),
-]], async (req, res) => {
+router.post('/new', auth, async (req, res) => {
     try{
-        const errors = validationResult(req);
-        if (!errors.isEmpty()){
-            return res.send(
-                returnMsg(0,400,errors.array())
-            )
-        }
+
+
         const userId = req.user_id
         const data = {
             "userId":userId,
@@ -145,14 +138,8 @@ router.delete('/delete/:commentId',auth,async (req, res)=>{
  * @Login required
  * @param newComment
  */
-router.put('/edit/:commentId', [auth, [check("newComment", "'newComment field' is required").notEmpty()]], async (req, res)=>{
+router.put('/edit/:commentId', [auth], async (req, res)=>{
     try{
-        const errors = validationResult(req);
-        if (!errors.isEmpty()){
-            return res.send(
-                returnMsg(0,400,errors.array())
-            )
-        }
         const {commentId} = req.params
         const userId = req.user_id
         const newComment = req.body.newComment
@@ -203,17 +190,8 @@ router.put('/like/:commentId', auth, async (req, res)=>{
  * @param toUserId required, which user your want to reply.
  * @param comment required,reply message
  */
-router.post('/reply/:parentCommentId', [auth, [
-    check("toUserId", "'toUserId' field is required in reply method").notEmpty(),
-    check("comment", "'comment' field is required in reply method").notEmpty(),
-]], async (req, res)=>{
+router.post('/reply/:parentCommentId', [auth], async (req, res)=>{
     try{
-        const errors = validationResult(req);
-        if (!errors.isEmpty()){
-            return res.send(
-                returnMsg(0,400,errors.array())
-            )
-        }
 
         if (req.body.comment === ''){
             return res.send(returnMsg(0,500,"Your comment cannot be empty"))

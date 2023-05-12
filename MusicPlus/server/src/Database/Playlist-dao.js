@@ -91,7 +91,7 @@ async function getSongInfo(playLists){
             }
 
         }
-        let playList1 = {_id: playLists[playList]._id, name: playLists[playList].name, private: playLists[playList].private, songs:songs, owner: playLists[playList].owner, notes: playLists[playList].notes, cover: playLists[playList].cover}
+        let playList1 = {_id: playLists[playList]._id, name: playLists[playList].name, private: playLists[playList].private, songs:songs, owner: playLists[playList].owner, description: playLists[playList].description, cover: playLists[playList].cover}
         result.push(playList1)
     }
     return result

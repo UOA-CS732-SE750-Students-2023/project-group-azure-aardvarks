@@ -1,6 +1,4 @@
 import React, {useContext, useEffect, useState} from "react";
-
-import default_photo from '../../../public/default_photo.png'
 import {useToast} from "../../utils/AppContextProvider.jsx";
 import './index.css'
 import {UserContext} from "../../utils/AppContextProvider.jsx";
@@ -13,10 +11,6 @@ import {BACKEND_API} from "../../utils/env.js";
 import {Modal, Spinner} from "react-bootstrap";
 import PlayerContext from "../../utils/AppContextProvider.jsx";
 import PlaylistCover from "./PlaylistCover.jsx";
-import Button from "react-bootstrap/Button";
-import defaultImg from "../../../public/default_photo.png";
-import Form from "react-bootstrap/Form";
-import PlaylistTemplate from "./PlaylistTemplate.jsx";
 
 
 
@@ -35,19 +29,22 @@ function PlaylistContent(props) {
     const navigate = useNavigate();
 
     useEffect(  () => {
-        const url = window.location.href
-        const parts = url.split('/');
-        const lastPart = parts.pop();
-        const fetchData = async () =>{
-            const res = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${lastPart}`).catch(
-                (e)=>{
-                    console.log(e)
-                    navigate('/home')
-                }
-            )
+        if(props.link !== "/style/preference"){
+            const url = window.location.href
+            const parts = url.split('/');
+            const lastPart = parts.pop();
+            const fetchData = async () =>{
+                const res = await axios.get(`${BACKEND_API}/api/playList/searchPlayListByOwnerId/${lastPart}`).catch(
+                    (e)=>{
+                        console.log(e)
+                        navigate('/home')
+                    }
+                )
 
+            }
+            fetchData()
         }
-        fetchData()
+
         // check current playlist is yours or other users'
         // setIsCurrentUser(userPlaylist.find(u => u._id === lastPart) !== undefined);
     },[])

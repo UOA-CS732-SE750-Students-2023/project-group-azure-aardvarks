@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <NotificationProvider>
             <PlayerProvider>
                 <TemporaryPlaylistProvider>
-                    <HashRouter >
+                    <HashRouter>
                         <App />
                     </HashRouter>
                 </TemporaryPlaylistProvider>

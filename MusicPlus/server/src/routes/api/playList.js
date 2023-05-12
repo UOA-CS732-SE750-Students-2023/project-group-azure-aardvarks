@@ -255,5 +255,23 @@ router.get('/user/:id',async (req, res)=>{
         return res.status(501).json(returnMsg(0, 501, e));
     }
 });
+router.get('/randomEnglish',async (req, res)=>{
+    try {
+        const response = await fetch(`${process.env.NeteaseCloudMusicApi}/style/album?tagId=1032`);
+        const data = await response.json();
+        return res.send(returnMsg(1, 200, data))
 
+    } catch (e) {
+        console.log(e);
+        return res.status(501).json(returnMsg(0, 501, e));
+    }
+    try{
+        const { id } = req.params;
+        let lists = await playList.find({owner:id}).populate('owner');
+        return res.send(returnMsg(1, 200, lists))
+    } catch (e) {
+        console.log(e);
+        return res.status(501).json(returnMsg(0, 501, e));
+    }
+});
 export default router;

@@ -66,7 +66,7 @@ export default function Result() {
                 //     // console.log(response.data.data.singer)
                 //     setIsLoading(false);
                 // });
-                await axios.get(`${BACKEND_API}/api/search?keyword=${keyword}&pageNum=${1}&pageSize=${20}`).then(
+                await axios.get(`${BACKEND_API}/api/search?keyword=${keyword}&pageNum=${0}&pageSize=${20}`).then(
                     (response)=>{
                         setResult(response.data.data.song)
                         setSinger(response.data.data.singer)

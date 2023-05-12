@@ -1,12 +1,8 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
-import downloadImage from '../../../public/download.jpg';
-import code_structure from '../../../public/code_structure.png';
-import Layout from "../Layout/Layout.jsx";
 import { BACKEND_API, NETEASY_API } from "../../utils/env.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import './MyCarousel.css';
 
 
@@ -19,9 +15,9 @@ function ActionSlide() {
     useEffect(() => {
         async function fetchData() {
           try {
-            const response = await fetch(`${NETEASY_API}/style/album?tagId=1032`);
+            const response = await fetch(`${BACKEND_API}/api/playList/randomEnglish`);
             const data = await response.json();
-            setProducts(data.data.albums);
+            setProducts(data.data.data.albums);
           } catch (error) {
             console.error(error);
           }

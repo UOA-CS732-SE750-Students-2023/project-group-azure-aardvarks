@@ -4,12 +4,6 @@ import {NotificationContext, UserContext} from "../../utils/AppContextProvider.j
 import {useNavigate} from "react-router-dom";
 import './index.css'
 import {Accordion} from "react-bootstrap";
-import Form from 'react-bootstrap/Form';
-import defaultImg from '../../../public/default_photo.png'
-import i from '../../../public/image.png'
-import InputGroup from 'react-bootstrap/InputGroup';
-import axios from "axios";
-import {BACKEND_API} from "../../utils/env.js";
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlaylistTemplate from "./PlaylistTemplate.jsx";
 function Playlist(){
@@ -37,16 +31,18 @@ function Playlist(){
     }
     async function handleEditPlaylist(playlist, key){
         setCurrentPlaylistName(playlist.name)
-        if (playlist.private !== undefined){
-            setCurrentPlaylistPrivate(playlist.private.toString())
-        }else {
+        if (playlist.private === undefined){
             setCurrentPlaylistPrivate(playlist.private)
+        }else{
+            setCurrentPlaylistPrivate(playlist.private.toString())
         }
 
         setCurrentPlaylistId(playlist._id)
         setCurrentPlaylistDescription(playlist.description)
         setCurrentPlaylistCover(playlist.cover)
         handleShowEditPlaylist()
+        console.log("description\n"+playlist)
+        console.log(userPlaylist)
     }
 
     useEffect(()=>{}, [userPlaylist])
@@ -54,8 +50,8 @@ function Playlist(){
         <>
         <div>
             {userDetail.username===undefined?(<></>):(
-                <div className={"playlist"}>
-                    <Accordion defaultActiveKey={['0']} alwaysOpen className={'playlist-container'}>
+                <div className={"playlist"} >
+                    <Accordion defaultActiveKey={['0']} alwaysOpen className={'playlist-container'} >
                         <Accordion.Item eventKey="0">
                             <Accordion.Header><b>My playlists</b></Accordion.Header>
                             <Accordion.Body>
@@ -193,7 +189,7 @@ function Playlist(){
                         _id={currentPlaylistId}
                         currentplaylistprivate={currentPlaylistPrivate}
                         currentplaylistdescription={currentPlaylistDescription}
-                        currentCover={currentPlaylistCover}
+                        currentcover={currentPlaylistCover}
                         type={"edit"}
                     />
                 </div>
