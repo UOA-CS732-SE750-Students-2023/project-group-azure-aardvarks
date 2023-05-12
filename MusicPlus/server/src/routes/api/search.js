@@ -119,7 +119,7 @@ router.get('/similarSongs/:id', async (req, res) => {
  */
 router.get('/' , async (req, res) => {
     try{
-        const {pageNum=1, pageSize=20, keyword} =req.query
+        const {pageNum=0, pageSize=20, keyword} =req.query
         const requests = [
             axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=1&offset=${pageNum}&limit=${pageSize}`),
             axios.get(`${process.env.NeteaseCloudMusicApi}/search/?keywords=${keyword}&type=100&offset=${pageNum}&limit=${pageSize}`),
