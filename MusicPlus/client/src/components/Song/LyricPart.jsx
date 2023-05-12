@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 
@@ -14,7 +14,6 @@ export default function LyricPart({id}){
                 await axios.get(`${BACKEND_API}/api/music/lyric/${id}`).then(
                     (response)=>{
                         setLyric(response.data.data)
-                        // console.log(response.data.data)
                         setIsLoading(false);
                     }
                 )
@@ -26,10 +25,13 @@ export default function LyricPart({id}){
 
     }, [id]);
 
-    const regex = /^\[\d{2}:\d{2}\.\d{2}\]/gm;
-    const lyricList = lyric.split(regex);
+    const regex = /\[\d{2}:\d{2}\.\d{2}\](.*)/g;
+    const lyricList = [];
 
-
+    let match;
+    while ((match = regex.exec(lyric)) !== null) {
+        lyricList.push(match[1]);
+    }
 
     return(
         <div className='mt-3 mb-3 me-1 ms-1'>
