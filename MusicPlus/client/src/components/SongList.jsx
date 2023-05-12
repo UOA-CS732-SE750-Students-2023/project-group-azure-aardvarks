@@ -203,7 +203,9 @@ function SongList({songList}) {
                             <td onClick={()=>handleAddToPlayer(song)}>{song.name}
                             </td>
                             <td onClick={()=>handleShowSingers(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
-                            <td onClick={()=>handleGoToAlbum(song)}>{song.album.name}</td>
+                            <td>
+                                <p onClick={()=>handleGoToAlbum(song.album)}>{song.album.name}</p>
+                            </td>
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
