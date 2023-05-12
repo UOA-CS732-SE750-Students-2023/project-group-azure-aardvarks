@@ -95,7 +95,7 @@ export default function SongContent(){
                 </Col>
             </Row>
             <Row>
-                <Button onClick={()=>setShowModal(true)}>comment something</Button>
+                <Button onClick={()=>setShowModal(true)}>Come and say something</Button>
                 <Modal show={showModal} onHide={()=>setShowModal(false)}>
                     <Card className="card">
                         <Card.Header>
