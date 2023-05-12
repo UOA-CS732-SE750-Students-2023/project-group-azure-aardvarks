@@ -3,8 +3,9 @@ import React, {useContext, useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import {useToast} from "../utils/AppContextProvider.jsx";
 import Dropdown from 'react-bootstrap/Dropdown';
-import {DropdownButton, Modal, Spinner} from "react-bootstrap";
+import {Col, DropdownButton, Modal, Row, Spinner} from "react-bootstrap";
 import axios from "axios";
+import play from "../assets/play.png"
 import {BACKEND_API} from "../utils/env.js";
 import PlayerContext, {
     NotificationContext,
@@ -13,6 +14,7 @@ import PlayerContext, {
 } from "../utils/AppContextProvider.jsx";
 import {Navigate, useNavigate} from "react-router-dom";
 import {nanoid} from "nanoid";
+
 import Form from 'react-bootstrap/Form';
 
 /**
@@ -138,7 +140,51 @@ function SongList({songList}) {
 
     return (
         <>
+            <div style={{paddingBottom: 15}}>
+                <DropdownButton
+                    align="end"
+                    title="+ Add"
+                    id="dropdown-menu-align-end"
+                    size={"sm"}
+                    variant="outline-secondary"
+                    style={{
+                        borderRadius: 25,
+                        borderColor: "gray"
+                    }}
+                >
+                    {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
+                    {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
+                    {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
+                    {userPlaylist.map((value, key) => (
+                        <div key={key}>
+                            <Dropdown.Item
+                                eventKey={`${key}`}
+                                onClick={() => {
+                                    for (let song in songList){
+                                        handleAddSongToMyPlayList(songList[song], value._id)
+                                    }
+                                }}
+                            >
+                                {value.name}
+                            </Dropdown.Item>
+                        </div>
 
+                    ))}
+                    <Dropdown.Divider/>
+                    <Dropdown.Item
+                        eventKey="4"
+                        onClick={() => {
+                            for (let song in songList){
+                                console.log(songList[song])
+                                handleAddToPlayer(songList[song])}
+                        }
+                        }
+                        //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
+                    >
+                        Current playlist
+                    </Dropdown.Item>
+                </DropdownButton>
+            </div>
             <div>
                 <Table striped bordered hover style={{cursor:"default"}}>
                     <thead>
@@ -154,9 +200,10 @@ function SongList({songList}) {
                     {songList.map((song, index) => (
                         <tr key={song._id} >
                             <td>{index + 1}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.name}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.album.name}</td>
+                            <td onClick={()=>handleAddToPlayer(song)}>{song.name}
+                            </td>
+                            <td onClick={()=>handleShowSingers(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
+                            <td onClick={()=>handleGoToAlbum(song)}>{song.album.name}</td>
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
