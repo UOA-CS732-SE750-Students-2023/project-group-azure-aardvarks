@@ -1,7 +1,7 @@
 # &#x266b; Music Plus
 
 
-A music app which provides personalised recommendations based on a user's listening habits and preferences. It will also offer a social component, allowing users to connect and share music with friends.
+A music app which provides personalised recommendations based on a user's listening habits and preferences. It will also offer a social component, allowing users to connect and share music with friends and no ADs.
 
 ## &#x263a; Music APIs source
 Our music APIs source base on an open source [NeteaseCloudMusicApi](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi).
@@ -40,6 +40,7 @@ We are using [react-jinke-music-player](https://github.com/uniquemo/react-neteas
     - [x] Set private 
     - [x] Favourite list
     - [ ] History list
+    - [ ] Create/store playlists without logging in (only local)
 - [ ] Player
     - [x] Play without login
     - [x] Play list
@@ -64,6 +65,13 @@ We are using [react-jinke-music-player](https://github.com/uniquemo/react-neteas
 - [ ] profile
     - [x] show my play list
     - [ ] ...
+- [ ] Global setting 
+    - [ ] Personal style setting
+    - [ ] Language setting
+    - [ ] responsive (partially completed)
+- [ ] others
+    - [ ] Docker deployment
+    - [ ] Electron cross-platform deployment
  
 ## ▣ Screenshots
 - Exmaple
@@ -127,7 +135,6 @@ vi .env
 
 # copy and paste
 VITE_BACKEND_BASE_URL=http://127.0.0.1:3000 # Backend API, required
-VITE_NETEASY_URL=http://localhost:4000 # # Accessing NeteaseCloud APIs, required
 ```
 ## &#x263a; Startup
 ```shell
@@ -140,9 +147,15 @@ npm install
 npm server  # localhost:3000 in default
 
 # Client
-cd ./Music Plus/client
+cd ./MusicPlus/client
 npm install 
 npm run dev
+```
+## &#x263a; Production
+```shell
+cd ./MusicPlus/server
+npm install
+npm run production 
 ```
 ## &#x263a; Build
 ```shell
