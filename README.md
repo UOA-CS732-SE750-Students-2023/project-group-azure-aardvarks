@@ -150,6 +150,6 @@ cd ./MusicPlus/client
 npm build
 ```
 ## &#x263a; Management
-We use notion to manage teams, assign tasks, and publish useful information. And use wechat, Tencent meeting for discussion every week.
+We use notion to manage teams, assign tasks, and publish useful information. And use wechat, Tencent meeting for discussion every week.During the development process, in order to avoid conflicts, everyone has their own independent branch, which is merged into the dev branch after completing some functions. The dev branch will be merged into the main branch after proper testing.
 https://www.notion.so/74ceba8f885a4ae3bdfed33fd18562bd?v=e59565eeb2ec45aea246b3d252ea5bb5&pvs=4
 <img width="954" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2023/project-group-azure-aardvarks/assets/34475380/5102e024-f05d-4154-8e24-18059cbd5f79">
