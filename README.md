@@ -41,6 +41,7 @@ We are using [react-jinke-music-player](https://github.com/uniquemo/react-neteas
     - [x] Set private 
     - [x] Favourite list
     - [ ] History list
+    - [ ] Create/store playlists without logging in (only local)
 - [ ] Player
     - [x] Play without login
     - [x] Play list
@@ -136,7 +137,6 @@ vi .env
 
 # copy and paste
 VITE_BACKEND_BASE_URL=http://127.0.0.1:3000 # Backend API, required
-VITE_NETEASY_URL=http://localhost:4000 # # Accessing NeteaseCloud APIs, required
 ```
 ## &#x263a; Startup
 ```shell
