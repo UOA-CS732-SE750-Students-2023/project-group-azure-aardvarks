@@ -1,8 +1,7 @@
 # &#x266b; Music Plus
 
 
-A music app which provides personalised recommendations based on a user's listening habits and preferences.
-Easy to use and no ADs.
+A music app which provides personalised recommendations based on a user's listening habits and preferences. It will also offer a social component, allowing users to connect and share music with friends.
 
 ## &#x263a; Music APIs source
 Our music APIs source base on an open source [NeteaseCloudMusicApi](https://binaryify.github.io/NeteaseCloudMusicApi/#/?id=neteasecloudmusicapi).
@@ -41,7 +40,6 @@ We are using [react-jinke-music-player](https://github.com/uniquemo/react-neteas
     - [x] Set private 
     - [x] Favourite list
     - [ ] History list
-    - [ ] Create/store playlists without logging in (only local)
 - [ ] Player
     - [x] Play without login
     - [x] Play list
@@ -66,15 +64,7 @@ We are using [react-jinke-music-player](https://github.com/uniquemo/react-neteas
 - [ ] profile
     - [x] show my play list
     - [ ] ...
-- [ ] Global setting 
-    - [ ] Personal style setting
-    - [ ] Language setting
-    - [ ] responsive (partially completed)
-- [ ] others
-    - [ ] Docker deployment
-    - [ ] Electron cross-platform deployment
-
-
+ 
 ## ▣ Screenshots
 - Exmaple
 ![image](./Images/exmaple.gif)
@@ -137,6 +127,7 @@ vi .env
 
 # copy and paste
 VITE_BACKEND_BASE_URL=http://127.0.0.1:3000 # Backend API, required
+VITE_NETEASY_URL=http://localhost:4000 # # Accessing NeteaseCloud APIs, required
 ```
 ## &#x263a; Startup
 ```shell
@@ -149,20 +140,16 @@ npm install
 npm server  # localhost:3000 in default
 
 # Client
-cd ./MusicPlus/client
+cd ./Music Plus/client
 npm install 
 npm run dev
 ```
-
-## &#x263a; Production
-```shell
-cd ./MusicPlus/server
-npm install
-npm run production 
-```
-
 ## &#x263a; Build
 ```shell
 cd ./MusicPlus/client
 npm build
 ```
+## &#x263a; Management
+We use notion to manage teams, assign tasks, and publish useful information. And use wechat, Tencent meeting for discussion every week.During the development process, in order to avoid conflicts, everyone has their own independent branch, which is merged into the dev branch after completing some functions. The dev branch will be merged into the main branch after proper testing.
+https://www.notion.so/74ceba8f885a4ae3bdfed33fd18562bd?v=e59565eeb2ec45aea246b3d252ea5bb5&pvs=4
+<img width="954" alt="image" src="https://github.com/UOA-CS732-SE750-Students-2023/project-group-azure-aardvarks/assets/34475380/5102e024-f05d-4154-8e24-18059cbd5f79">
