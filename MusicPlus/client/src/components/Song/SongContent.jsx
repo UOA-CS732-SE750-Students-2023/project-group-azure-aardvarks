@@ -8,6 +8,7 @@ import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
 import PlayerContext, {UserContext, useToast} from "../../utils/AppContextProvider.jsx";
+import write from "../../assets/write.png"
 import Player from "../Layout/Player.jsx";
 
 export default function SongContent(){
@@ -84,9 +85,6 @@ export default function SongContent(){
     return(
         <Layout>
             <Row className="mt-4">
-                <h1>{keyword}</h1>
-            </Row>
-            <Row className="mt-4">
                 <Col className="song justify-content-md-center mb-4">
                     <LyricPart id={keyword}></LyricPart>
                 </Col>
@@ -94,8 +92,15 @@ export default function SongContent(){
                     <CommentPart songId={keyword} num={count}></CommentPart>
                 </Col>
             </Row>
-            <Row>
-                <Button onClick={()=>setShowModal(true)}>comment something</Button>
+            <Row className="justify-content-md-center">
+                <button onClick={()=>setShowModal(true)} className="commentButton">
+                    <div style={{display: "flex", alignItems: "center",textAlign:"center"}}>
+                        <img src={write} style={{width:"20px"}}/>
+                        <p style={{alignItems: "center",display:"flex"}}>
+                            &nbsp;&nbsp;&nbsp;Come and say something
+                        </p>
+                    </div>
+                </button>
                 <Modal show={showModal} onHide={()=>setShowModal(false)}>
                     <Card className="card">
                         <Card.Header>
@@ -106,7 +111,6 @@ export default function SongContent(){
                             </svg>
                         </Card.Header>
                         <Card.Body>
-                            <Card.Title>Card标题</Card.Title>
                             <textarea onChange={(event)=> handleChange(event)} className="input mb-2"  rows={5}/>
                             <Row className="justify-content-md-center">
                                 <Col md="auto">

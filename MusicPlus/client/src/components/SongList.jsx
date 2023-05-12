@@ -200,9 +200,12 @@ function SongList({songList}) {
                     {songList.map((song, index) => (
                         <tr key={song._id} >
                             <td>{index + 1}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.name}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
-                            <td onClick={()=>handleAddToPlayer(song)}>{song.album.name}</td>
+                            <td onClick={()=>handleAddToPlayer(song)}>{song.name}
+                            </td>
+                            <td onClick={()=>handleShowSingers(song)}>{song.singer.map((singer, index) => (<div key={index}>{singer.name}</div>))}</td>
+                            <td>
+                                <p onClick={()=>handleGoToAlbum(song.album)}>{song.album.name}</p>
+                            </td>
                             <td style={{width: 100}}>
                                 <DropdownButton
                                     align="end"
