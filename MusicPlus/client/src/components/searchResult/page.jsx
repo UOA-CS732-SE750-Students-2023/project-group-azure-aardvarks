@@ -5,15 +5,16 @@ import "./button.scss"
 import {Link, useNavigate} from "react-router-dom";
 import SongList from "../SongList.jsx";
 import PlayerContext, {UserContext, useToast} from "../../utils/AppContextProvider.jsx";
-import {Col, Row, Dropdown, ButtonGroup } from "react-bootstrap";
+import {Col, Row, Dropdown, ButtonGroup, DropdownButton} from "react-bootstrap";
 import play from "../../assets/play.png"
 import more1 from "../../assets/more1.png"
 import axios from "axios";
 import {BACKEND_API} from "../../utils/env.js";
+import playlist from "../Playlist/Playlist.jsx";
 
 
 export default function Page({data, category}) {
-    console.log(data)
+    // console.log(data)
     if (data===undefined && category === "song"){
         data = [
             {
@@ -144,6 +145,57 @@ export default function Page({data, category}) {
         <div className="container">
             {check_empty?<h1>no result</h1>:
             <div className="table-responsive">
+                {category==="song"?
+                    <div style={{paddingBottom: 15}}>
+                        <DropdownButton
+                            align="end"
+                            title="+ Add"
+                            id="dropdown-menu-align-end"
+                            size={"sm"}
+                            variant="outline-secondary"
+                            style={{
+                                borderRadius: 25,
+                                borderColor: "gray"
+                            }}
+                        >
+                            {/*<Dropdown.Item eventKey="1">Action</Dropdown.Item>*/}
+                            {/*<Dropdown.Item eventKey="2">Another action</Dropdown.Item>*/}
+                            {/*<Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
+                            {userPlaylist.map((value, key) => (
+                                <div key={key}>
+                                    <Dropdown.Item
+                                        eventKey={`${key}`}
+                                        onClick={() => {
+                                            for (let song in data){
+                                                // console.log(song)
+                                                handleAddSongToMyPlayList(data[song], value._id)
+                                            }
+                                        }}
+                                    >
+                                        {value.name}
+                                    </Dropdown.Item>
+                                </div>
+
+                            ))}
+                            <Dropdown.Divider/>
+                            <Dropdown.Item
+                                eventKey="4"
+                                onClick={() => {
+                                    for (let song in data){
+                                        // console.log(data[song])
+                                        handleAddToPlayer(data[song])}
+                                }
+                                }
+                                //裴 onClick={()=>handleAddToPlayer(song._id, song.singer, song.name)}
+                            >
+                                Current playlist
+                            </Dropdown.Item>
+                        </DropdownButton>
+                    </div>:
+                            ""
+                }
+
+
                 <table className="table">
                     {category === "album" ?
                         <thead>
