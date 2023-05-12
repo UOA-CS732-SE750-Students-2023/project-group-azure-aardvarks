@@ -85,9 +85,6 @@ export default function SongContent(){
     return(
         <Layout>
             <Row className="mt-4">
-                <h1>{keyword}</h1>
-            </Row>
-            <Row className="mt-4">
                 <Col className="song justify-content-md-center mb-4">
                     <LyricPart id={keyword}></LyricPart>
                 </Col>

@@ -88,15 +88,15 @@ export default function CommentPart({ songId, num }) {
               {comment
                 .filter((c) => c.songId === songId)
                 .map((c) => (
-                  <li key={c._id}>
-                    <p><strong>{c.username}</strong> {c.comment}</p>
+                  <div key={c.id} style={{display: "flex", alignItems: "center",textAlign:"center"}}>
+                    <p><strong>{c.username}</strong> {c.comment}&nbsp;&nbsp;&nbsp;</p>
                     <Button
                       onClick={() => handleLike(c._id)}
                       disabled={likedComments.includes(c._id)}
                     >
                       Like ({c.likes})
                     </Button>
-                  </li>
+                  </div>
                 ))}
             </ul>
           ) : (
