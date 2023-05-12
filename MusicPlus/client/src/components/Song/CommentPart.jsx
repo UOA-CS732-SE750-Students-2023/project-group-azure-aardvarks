@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import {Col, Row, Button, Modal, Card} from "react-bootstrap";
 import axios from "axios";
 import { BACKEND_API } from "../../utils/env.js";
 import { UserContext } from "../../utils/AppContextProvider.jsx";
@@ -76,31 +77,37 @@ export default function CommentPart({ songId, num }) {
   };
 
   return (
-    <div>
+    <div className="comment-container">
       <h3>Comments</h3>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {comment.map((c) => (
-            <li key={c._id}>
-              {c.songId === songId && (
-                <>
-                  <p>{c.comment}</p>
-                  <button
-                    onClick={() => handleLike(c._id)}
-                    disabled={likedComments.includes(c._id)}
-                  >
-                    Like ({c.likes})
-                  </button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="comment-section">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          comment.filter((c) => c.songId === songId).length > 0 ? (
+            <ul>
+              {comment
+                .filter((c) => c.songId === songId)
+                .map((c) => (
+                  <li key={c._id}>
+                    <p><strong>{c.username}:</strong> {c.comment}</p>
+                    <Button
+                      onClick={() => handleLike(c._id)}
+                      disabled={likedComments.includes(c._id)}
+                    >
+                      Like ({c.likes})
+                    </Button>
+                  </li>
+                ))}
+            </ul>
+          ) : (
+            <p>No comments yet. Be the first to comment!</p>
+          )
+        )}
+      </div>
     </div>
   );
+}
+
 //     const [loading, setIsLoading] = useState(true);
 //     const {userDetail, setUserDetail} = useContext(UserContext);
 //     const [comment, setComment] = useState([]);
@@ -137,4 +144,4 @@ export default function CommentPart({ songId, num }) {
 
 //         </>
 //     )
-}
+
