@@ -25,12 +25,14 @@ export default function LyricPart({id}){
 
     }, [id]);
 
-    const regex = /\[\d{2}:\d{2}\.\d{2}\](.*)/g;
+    const regex = /\[\d{0,2}:\d{0,2}\.\d{0,2}\]?(.*)/g;
     const lyricList = [];
 
     let match;
     while ((match = regex.exec(lyric)) !== null) {
-        lyricList.push(match[1]);
+      const line = match[1].trim();
+      const cleanLine = line.includes("]") ? line.substring(line.indexOf("]") + 1).trim() : line;
+      lyricList.push(cleanLine);
     }
 
     return(
